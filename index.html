@@ -1,37 +1,275 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Albion Market Calc</title>
-<link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AlbionMarketCalc — Albion Online Market Prices</title>
+<meta name="description" content="Real-time Albion Online market prices. Compare all 6 cities instantly."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+<style>
+:root{
+  --gold:#C8A253;--gold-b:#FFD700;--gold-d:#7A6230;
+  --bg:#070707;--s1:#0f0f0f;--s2:#161616;--s3:#1e1e1e;
+  --tx:#EFEFEF;--td:#888;--tm:#444;--bd:#222;
+  --bg-gold:rgba(200,162,83,.25);
+  --green:#4CAF82;--red:#E05252;--blue:#5B9CF6;
+  --FD:'Cinzel Decorative',serif;--FT:'Cinzel',serif;
+  --FB:'Rajdhani',sans-serif;--FM:'IBM Plex Mono',monospace;
+  --r:6px;--rl:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:var(--FB);font-size:15px;line-height:1.5;overflow-x:hidden}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-d);border-radius:2px}
+nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(7,7,7,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--bg-gold);height:54px;display:flex;align-items:center;padding:0 24px;gap:24px}
+.logo{font-family:var(--FD);font-size:11px;color:var(--gold);text-decoration:none;letter-spacing:.05em;text-shadow:0 0 20px rgba(200,162,83,.4)}
+.nav-links{display:flex;gap:2px;list-style:none;flex:1}
+.nav-links a{font-family:var(--FT);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--td);text-decoration:none;padding:6px 12px;border-radius:var(--r);transition:all .18s}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(200,162,83,.07)}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+.hero{padding:96px 0 52px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(200,162,83,.06),transparent 65%);pointer-events:none}
+canvas#cvs{position:absolute;inset:0;pointer-events:none}
+.hero-label{font-family:var(--FM);font-size:9px;letter-spacing:.5em;color:var(--gold-d);text-transform:uppercase;margin-bottom:14px;position:relative}
+.hero h1{font-family:var(--FD);font-size:clamp(28px,5.5vw,66px);font-weight:700;line-height:1.06;position:relative;margin-bottom:12px}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,#C8A253,#FFD700,#C8A253);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3.5s linear infinite}
+.hero p{font-size:15px;color:var(--td);margin-bottom:28px;position:relative}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative}
+.btn{font-family:var(--FT);font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;padding:10px 22px;border-radius:var(--r);border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+.btn-gold{background:linear-gradient(135deg,#C8A253,#8A5E24);color:#000;box-shadow:0 2px 16px rgba(200,162,83,.25)}
+.btn-gold:hover{background:linear-gradient(135deg,#FFD700,#C8A253);transform:translateY(-1px)}
+.btn-out{background:transparent;color:var(--gold);border:1px solid var(--bg-gold)}
+.btn-out:hover{background:rgba(200,162,83,.07)}
+
+/* Ticker */
+.ticker{background:#080808;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:6px 0;overflow:hidden;position:relative}
+.ticker::before,.ticker::after{content:'';position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none}
+.ticker::before{left:0;background:linear-gradient(to right,#080808,transparent)}
+.ticker::after{right:0;background:linear-gradient(to left,#080808,transparent)}
+.ticker-track{display:flex;gap:32px;width:max-content;animation:tick 44s linear infinite}
+.ti{display:flex;align-items:center;gap:7px;white-space:nowrap;font-family:var(--FM);font-size:11px}
+.ti-name{color:var(--td)}.ti-price{color:var(--gold);font-weight:600}.ti-sep{width:3px;height:3px;border-radius:50%;background:var(--bd)}
+
+/* Ad banner */
+.ad-banner{display:flex;justify-content:center;padding:10px 0;background:#080808;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
+.ad-inner{width:100%;max-width:728px;min-height:90px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+
+/* Live section */
+.live-section{padding:48px 0}
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.sec-title{font-family:var(--FT);font-size:17px;font-weight:700}
+.sec-title span{color:var(--gold)}
+.tier-tabs{display:flex;gap:4px}
+.tier-btn{font-family:var(--FM);font-size:11px;font-weight:600;padding:6px 14px;border-radius:20px;border:1px solid var(--bd);background:var(--s2);color:var(--td);cursor:pointer;transition:all .18s}
+.tier-btn:hover{border-color:var(--bg-gold);color:var(--tx)}
+.tier-btn.active{border-color:var(--bg-gold);background:rgba(200,162,83,.1);color:var(--gold)}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.price-card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;transition:border-color .2s;animation:fadeIn .3s ease both}
+.price-card:hover{border-color:var(--bg-gold)}
+.pc-header{display:flex;align-items:center;gap:11px;padding:13px 15px;border-bottom:1px solid var(--bd);background:var(--s2)}
+.pc-icon{width:42px;height:42px;border-radius:7px;background:var(--s3);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid var(--bd)}
+.pc-icon img{width:38px;height:38px;object-fit:contain}
+.pc-name{font-family:var(--FT);font-size:13px;font-weight:700}
+.pc-id{font-family:var(--FM);font-size:9px;color:var(--tm);margin-top:2px}
+.col-labels{display:flex;justify-content:space-between;padding:4px 15px;background:var(--s3)}
+.col-label{font-family:var(--FM);font-size:8px;letter-spacing:.2em;color:var(--tm);text-transform:uppercase}
+.city-row{display:flex;align-items:center;justify-content:space-between;padding:8px 15px;border-bottom:1px solid #111;transition:background .15s}
+.city-row:last-child{border-bottom:none}
+.city-row:hover{background:rgba(255,255,255,.02)}
+.city-row.best{background:rgba(200,162,83,.04)}
+.city-info{display:flex;align-items:center;gap:7px}
+.city-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.city-name-lbl{font-family:var(--FM);font-size:11px;color:var(--td)}
+.city-prices{display:flex;gap:14px;align-items:center}
+.c-buy{font-family:var(--FM);font-size:10px;color:var(--green);text-align:right;min-width:58px}
+.c-buy.nd{color:var(--tm)}
+.c-sell{font-family:var(--FM);font-size:12px;font-weight:600;text-align:right;min-width:66px}
+.c-sell.best-p{color:var(--gold)}
+.c-sell.nd{color:var(--tm);font-size:10px}
+.pc-loading{padding:28px;text-align:center}
+.sp{width:18px;height:18px;border:2px solid var(--bd);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 8px}
+.pc-loading p{font-family:var(--FM);font-size:10px;color:var(--tm)}
+
+/* Quick links */
+.quick-section{padding:0 0 52px}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.qc{background:var(--s1);border:1px solid var(--bd);border-radius:var(--rl);padding:22px;text-decoration:none;color:var(--tx);transition:all .22s;display:flex;align-items:center;gap:14px}
+.qc:hover{border-color:var(--bg-gold);transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.4)}
+.qc-ico{font-size:22px;width:46px;height:46px;background:var(--s2);border-radius:var(--r);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--bd)}
+.qc-title{font-family:var(--FT);font-size:13px;font-weight:700;margin-bottom:3px}
+.qc-desc{font-size:12px;color:var(--td);line-height:1.5}
+.qc-arr{margin-left:auto;color:var(--gold-d);font-size:15px;flex-shrink:0;transition:all .2s}
+.qc:hover .qc-arr{color:var(--gold);transform:translateX(3px)}
+
+footer{border-top:1px solid var(--bd);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+footer p{font-family:var(--FM);font-size:10px;color:var(--tm)}
+footer a{color:var(--gold-d);text-decoration:none}
+
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:900px){.price-grid{grid-template-columns:1fr}.quick-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.nav-links{display:none}.tier-tabs{flex-wrap:wrap}}
+</style>
 </head>
-
 <body>
-
-<nav class="nav">
-<a href="index.html">Home</a>
-<a href="market.html">Market</a>
-<a class="disabled">Flip Finder (Coming Soon)</a>
+<nav>
+  <a href="index.html" class="logo">AlbionMarketCalc</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="market.html">Market</a></li>
+    <li><a href="flipfinder.html">Flip Finder</a></li>
+  </ul>
 </nav>
 
-<div class="container">
-
-<h1>Albion Market Calculator</h1>
-
-<p>
-Welcome to the Albion trading tool.
-</p>
-
-<h2>Future Features</h2>
-
-<ul>
-<li>Flip Finder</li>
-<li>Market History</li>
-<li>Profit Calculator</li>
-<li>City Price Comparison</li>
-</ul>
-
+<div class="hero">
+  <canvas id="cvs"></canvas>
+  <div class="wrap">
+    <div class="hero-label">Albion Online · Market Intelligence</div>
+    <h1>Albion<br/><em>MarketCalc</em></h1>
+    <p>Real-time prices across all 6 cities. Free, always.</p>
+    <div class="hero-btns">
+      <a href="market.html" class="btn btn-gold">⚔ Browse Market</a>
+      <a href="flipfinder.html" class="btn btn-out">◈ Flip Finder</a>
+    </div>
+  </div>
 </div>
 
+<div class="ticker"><div class="ticker-track" id="ticker"><div class="ti"><span class="ti-name">Loading...</span></div></div></div>
+
+<div class="ad-banner">
+  <div class="ad-inner">
+    <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="3333333333"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </div>
+</div>
+
+<div class="live-section">
+  <div class="wrap">
+    <div class="sec-header">
+      <div class="sec-title">Live <span>Artifact Prices</span></div>
+      <div class="tier-tabs" id="tierTabs"></div>
+    </div>
+    <div class="price-grid" id="priceGrid">
+      <div class="price-card"><div class="pc-loading"><div class="sp"></div><p>Loading...</p></div></div>
+      <div class="price-card"><div class="pc-loading"><div class="sp"></div><p>Loading...</p></div></div>
+      <div class="price-card"><div class="pc-loading"><div class="sp"></div><p>Loading...</p></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="ad-banner">
+  <div class="ad-inner">
+    <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="4444444444"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </div>
+</div>
+
+<div class="quick-section">
+  <div class="wrap" style="padding-top:40px">
+    <div class="quick-grid">
+      <a href="market.html" class="qc">
+        <div class="qc-ico">📊</div>
+        <div><div class="qc-title">Market Browser</div><div class="qc-desc">All items with icons, live prices and 6-city comparison.</div></div>
+        <span class="qc-arr">→</span>
+      </a>
+      <a href="flipfinder.html" class="qc">
+        <div class="qc-ico">🔍</div>
+        <div><div class="qc-title">Flip Finder</div><div class="qc-desc">Best city-to-city trades sorted by profit margin.</div></div>
+        <span class="qc-arr">→</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>AlbionMarketCalc.online · Not affiliated with Sandbox Interactive GmbH</p>
+  <p>Data: <a href="https://www.albion-online-data.com" target="_blank">Albion Online Data Project</a></p>
+</footer>
+
+<script>
+const CITIES=['Caerleon','Bridgewatch','Martlock','Thetford','Fort Sterling','Lymhurst'];
+const CITY_COL={'Caerleon':'#E05252','Bridgewatch':'#E08840','Martlock':'#5B9CF6','Thetford':'#4CAF82','Fort Sterling':'#B0B0B0','Lymhurst':'#8BC34A'};
+const ICON='https://render.albiononline.com/v1/item';
+const HOSTS=['https://west.albion-online-data.com','https://europe.albion-online-data.com'];
+const ARTS=[{id:'RUNE',name:'Rune'},{id:'SOUL',name:'Soul'},{id:'RELIC',name:'Relic'}];
+let curTier=4;
+
+function fmtS(n){if(!n||n<=0)return null;if(n>=1e6)return(n/1e6).toFixed(2)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toLocaleString()}
+
+async function apiFetch(path){
+  for(const h of HOSTS){
+    for(const url of[h+path,'https://corsproxy.io/?'+encodeURIComponent(h+path)]){
+      try{const r=await fetch(url);if(r.ok)return await r.json();}catch(e){}
+    }
+  }
+  return null;
+}
+
+function buildTabs(){
+  document.getElementById('tierTabs').innerHTML=[4,5,6,7,8].map(t=>
+    `<button class="tier-btn${t===curTier?' active':''}" onclick="setTier(${t})">T${t}</button>`
+  ).join('');
+}
+
+async function setTier(t){curTier=t;buildTabs();await loadPrices();}
+
+async function loadPrices(){
+  const ids=ARTS.map(a=>`T${curTier}_${a.id}`);
+  const loc=CITIES.map(c=>encodeURIComponent(c)).join(',');
+  document.getElementById('priceGrid').innerHTML=ARTS.map(()=>
+    `<div class="price-card"><div class="pc-loading"><div class="sp"></div><p>Loading...</p></div></div>`).join('');
+  const data=await apiFetch(`/api/v2/stats/prices/${ids.join(',')}?locations=${loc}&qualities=1`);
+  const map={};
+  ids.forEach(id=>{map[id]={};CITIES.forEach(c=>{map[id][c]={sell:0,buy:0};});});
+  if(data)data.forEach(d=>{
+    const ck=CITIES.find(c=>c.toLowerCase()===(d.city||'').toLowerCase());
+    if(ck&&map[d.item_id])map[d.item_id][ck]={sell:d.sell_price_min||0,buy:d.buy_price_max||0};
+  });
+  document.getElementById('priceGrid').innerHTML=ARTS.map((art,i)=>{
+    const id=`T${curTier}_${art.id}`;
+    const cd=map[id];
+    const sells=CITIES.map(c=>cd[c].sell).filter(v=>v>0);
+    const maxS=sells.length?Math.max(...sells):0;
+    const rows=CITIES.map(c=>{
+      const{sell,buy}=cd[c];
+      const best=sell>0&&sell===maxS;
+      return `<div class="city-row${best?' best':''}">
+        <div class="city-info"><span class="city-dot" style="background:${CITY_COL[c]}"></span><span class="city-name-lbl">${c}</span></div>
+        <div class="city-prices">
+          <span class="c-buy${buy>0?'':' nd'}">${buy>0?fmtS(buy):'—'}</span>
+          <span class="c-sell${best?' best-p':sell>0?'':' nd'}">${sell>0?fmtS(sell):'No data'}</span>
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="price-card" style="animation-delay:${i*.08}s">
+      <div class="pc-header">
+        <div class="pc-icon"><img src="${ICON}/${id}.png?size=64&quality=1" alt="" onerror="this.style.display='none'"/></div>
+        <div><div class="pc-name">T${curTier} ${art.name}</div><div class="pc-id">${id}</div></div>
+      </div>
+      <div class="col-labels"><span class="col-label">City</span><div style="display:flex;gap:14px"><span class="col-label" style="min-width:58px;text-align:right">Buy Order</span><span class="col-label" style="min-width:66px;text-align:right">Sell Price</span></div></div>
+      <div>${rows}</div>
+    </div>`;
+  }).join('');
+}
+
+async function loadTicker(){
+  const ids=['T8_RUNE','T8_SOUL','T8_RELIC','T7_RUNE','T7_SOUL','T7_RELIC','T8_ORE','T8_WOOD','T8_FIBER','T8_METALBAR'];
+  const names={'T8_RUNE':'Rune T8','T8_SOUL':'Soul T8','T8_RELIC':'Relic T8','T7_RUNE':'Rune T7','T7_SOUL':'Soul T7','T7_RELIC':'Relic T7','T8_ORE':'Meteorite','T8_WOOD':'Gravite','T8_FIBER':'Ghost Hemp','T8_METALBAR':'Meteor Bar'};
+  const data=await apiFetch(`/api/v2/stats/prices/${ids.join(',')}?locations=Caerleon,Bridgewatch&qualities=1`);
+  if(!data)return;
+  const m={};data.forEach(d=>{if(d.sell_price_min>0&&(!m[d.item_id]||d.sell_price_min<m[d.item_id]))m[d.item_id]=d.sell_price_min;});
+  let h='';for(let p=0;p<2;p++)ids.forEach(id=>{h+=`<div class="ti"><span class="ti-name">${names[id]}</span><span class="ti-sep"></span><span class="ti-price">${fmtS(m[id])||'—'}</span></div>`;});
+  document.getElementById('ticker').innerHTML=h;
+}
+
+(function(){const c=document.getElementById('cvs'),ctx=c.getContext('2d');let W,H,P=[];function rs(){W=c.width=c.parentElement.offsetWidth;H=c.height=c.parentElement.offsetHeight;}rs();window.addEventListener('resize',rs);function np(){return{x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.2,vy:-Math.random()*.28-.07,r:Math.random()*1.1+.3,life:1,d:Math.random()*.002+.001,col:Math.random()>.65?'#C8A253':'#2a2a2a'};}for(let i=0;i<50;i++)P.push(np());function draw(){ctx.clearRect(0,0,W,H);P.forEach((p,i)=>{p.x+=p.vx;p.y+=p.vy;p.life-=p.d;if(p.life<=0)P[i]=np();ctx.globalAlpha=p.life*.38;ctx.fillStyle=p.col;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();});ctx.globalAlpha=1;requestAnimationFrame(draw);}draw();})();
+
+buildTabs();loadPrices();loadTicker();
+</script>
 </body>
 </html>

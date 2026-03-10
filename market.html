@@ -1,74 +1,355 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Albion Market Calc</title>
-<link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Market — AlbionMarketCalc</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C8A253;--gold-b:#FFD700;--gold-d:#7A6230;--bg:#070707;--bg2:#0D0D0D;--s1:#111;--s2:#181818;--s3:#202020;--tx:#EFEFEF;--td:#7A7A7A;--tm:#444;--bd:#252525;--bg-gold:rgba(200,162,83,.35);--red:#E05252;--green:#4CAF82;--blue:#5B9CF6;--glow:0 0 20px rgba(200,162,83,.4),0 0 60px rgba(200,162,83,.15);--FD:'Cinzel Decorative',serif;--FT:'Cinzel',serif;--FB:'Rajdhani',sans-serif;--FM:'IBM Plex Mono',monospace;--r:6px;--rl:12px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:var(--FB);font-size:15px;line-height:1.5;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-d);border-radius:3px}
+/* Nav */
+.nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(7,7,7,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--bg-gold);height:60px;display:flex;align-items:center;padding:0 24px;gap:32px}
+.nav-logo{font-family:var(--FD);font-size:12px;color:var(--gold);text-decoration:none;white-space:nowrap;text-shadow:0 0 16px rgba(200,162,83,.5)}
+.nav-links{display:flex;gap:4px;list-style:none;flex:1}
+.nav-links a{font-family:var(--FT);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--td);text-decoration:none;padding:7px 12px;border-radius:var(--r);transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(200,162,83,.08)}
+.nav-pts{font-family:var(--FM);font-size:11px;color:var(--gold);background:rgba(200,162,83,.1);border:1px solid var(--bg-gold);padding:5px 12px;border-radius:20px;cursor:pointer;white-space:nowrap}
+/* Layout */
+.wrap{padding:72px 24px 60px;max-width:1400px;margin:0 auto}
+/* Search & filters */
+.controls{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.search-box{position:relative;flex:1;min-width:220px}
+.search-box input{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);color:var(--tx);font-family:var(--FB);font-size:14px;padding:10px 16px 10px 38px;outline:none;transition:border-color .2s}
+.search-box input:focus{border-color:var(--gold-d)}
+.search-box input::placeholder{color:var(--tm)}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--tm);pointer-events:none}
+.cat-tabs{display:flex;gap:4px;flex-wrap:wrap}
+.cat-btn{font-family:var(--FT);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;border-radius:var(--r);border:1px solid var(--bd);background:var(--s2);color:var(--td);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px}
+.cat-btn:hover{border-color:var(--bg-gold);color:var(--gold)}
+.cat-btn.active{background:rgba(200,162,83,.12);border-color:var(--bg-gold);color:var(--gold)}
+/* City selector */
+.city-selector{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+.city-selector label{font-family:var(--FM);font-size:10px;color:var(--td);letter-spacing:.1em;margin-right:4px}
+.city-btn{font-family:var(--FM);font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid var(--bd);background:var(--s2);color:var(--td);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px}
+.city-btn .dot{width:7px;height:7px;border-radius:50%}
+.city-btn:hover{border-color:var(--bg-gold);color:var(--tx)}
+.city-btn.on{border-color:var(--bg-gold);color:var(--tx);background:var(--s3)}
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:24px}
+.item-card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--rl);padding:12px;cursor:pointer;transition:all .25s;text-decoration:none;color:var(--tx);display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
+.item-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,162,83,.04),transparent);opacity:0;transition:opacity .2s}
+.item-card:hover{border-color:var(--bg-gold);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4),var(--glow)}
+.item-card:hover::before{opacity:1}
+.item-icon{width:56px;height:56px;border-radius:8px;background:var(--s3);display:flex;align-items:center;justify-content:center;overflow:hidden;margin:0 auto;border:1px solid var(--bd)}
+.item-icon img{width:54px;height:54px;object-fit:contain}
+.item-icon img.err{display:none}
+.item-icon-fallback{font-size:22px;display:none}
+.item-name{font-family:var(--FT);font-size:12px;font-weight:600;text-align:center;line-height:1.3}
+.item-price{font-family:var(--FM);font-size:13px;font-weight:600;color:var(--gold);text-align:center}
+.item-price.loading{color:var(--tm)}
+.item-price.no-data{color:var(--tm);font-size:11px}
+.tier-badge{font-family:var(--FM);font-size:9px;padding:2px 7px;border-radius:10px;font-weight:600;color:#000;position:absolute;top:8px;right:8px}
+.item-city{font-size:10px;color:var(--td);text-align:center;font-family:var(--FM)}
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.page-btn{font-family:var(--FM);font-size:12px;padding:6px 12px;border-radius:var(--r);border:1px solid var(--bd);background:var(--s2);color:var(--td);cursor:pointer;transition:all .2s}
+.page-btn:hover{border-color:var(--bg-gold);color:var(--gold)}
+.page-btn.active{background:rgba(200,162,83,.12);border-color:var(--bg-gold);color:var(--gold)}
+.page-btn:disabled{opacity:.3;cursor:not-allowed}
+.page-info{font-family:var(--FM);font-size:11px;color:var(--td);padding:0 8px}
+/* Stats row */
+.stats-row{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.stat-pill{font-family:var(--FM);font-size:11px;padding:5px 14px;border-radius:20px;background:var(--s2);border:1px solid var(--bd);color:var(--td)}
+.stat-pill span{color:var(--gold);font-weight:600}
+/* Loading overlay */
+.load-overlay{display:none;position:fixed;inset:0;background:rgba(7,7,7,.7);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:16px;font-family:var(--FM);color:var(--td);font-size:12px}
+.load-overlay.show{display:flex}
+.spinner{width:36px;height:36px;border:2px solid var(--bd);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+/* Toast */
+#toasts{position:fixed;bottom:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:6px}
+.toast{font-size:13px;padding:10px 18px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);color:var(--tx);animation:fadeUp .3s ease;min-width:240px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.toast.gold{border-color:var(--bg-gold);box-shadow:var(--glow)}
+/* Footer */
+footer{border-top:1px solid var(--bd);padding:24px;text-align:center;color:var(--tm);font-size:12px;font-family:var(--FM)}
+footer a{color:var(--gold-d);text-decoration:none}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){.nav-links{display:none}.grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
+
+/* Ad columns */
+.ad-col{display:none!important}
+@media(min-width:1200px){
+  
+  .ad-col{display:none!important}
+}
+
+</style>
 </head>
-
 <body>
-
 <nav class="nav">
-<a href="index.html">Home</a>
-<a href="market.html">Market</a>
-<a class="disabled">Flip Finder (Coming Soon)</a>
+  <a href="index.html" class="nav-logo">AlbionMarketCalc</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="market.html" class="active">Market</a></li>
+    <li><a href="flipfinder.html">Flip Finder</a></li>
+  </ul>
 </nav>
 
-<div class="container">
+<div class="wrap">
+  <!-- Controls -->
+  <div class="controls">
+    <div class="search-box">
+      <span class="search-icon">🔎</span>
+      <input id="q" type="text" placeholder="Search items..." autocomplete="off"/>
+    </div>
+    <div class="cat-tabs" id="cat-tabs"></div>
+  </div>
 
-<h1>Albion Market Calculator</h1>
+  <!-- City selector -->
+  <div class="city-selector">
+    <label>SHOW CITY:</label>
+    <div id="city-btns"></div>
+  </div>
 
-<p>
-Welcome to the Albion trading tool.
-</p>
+  <!-- Stats row -->
+  <div class="stats-row" id="stats-row">
+    <div class="stat-pill">Items: <span id="s-total">—</span></div>
+    <div class="stat-pill">Showing: <span id="s-showing">—</span></div>
+    <div class="stat-pill">Selected city: <span id="s-city">—</span></div>
+    <div class="stat-pill">Last updated: <span id="s-updated">—</span></div>
+  </div>
 
-<h2>Future Features</h2>
+  <!-- Grid -->
+  <div class="grid" id="grid"></div>
 
-<ul>
-<li>Flip Finder</li>
-<li>Market History</li>
-<li>Profit Calculator</li>
-<li>City Price Comparison</li>
-</ul>
-
+  <!-- Pagination -->
+  <div class="pagination" id="pagination"></div>
 </div>
 
-</body>
-</html>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Albion Market</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
+<footer>AlbionMarketCalc.online · Data by <a href="https://www.albion-online-data.com" target="_blank">Albion Online Data Project</a></footer>
 
-<body>
-
-<nav class="nav">
-<a href="index.html">Home</a>
-<a href="market.html">Market</a>
-<a class="disabled">Flip Finder</a>
-</nav>
-
-<div class="container">
-
-<h1>Market Items</h1>
-
-<input id="search" placeholder="Search item...">
-
-<select id="sort">
-
-<option value="low">Lowest Price</option>
-<option value="high">Highest Price</option>
-
-</select>
-
-<div id="market-list" class="grid"></div>
-
+<div class="load-overlay" id="loader">
+  <div class="spinner"></div>
+  <span id="loader-msg">Loading prices...</span>
 </div>
 
-<script src="js/market.js"></script>
+<script>
+// ── Shared Core ───────────────────────────────────────────────
+const API_HOSTS=['https://west.albion-online-data.com','https://europe.albion-online-data.com','https://east.albion-online-data.com'];
+let API_BASE=API_HOSTS[0];
+const ICON_BASE='https://render.albiononline.com/v1/item';
+const CITIES=['Caerleon','Bridgewatch','Martlock','Thetford','Fort Sterling','Lymhurst'];
+const CITY_COLORS={'Caerleon':'#E05252','Bridgewatch':'#E08840','Martlock':'#5B9CF6','Thetford':'#4CAF82','Fort Sterling':'#B0B0B0','Lymhurst':'#8BC34A'};
+const TIER_COLORS={1:'#888',2:'#78c278',3:'#5b9cf6',4:'#c8a253',5:'#b060e0',6:'#e05252',7:'#e08840',8:'#ff4444'};
 
+const Points={get(){return parseInt(localStorage.getItem('amc_pts')||'0')},add(n,m){localStorage.setItem('amc_pts',this.get()+n);this.ui();if(m)Toast.show('+'+n+' ⚡ '+m,'gold')},ui(){document.querySelectorAll('[data-pts]').forEach(e=>e.textContent=this.get().toLocaleString()+' ⚡')}};
+const Toast={show(m,c=''){let el=document.getElementById('toasts');if(!el){el=document.createElement('div');el.id='toasts';document.body.appendChild(el)}const t=document.createElement('div');t.className='toast '+c;t.textContent=m;el.appendChild(t);setTimeout(()=>{t.style.cssText='opacity:0;transform:translateY(8px);transition:all .3s';setTimeout(()=>t.remove(),350)},3000)}};
+
+async function fetchPrices(ids,cities=CITIES){
+  const locStr=cities.map(c=>encodeURIComponent(c)).join(',');
+  for(const host of API_HOSTS){
+    try{
+      const url=host+'/api/v2/stats/prices/'+ids.join(',')+'?locations='+locStr+'&qualities=1';
+      const r=await fetch(url);
+      if(!r.ok)continue;
+      return r.json();
+    }catch(e){continue;}
+  }
+  throw new Error('All API hosts unreachable');
+}
+function fmtS(n){if(!n||n<=0)return null;if(n>=1e6)return(n/1e6).toFixed(2)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toLocaleString()}
+function iconUrl(id){return ICON_BASE+'/'+id+'.png?size=64&quality=1'}
+
+const CATEGORIES=[
+  {id:'all',label:'All',icon:'✦'},
+  {id:'artifacts',label:'Artifacts',icon:'💎'},
+  {id:'resources',label:'Resources',icon:'⛏'},
+  {id:'weapons',label:'Weapons',icon:'⚔'},
+  {id:'armor',label:'Armor',icon:'🛡'},
+  {id:'mounts',label:'Mounts',icon:'🐴'},
+  {id:'misc',label:'Misc',icon:'📦'},
+];
+
+const ITEMS=[
+  {id:'T4_RUNE',name:'Rune T4',cat:'artifacts',tier:4},{id:'T5_RUNE',name:'Rune T5',cat:'artifacts',tier:5},{id:'T6_RUNE',name:'Rune T6',cat:'artifacts',tier:6},{id:'T7_RUNE',name:'Rune T7',cat:'artifacts',tier:7},{id:'T8_RUNE',name:'Rune T8',cat:'artifacts',tier:8},
+  {id:'T4_SOUL',name:'Soul T4',cat:'artifacts',tier:4},{id:'T5_SOUL',name:'Soul T5',cat:'artifacts',tier:5},{id:'T6_SOUL',name:'Soul T6',cat:'artifacts',tier:6},{id:'T7_SOUL',name:'Soul T7',cat:'artifacts',tier:7},{id:'T8_SOUL',name:'Soul T8',cat:'artifacts',tier:8},
+  {id:'T4_RELIC',name:'Relic T4',cat:'artifacts',tier:4},{id:'T5_RELIC',name:'Relic T5',cat:'artifacts',tier:5},{id:'T6_RELIC',name:'Relic T6',cat:'artifacts',tier:6},{id:'T7_RELIC',name:'Relic T7',cat:'artifacts',tier:7},{id:'T8_RELIC',name:'Relic T8',cat:'artifacts',tier:8},
+  {id:'T6_SHARD_AVALONIAN',name:'Shard T6',cat:'artifacts',tier:6},{id:'T7_SHARD_AVALONIAN',name:'Shard T7',cat:'artifacts',tier:7},{id:'T8_SHARD_AVALONIAN',name:'Shard T8',cat:'artifacts',tier:8},
+  {id:'T2_ORE',name:'Rough Ore',cat:'resources',tier:2},{id:'T3_ORE',name:'Iron Ore',cat:'resources',tier:3},{id:'T4_ORE',name:'Tungsten',cat:'resources',tier:4},{id:'T5_ORE',name:'Steel Ore',cat:'resources',tier:5},{id:'T6_ORE',name:'Titanium',cat:'resources',tier:6},{id:'T7_ORE',name:'Runite Ore',cat:'resources',tier:7},{id:'T8_ORE',name:'Meteorite',cat:'resources',tier:8},
+  {id:'T2_WOOD',name:'Chestnut',cat:'resources',tier:2},{id:'T3_WOOD',name:'Pine',cat:'resources',tier:3},{id:'T4_WOOD',name:'Cedar',cat:'resources',tier:4},{id:'T5_WOOD',name:'Bloodoak',cat:'resources',tier:5},{id:'T6_WOOD',name:'Ashenbark',cat:'resources',tier:6},{id:'T7_WOOD',name:'Whitewood',cat:'resources',tier:7},{id:'T8_WOOD',name:'Gravite',cat:'resources',tier:8},
+  {id:'T2_FIBER',name:'Cotton',cat:'resources',tier:2},{id:'T3_FIBER',name:'Flax',cat:'resources',tier:3},{id:'T4_FIBER',name:'Hemp',cat:'resources',tier:4},{id:'T5_FIBER',name:'Skyflower',cat:'resources',tier:5},{id:'T6_FIBER',name:'Redleaf',cat:'resources',tier:6},{id:'T7_FIBER',name:'Sunflax',cat:'resources',tier:7},{id:'T8_FIBER',name:'Ghost Hemp',cat:'resources',tier:8},
+  {id:'T2_HIDE',name:'Scraps',cat:'resources',tier:2},{id:'T3_HIDE',name:'Thin Hide',cat:'resources',tier:3},{id:'T4_HIDE',name:'Medium Hide',cat:'resources',tier:4},{id:'T5_HIDE',name:'Heavy Hide',cat:'resources',tier:5},{id:'T6_HIDE',name:'Robust Hide',cat:'resources',tier:6},{id:'T7_HIDE',name:'Thick Hide',cat:'resources',tier:7},{id:'T8_HIDE',name:'Infernal Hide',cat:'resources',tier:8},
+  {id:'T2_ROCK',name:'Limestone',cat:'resources',tier:2},{id:'T3_ROCK',name:'Sandstone',cat:'resources',tier:3},{id:'T4_ROCK',name:'Travertine',cat:'resources',tier:4},{id:'T5_ROCK',name:'Granite',cat:'resources',tier:5},{id:'T6_ROCK',name:'Slate',cat:'resources',tier:6},{id:'T7_ROCK',name:'Basalt',cat:'resources',tier:7},{id:'T8_ROCK',name:'Marble',cat:'resources',tier:8},
+  {id:'T4_METALBAR',name:'Steel Bar T4',cat:'resources',tier:4},{id:'T5_METALBAR',name:'Steel Bar T5',cat:'resources',tier:5},{id:'T6_METALBAR',name:'Steel Bar T6',cat:'resources',tier:6},{id:'T7_METALBAR',name:'Steel Bar T7',cat:'resources',tier:7},{id:'T8_METALBAR',name:'Steel Bar T8',cat:'resources',tier:8},
+  {id:'T4_PLANKS',name:'Plank T4',cat:'resources',tier:4},{id:'T5_PLANKS',name:'Plank T5',cat:'resources',tier:5},{id:'T6_PLANKS',name:'Plank T6',cat:'resources',tier:6},{id:'T7_PLANKS',name:'Plank T7',cat:'resources',tier:7},{id:'T8_PLANKS',name:'Plank T8',cat:'resources',tier:8},
+  {id:'T4_CLOTH',name:'Cloth T4',cat:'resources',tier:4},{id:'T5_CLOTH',name:'Cloth T5',cat:'resources',tier:5},{id:'T6_CLOTH',name:'Cloth T6',cat:'resources',tier:6},{id:'T7_CLOTH',name:'Cloth T7',cat:'resources',tier:7},{id:'T8_CLOTH',name:'Cloth T8',cat:'resources',tier:8},
+  {id:'T4_LEATHER',name:'Leather T4',cat:'resources',tier:4},{id:'T5_LEATHER',name:'Leather T5',cat:'resources',tier:5},{id:'T6_LEATHER',name:'Leather T6',cat:'resources',tier:6},{id:'T7_LEATHER',name:'Leather T7',cat:'resources',tier:7},{id:'T8_LEATHER',name:'Leather T8',cat:'resources',tier:8},
+  {id:'T4_MAIN_SWORD',name:'Broadsword T4',cat:'weapons',tier:4},{id:'T5_MAIN_SWORD',name:'Broadsword T5',cat:'weapons',tier:5},{id:'T6_MAIN_SWORD',name:'Broadsword T6',cat:'weapons',tier:6},{id:'T7_MAIN_SWORD',name:'Broadsword T7',cat:'weapons',tier:7},{id:'T8_MAIN_SWORD',name:'Broadsword T8',cat:'weapons',tier:8},
+  {id:'T4_2H_SWORD',name:'Claymore T4',cat:'weapons',tier:4},{id:'T5_2H_SWORD',name:'Claymore T5',cat:'weapons',tier:5},{id:'T6_2H_SWORD',name:'Claymore T6',cat:'weapons',tier:6},{id:'T7_2H_SWORD',name:'Claymore T7',cat:'weapons',tier:7},{id:'T8_2H_SWORD',name:'Claymore T8',cat:'weapons',tier:8},
+  {id:'T4_MAIN_SPEAR',name:'Spear T4',cat:'weapons',tier:4},{id:'T5_MAIN_SPEAR',name:'Spear T5',cat:'weapons',tier:5},{id:'T6_MAIN_SPEAR',name:'Spear T6',cat:'weapons',tier:6},{id:'T7_MAIN_SPEAR',name:'Spear T7',cat:'weapons',tier:7},{id:'T8_MAIN_SPEAR',name:'Spear T8',cat:'weapons',tier:8},
+  {id:'T4_MAIN_AXE',name:'Battleaxe T4',cat:'weapons',tier:4},{id:'T5_MAIN_AXE',name:'Battleaxe T5',cat:'weapons',tier:5},{id:'T6_MAIN_AXE',name:'Battleaxe T6',cat:'weapons',tier:6},{id:'T7_MAIN_AXE',name:'Battleaxe T7',cat:'weapons',tier:7},{id:'T8_MAIN_AXE',name:'Battleaxe T8',cat:'weapons',tier:8},
+  {id:'T4_2H_AXE',name:'Great Axe T4',cat:'weapons',tier:4},{id:'T5_2H_AXE',name:'Great Axe T5',cat:'weapons',tier:5},{id:'T6_2H_AXE',name:'Great Axe T6',cat:'weapons',tier:6},{id:'T7_2H_AXE',name:'Great Axe T7',cat:'weapons',tier:7},{id:'T8_2H_AXE',name:'Great Axe T8',cat:'weapons',tier:8},
+  {id:'T4_MAIN_DAGGER',name:'Dagger T4',cat:'weapons',tier:4},{id:'T5_MAIN_DAGGER',name:'Dagger T5',cat:'weapons',tier:5},{id:'T6_MAIN_DAGGER',name:'Dagger T6',cat:'weapons',tier:6},{id:'T7_MAIN_DAGGER',name:'Dagger T7',cat:'weapons',tier:7},{id:'T8_MAIN_DAGGER',name:'Dagger T8',cat:'weapons',tier:8},
+  {id:'T4_2H_BOW',name:'Bow T4',cat:'weapons',tier:4},{id:'T5_2H_BOW',name:'Bow T5',cat:'weapons',tier:5},{id:'T6_2H_BOW',name:'Bow T6',cat:'weapons',tier:6},{id:'T7_2H_BOW',name:'Bow T7',cat:'weapons',tier:7},{id:'T8_2H_BOW',name:'Bow T8',cat:'weapons',tier:8},
+  {id:'T4_MAIN_FIRE',name:'Fire Staff T4',cat:'weapons',tier:4},{id:'T5_MAIN_FIRE',name:'Fire Staff T5',cat:'weapons',tier:5},{id:'T6_MAIN_FIRE',name:'Fire Staff T6',cat:'weapons',tier:6},{id:'T7_MAIN_FIRE',name:'Fire Staff T7',cat:'weapons',tier:7},{id:'T8_MAIN_FIRE',name:'Fire Staff T8',cat:'weapons',tier:8},
+  {id:'T4_MAIN_NATURE',name:'Nature Staff T4',cat:'weapons',tier:4},{id:'T5_MAIN_NATURE',name:'Nature Staff T5',cat:'weapons',tier:5},{id:'T6_MAIN_NATURE',name:'Nature Staff T6',cat:'weapons',tier:6},{id:'T7_MAIN_NATURE',name:'Nature Staff T7',cat:'weapons',tier:7},{id:'T8_MAIN_NATURE',name:'Nature Staff T8',cat:'weapons',tier:8},
+  {id:'T4_2H_STAFF',name:'Quarterstaff T4',cat:'weapons',tier:4},{id:'T5_2H_STAFF',name:'Quarterstaff T5',cat:'weapons',tier:5},{id:'T6_2H_STAFF',name:'Quarterstaff T6',cat:'weapons',tier:6},{id:'T7_2H_STAFF',name:'Quarterstaff T7',cat:'weapons',tier:7},{id:'T8_2H_STAFF',name:'Quarterstaff T8',cat:'weapons',tier:8},
+  {id:'T4_HEAD_PLATE_SET1',name:'Knight Helmet T4',cat:'armor',tier:4},{id:'T5_HEAD_PLATE_SET1',name:'Knight Helmet T5',cat:'armor',tier:5},{id:'T6_HEAD_PLATE_SET1',name:'Knight Helmet T6',cat:'armor',tier:6},{id:'T7_HEAD_PLATE_SET1',name:'Knight Helmet T7',cat:'armor',tier:7},{id:'T8_HEAD_PLATE_SET1',name:'Knight Helmet T8',cat:'armor',tier:8},
+  {id:'T4_ARMOR_PLATE_SET1',name:'Knight Armor T4',cat:'armor',tier:4},{id:'T5_ARMOR_PLATE_SET1',name:'Knight Armor T5',cat:'armor',tier:5},{id:'T6_ARMOR_PLATE_SET1',name:'Knight Armor T6',cat:'armor',tier:6},{id:'T7_ARMOR_PLATE_SET1',name:'Knight Armor T7',cat:'armor',tier:7},{id:'T8_ARMOR_PLATE_SET1',name:'Knight Armor T8',cat:'armor',tier:8},
+  {id:'T4_SHOES_PLATE_SET1',name:'Knight Boots T4',cat:'armor',tier:4},{id:'T5_SHOES_PLATE_SET1',name:'Knight Boots T5',cat:'armor',tier:5},{id:'T6_SHOES_PLATE_SET1',name:'Knight Boots T6',cat:'armor',tier:6},{id:'T7_SHOES_PLATE_SET1',name:'Knight Boots T7',cat:'armor',tier:7},{id:'T8_SHOES_PLATE_SET1',name:'Knight Boots T8',cat:'armor',tier:8},
+  {id:'T4_HEAD_LEATHER_SET1',name:'Hunter Hood T4',cat:'armor',tier:4},{id:'T5_HEAD_LEATHER_SET1',name:'Hunter Hood T5',cat:'armor',tier:5},{id:'T6_HEAD_LEATHER_SET1',name:'Hunter Hood T6',cat:'armor',tier:6},{id:'T7_HEAD_LEATHER_SET1',name:'Hunter Hood T7',cat:'armor',tier:7},{id:'T8_HEAD_LEATHER_SET1',name:'Hunter Hood T8',cat:'armor',tier:8},
+  {id:'T4_ARMOR_LEATHER_SET1',name:'Hunter Jacket T4',cat:'armor',tier:4},{id:'T5_ARMOR_LEATHER_SET1',name:'Hunter Jacket T5',cat:'armor',tier:5},{id:'T6_ARMOR_LEATHER_SET1',name:'Hunter Jacket T6',cat:'armor',tier:6},{id:'T7_ARMOR_LEATHER_SET1',name:'Hunter Jacket T7',cat:'armor',tier:7},{id:'T8_ARMOR_LEATHER_SET1',name:'Hunter Jacket T8',cat:'armor',tier:8},
+  {id:'T4_HEAD_CLOTH_SET1',name:'Scholar Cowl T4',cat:'armor',tier:4},{id:'T5_HEAD_CLOTH_SET1',name:'Scholar Cowl T5',cat:'armor',tier:5},{id:'T6_HEAD_CLOTH_SET1',name:'Scholar Cowl T6',cat:'armor',tier:6},{id:'T7_HEAD_CLOTH_SET1',name:'Scholar Cowl T7',cat:'armor',tier:7},{id:'T8_HEAD_CLOTH_SET1',name:'Scholar Cowl T8',cat:'armor',tier:8},
+  {id:'T4_ARMOR_CLOTH_SET1',name:'Scholar Robe T4',cat:'armor',tier:4},{id:'T5_ARMOR_CLOTH_SET1',name:'Scholar Robe T5',cat:'armor',tier:5},{id:'T6_ARMOR_CLOTH_SET1',name:'Scholar Robe T6',cat:'armor',tier:6},{id:'T7_ARMOR_CLOTH_SET1',name:'Scholar Robe T7',cat:'armor',tier:7},{id:'T8_ARMOR_CLOTH_SET1',name:'Scholar Robe T8',cat:'armor',tier:8},
+  {id:'T4_OFF_SHIELD',name:'Shield T4',cat:'armor',tier:4},{id:'T5_OFF_SHIELD',name:'Shield T5',cat:'armor',tier:5},{id:'T6_OFF_SHIELD',name:'Shield T6',cat:'armor',tier:6},{id:'T7_OFF_SHIELD',name:'Shield T7',cat:'armor',tier:7},{id:'T8_OFF_SHIELD',name:'Shield T8',cat:'armor',tier:8},
+  {id:'T3_MOUNT_HORSE',name:'Riding Horse T3',cat:'mounts',tier:3},{id:'T4_MOUNT_HORSE',name:'Riding Horse T4',cat:'mounts',tier:4},{id:'T5_MOUNT_HORSE',name:'Riding Horse T5',cat:'mounts',tier:5},{id:'T6_MOUNT_HORSE',name:'Riding Horse T6',cat:'mounts',tier:6},{id:'T7_MOUNT_HORSE',name:'Riding Horse T7',cat:'mounts',tier:7},{id:'T8_MOUNT_HORSE',name:'Riding Horse T8',cat:'mounts',tier:8},
+  {id:'T5_MOUNT_DIREWOLF',name:'Direwolf T5',cat:'mounts',tier:5},{id:'T6_MOUNT_DIREWOLF',name:'Direwolf T6',cat:'mounts',tier:6},{id:'T7_MOUNT_DIREWOLF',name:'Direwolf T7',cat:'mounts',tier:7},{id:'T8_MOUNT_DIREWOLF',name:'Direwolf T8',cat:'mounts',tier:8},
+  {id:'T5_MOUNT_BEAR',name:'Bear T5',cat:'mounts',tier:5},{id:'T6_MOUNT_BEAR',name:'Bear T6',cat:'mounts',tier:6},{id:'T7_MOUNT_BEAR',name:'Bear T7',cat:'mounts',tier:7},{id:'T8_MOUNT_BEAR',name:'Bear T8',cat:'mounts',tier:8},
+  {id:'T4_BAG',name:'Bag T4',cat:'misc',tier:4},{id:'T5_BAG',name:'Bag T5',cat:'misc',tier:5},{id:'T6_BAG',name:'Bag T6',cat:'misc',tier:6},{id:'T7_BAG',name:'Bag T7',cat:'misc',tier:7},
+  {id:'T4_CAPE',name:'Cape T4',cat:'misc',tier:4},{id:'T5_CAPE',name:'Cape T5',cat:'misc',tier:5},{id:'T6_CAPE',name:'Cape T6',cat:'misc',tier:6},{id:'T7_CAPE',name:'Cape T7',cat:'misc',tier:7},
+  {id:'T4_POTION_HEALING',name:'Healing Pot T4',cat:'misc',tier:4},{id:'T5_POTION_HEALING',name:'Healing Pot T5',cat:'misc',tier:5},{id:'T6_POTION_HEALING',name:'Healing Pot T6',cat:'misc',tier:6},
+  {id:'T3_MEAL_SOUP',name:'Soup T3',cat:'misc',tier:3},{id:'T4_MEAL_SOUP',name:'Soup T4',cat:'misc',tier:4},{id:'T5_MEAL_SOUP',name:'Soup T5',cat:'misc',tier:5},
+];
+
+// ── State ─────────────────────────────────
+let selCat='all', selCity='Caerleon', query='', page=0;
+const PER_PAGE=40;
+let priceCache={};  // city:itemId -> {sell,buy,date}
+let loadedCities=new Set();
+let lastUpdated=null;
+
+// ── Build category tabs ────────────────────
+function buildCatTabs(){
+  const el=document.getElementById('cat-tabs');
+  el.innerHTML=CATEGORIES.map(c=>`<button class="cat-btn${c.id===selCat?' active':''}" onclick="setCat('${c.id}')">${c.icon} ${c.label}</button>`).join('');
+}
+function setCat(id){selCat=id;page=0;buildCatTabs();render();}
+
+// ── Build city buttons ────────────────────
+function buildCityBtns(){
+  const el=document.getElementById('city-btns');
+  el.innerHTML=CITIES.map(c=>`<button class="city-btn${c===selCity?' on':''}" onclick="setCity('${c}')"><span class="dot" style="background:${CITY_COLORS[c]}"></span>${c}</button>`).join('');
+  document.getElementById('s-city').textContent=selCity;
+}
+async function setCity(c){selCity=c;buildCityBtns();if(!loadedCities.has(c)){await loadPricesForCity(c)}render();}
+
+// ── Filter items ──────────────────────────
+function filtered(){
+  return ITEMS.filter(i=>{
+    if(selCat!=='all'&&i.cat!==selCat)return false;
+    if(query&&!i.name.toLowerCase().includes(query.toLowerCase())&&!i.id.toLowerCase().includes(query.toLowerCase()))return false;
+    return true;
+  });
+}
+
+// ── Load prices ───────────────────────────
+async function loadPricesForCity(city){
+  const loader=document.getElementById('loader');
+  const msg=document.getElementById('loader-msg');
+  loader.classList.add('show');
+
+  try{
+    // Load in batches of 50 (URL limit)
+    const ids=ITEMS.map(i=>i.id);
+    const batchSize=50;
+    for(let i=0;i<ids.length;i+=batchSize){
+      const batch=ids.slice(i,i+batchSize);
+      msg.textContent=`Loading ${city}... (${i}/${ids.length})`;
+      let batchData=null;
+      const directUrl='https://west.albion-online-data.com/api/v2/stats/prices/'+batch.join(',')+'?locations='+encodeURIComponent(city)+'&qualities=1';
+      const proxyUrl='https://corsproxy.io/?'+encodeURIComponent(directUrl);
+      for(const tryUrl of [directUrl, proxyUrl]){
+        try{
+          const r=await fetch(tryUrl);
+          if(!r.ok)continue;
+          const raw=await r.text();
+          try{batchData=JSON.parse(raw);}catch(e2){const m=JSON.parse(raw);batchData=m.contents?JSON.parse(m.contents):m;}
+          if(batchData)break;
+        }catch(e){continue;}
+      }
+      if(!batchData)continue;
+      batchData.forEach(d=>{
+        const key=city+':'+d.item_id;
+        priceCache[key]={sell:d.sell_price_min||0,buy:d.buy_price_max||0,date:d.sell_price_min_date};
+      });
+    }
+    loadedCities.add(city);
+    lastUpdated=new Date();
+    document.getElementById('s-updated').textContent=lastUpdated.toLocaleTimeString();
+    
+  }catch(e){Toast.show('⚠ Price load failed','');}
+  finally{loader.classList.remove('show');}
+}
+
+// ── Render grid ───────────────────────────
+function render(){
+  const items=filtered();
+  const total=items.length;
+  const maxPage=Math.ceil(total/PER_PAGE);
+  if(page>=maxPage)page=Math.max(0,maxPage-1);
+  const slice=items.slice(page*PER_PAGE,(page+1)*PER_PAGE);
+
+  document.getElementById('s-total').textContent=total;
+  document.getElementById('s-showing').textContent=`${page*PER_PAGE+1}–${Math.min((page+1)*PER_PAGE,total)}`;
+
+  const grid=document.getElementById('grid');
+  grid.innerHTML=slice.map(item=>{
+    const key=selCity+':'+item.id;
+    const p=priceCache[key];
+    const sell=p&&p.sell>0?fmtS(p.sell):null;
+    const tc=TIER_COLORS[item.tier]||'#888';
+    return `<a class="item-card" href="item.html?id=${item.id}" title="${item.name}">
+      <span class="tier-badge" style="background:${tc}">T${item.tier}</span>
+      <div class="item-icon">
+        <img src="${iconUrl(item.id)}" alt="${item.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+        <span class="item-icon-fallback">📦</span>
+      </div>
+      <div class="item-name">${item.name}</div>
+      <div class="item-price${sell?'':' no-data'}">${sell||'No data'}</div>
+      ${p&&p.sell>0?`<div class="item-city">${selCity}</div>`:''}
+    </a>`;
+  }).join('');
+
+  // Pagination
+  renderPagination(maxPage);
+}
+
+function renderPagination(maxPage){
+  const el=document.getElementById('pagination');
+  if(maxPage<=1){el.innerHTML='';return;}
+  let h='';
+  h+=`<button class="page-btn" onclick="goPage(0)" ${page===0?'disabled':''}>«</button>`;
+  h+=`<button class="page-btn" onclick="goPage(${page-1})" ${page===0?'disabled':''}>‹</button>`;
+  const start=Math.max(0,page-2),end=Math.min(maxPage-1,page+2);
+  for(let i=start;i<=end;i++){h+=`<button class="page-btn${i===page?' active':''}" onclick="goPage(${i})">${i+1}</button>`;}
+  h+=`<button class="page-btn" onclick="goPage(${page+1})" ${page>=maxPage-1?'disabled':''}>›</button>`;
+  h+=`<button class="page-btn" onclick="goPage(${maxPage-1})" ${page>=maxPage-1?'disabled':''}>»</button>`;
+  h+=`<span class="page-info">Page ${page+1} of ${maxPage}</span>`;
+  el.innerHTML=h;
+}
+
+function goPage(n){page=n;render();window.scrollTo({top:0,behavior:'smooth'});}
+
+// ── Search ────────────────────────────────
+let sqTimer=null;
+document.getElementById('q').addEventListener('input',e=>{
+  clearTimeout(sqTimer);
+  sqTimer=setTimeout(()=>{query=e.target.value;page=0;render();},200);
+});
+
+// ── Init ──────────────────────────────────
+
+buildCatTabs();
+buildCityBtns();
+render();
+// Load initial city prices
+loadPricesForCity(selCity).then(()=>render());
+</script>
 </body>
 </html>

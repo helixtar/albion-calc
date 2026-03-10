@@ -1,28 +1,464 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Flip Finder</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Flip Finder — AlbionMarketCalc</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C8A253;--gold-b:#FFD700;--gold-d:#7A6230;--bg:#070707;--s1:#111;--s2:#181818;--s3:#202020;--tx:#EFEFEF;--td:#7A7A7A;--tm:#444;--bd:#252525;--bg-gold:rgba(200,162,83,.35);--red:#E05252;--green:#4CAF82;--blue:#5B9CF6;--glow:0 0 20px rgba(200,162,83,.4),0 0 60px rgba(200,162,83,.15);--FD:'Cinzel Decorative',serif;--FT:'Cinzel',serif;--FB:'Rajdhani',sans-serif;--FM:'IBM Plex Mono',monospace;--r:6px;--rl:12px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:var(--FB);font-size:15px;line-height:1.5;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-d);border-radius:3px}
 
+.nav{position:fixed;top:0;width:100%;z-index:200;background:rgba(7,7,7,.96);backdrop-filter:blur(24px);border-bottom:1px solid var(--bg-gold);height:58px;display:flex;align-items:center;padding:0 20px;gap:0}
+.nav-logo{font-family:var(--FD);font-size:11px;color:var(--gold);text-decoration:none;text-shadow:0 0 20px rgba(200,162,83,.5);letter-spacing:.05em;margin-right:28px;white-space:nowrap}
+.nav-links{display:flex;gap:2px;list-style:none;flex:1}
+.nav-links a{font-family:var(--FT);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--td);text-decoration:none;padding:7px 12px;border-radius:var(--r);transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(200,162,83,.08)}
+
+.page-wrap{display:block;width:100%}
+.ad-col{display:none!important}
+.ad-label{font-family:var(--FM);font-size:8px;color:var(--tm);letter-spacing:.2em;text-transform:uppercase}
+.ad-box{width:160px;background:rgba(255,255,255,.02);border:1px dashed #1e1e1e;border-radius:var(--r);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.ad-box.sky{height:600px}
+.content{min-width:0;padding:32px 40px 60px}
+
+/* Banner ad */
+.banner-ad{display:flex;justify-content:center;padding:12px 0;background:#090909;border-bottom:1px solid var(--bd);margin-bottom:0}
+.banner-inner{min-height:90px;width:100%;max-width:728px;background:rgba(255,255,255,.02);border:1px dashed #1e1e1e;border-radius:var(--r);display:flex;align-items:center;justify-content:center;overflow:hidden}
+
+/* Page header */
+.page-header{margin-bottom:28px}
+.page-header h1{font-family:var(--FD);font-size:clamp(20px,3vw,32px);font-weight:900;margin-bottom:6px}
+.page-header h1 span{background:linear-gradient(90deg,#C8A253,#FFD700,#C8A253);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s linear infinite}
+.page-header p{color:var(--td);font-size:13px}
+
+/* Controls bar */
+.controls{display:flex;gap:10px;align-items:center;margin-bottom:24px;flex-wrap:wrap;background:var(--s1);border:1px solid var(--bd);border-radius:var(--rl);padding:16px 20px}
+.ctrl-label{font-family:var(--FM);font-size:10px;color:var(--td);letter-spacing:.15em;text-transform:uppercase;margin-right:4px}
+.sel{font-family:var(--FM);font-size:12px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);color:var(--tx);padding:7px 12px;outline:none;cursor:pointer;transition:border-color .2s}
+.sel:focus{border-color:var(--gold-d)}
+.btn{font-family:var(--FT);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:10px 22px;border-radius:var(--r);border:none;cursor:pointer;transition:all .22s;text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+.btn-gold{background:linear-gradient(135deg,#C8A253,#8A5E24);color:#000;box-shadow:0 2px 16px rgba(200,162,83,.25)}
+.btn-gold:hover{background:linear-gradient(135deg,#FFD700,#C8A253);transform:translateY(-1px)}
+.btn-gold:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.divider{flex:1}
+
+/* Filters */
+.cat-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.cat-btn{font-family:var(--FM);font-size:10px;padding:5px 13px;border-radius:20px;border:1px solid var(--bd);background:var(--s2);color:var(--td);cursor:pointer;transition:all .2s}
+.cat-btn:hover{border-color:var(--bg-gold);color:var(--tx)}
+.cat-btn.active{background:rgba(200,162,83,.12);border-color:var(--bg-gold);color:var(--gold)}
+
+/* Ad interstitial overlay */
+.ad-gate{position:fixed;inset:0;z-index:500;background:rgba(7,7,7,.95);backdrop-filter:blur(16px);display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+.ad-gate.show{display:flex}
+.gate-box{background:var(--s1);border:1px solid var(--bg-gold);border-radius:var(--rl);padding:36px 48px;text-align:center;max-width:580px;width:100%;box-shadow:var(--glow)}
+.gate-title{font-family:var(--FD);font-size:16px;margin-bottom:8px;color:var(--gold)}
+.gate-sub{font-family:var(--FM);font-size:11px;color:var(--td);margin-bottom:20px}
+.gate-timer{font-family:var(--FM);font-size:48px;font-weight:700;color:var(--gold);text-shadow:0 0 24px rgba(200,162,83,.5);margin-bottom:12px;animation:pulse-num 1s ease-in-out infinite}
+.gate-skip{font-family:var(--FM);font-size:11px;color:var(--tm);margin-top:8px}
+.gate-ad-area{width:100%;min-height:90px;background:rgba(255,255,255,.02);border:1px dashed #222;border-radius:var(--r);display:flex;align-items:center;justify-content:center;overflow:hidden;margin:16px 0}
+.gate-go{display:none;padding:12px 36px;background:linear-gradient(135deg,#C8A253,#8A5E24);color:#000;border:none;border-radius:var(--r);font-family:var(--FT);font-size:12px;font-weight:700;letter-spacing:.15em;cursor:pointer;transition:all .2s}
+.gate-go:hover{background:linear-gradient(135deg,#FFD700,#C8A253)}
+.gate-go.show{display:block}
+
+/* Results */
+.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.results-title{font-family:var(--FT);font-size:13px;font-weight:600;color:var(--td)}
+.results-count{font-family:var(--FM);font-size:11px;color:var(--tm)}
+
+/* Flip table */
+.flip-table{width:100%;border-collapse:collapse}
+.flip-table th{font-family:var(--FM);font-size:9px;letter-spacing:.2em;color:var(--tm);text-transform:uppercase;padding:10px 12px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}
+.flip-table th.r{text-align:right}
+.flip-table td{padding:11px 12px;border-bottom:1px solid #151515;vertical-align:middle;font-size:13px;transition:background .15s}
+.flip-table tr:hover td{background:rgba(200,162,83,.03)}
+.flip-table tr.rainbow-row td{animation:rainbow-bg 3s linear infinite}
+.item-cell{display:flex;align-items:center;gap:10px}
+.item-icon{width:36px;height:36px;border-radius:6px;background:var(--s3);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid var(--bd)}
+.item-icon img{width:34px;height:34px;object-fit:contain}
+.item-name{font-family:var(--FT);font-size:12px;font-weight:600;line-height:1.3}
+.item-id{font-family:var(--FM);font-size:9px;color:var(--tm);margin-top:1px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--FM);font-size:10px;padding:3px 8px;border-radius:4px;background:var(--s3);border:1px solid var(--bd);white-space:nowrap}
+.chip-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.arrow-cell{color:var(--gold-d);font-size:14px;text-align:center}
+.price-cell{font-family:var(--FM);font-size:12px;text-align:right}
+.profit-cell{text-align:right}
+.profit-num{font-family:var(--FM);font-size:13px;font-weight:700;color:var(--green)}
+.profit-pct{font-family:var(--FM);font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;display:inline-block}
+.pct-high{background:rgba(76,175,130,.15);color:var(--green);border:1px solid rgba(76,175,130,.3)}
+.pct-med{background:rgba(200,162,83,.12);color:var(--gold);border:1px solid rgba(200,162,83,.25)}
+.pct-low{background:rgba(255,255,255,.04);color:var(--td);border:1px solid var(--bd)}
+.rainbow-badge{font-family:var(--FM);font-size:9px;padding:2px 7px;border-radius:10px;animation:rainbow-border 2s linear infinite;border:1px solid;color:#fff;display:inline-block;margin-left:6px}
+.tier-dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px;flex-shrink:0}
+
+/* Empty / loading states */
+.state-box{text-align:center;padding:80px 20px;color:var(--td)}
+.state-icon{font-size:40px;margin-bottom:14px;opacity:.4;display:block}
+.state-msg{font-family:var(--FM);font-size:12px}
+.spinner{width:32px;height:32px;border:2px solid var(--bd);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
+.progress-bar{width:100%;height:3px;background:var(--bd);border-radius:2px;overflow:hidden;margin-top:12px}
+.progress-fill{height:100%;background:linear-gradient(to right,#C8A253,#FFD700);border-radius:2px;transition:width .3s}
+
+/* Toast */
+#toasts{position:fixed;bottom:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:6px}
+.toast{font-size:13px;padding:10px 18px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);color:var(--tx);animation:fadeUp .3s ease}
+.toast.gold{border-color:var(--bg-gold)}
+
+/* Footer */
+footer{border-top:1px solid var(--bd);padding:24px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:40px}
+footer p{color:var(--tm);font-size:11px;font-family:var(--FM)}
+footer a{color:var(--gold-d);text-decoration:none}
+
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse-num{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes rainbow-bg{0%{background:rgba(255,0,0,.04)}33%{background:rgba(255,255,0,.04)}66%{background:rgba(0,255,100,.04)}100%{background:rgba(255,0,0,.04)}}
+@keyframes rainbow-border{0%{border-color:#f00;color:#f00}33%{border-color:#ff0;color:#ff0}66%{border-color:#0f4;color:#0f4}100%{border-color:#f00;color:#f00}}
+@media(max-width:1100px){.page-wrap{grid-template-columns:0 1fr 0}.ad-col{display:none!important}}
+@media(max-width:700px){.nav-links{display:none}.content{padding:20px 16px 40px}.flip-table .price-cell,.flip-table .arrow-cell{display:none}}
+</style>
+</head>
 <body>
 
-<nav class="nav">
-<a href="index.html">Home</a>
-<a href="market.html">Market</a>
-<a class="disabled">Flip Finder</a>
-</nav>
-
-<div class="container">
-
-<h1>Flip Finder</h1>
-
-<h2>Coming Soon</h2>
-
-<p>This feature will scan market opportunities.</p>
-
+<!-- Ad gate overlay (10s countdown) -->
+<div class="ad-gate" id="adGate">
+  <div class="gate-box">
+    <div class="gate-title">◈ Flip Finder</div>
+    <div class="gate-sub">Scanning all cities for the best trades...</div>
+    <div class="gate-timer" id="gateTimer">10</div>
+    <div class="progress-bar"><div class="progress-fill" id="gateProg" style="width:0%"></div></div>
+    <div class="gate-ad-area">
+      <!-- Google AdSense — Large Rectangle 336x280 -->
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:336px;height:280px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="5555555555"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+    </div>
+    <div class="gate-skip" id="gateSkip">Results will appear when the timer reaches 0</div>
+    <button class="gate-go" id="gateGo" onclick="closeGate()">View Results →</button>
+  </div>
 </div>
 
+<nav class="nav">
+  <a href="index.html" class="nav-logo">AlbionMarketCalc</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="market.html">Market</a></li>
+    <li><a href="flipfinder.html" class="active">Flip Finder</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrap">
+  </div>
+
+  <div class="content">
+    <!-- Top banner -->
+    <div class="banner-ad" style="margin:-32px -40px 32px">
+      <div class="banner-inner">
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:728px;height:90px"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="3333333333"></ins>
+        <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+      </div>
+    </div>
+
+    <div class="page-header">
+      <h1>◈ <span>Flip Finder</span></h1>
+      <p>Finds the most profitable city-to-city trades. Buy cheap in one city, sell high in another.</p>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <span class="ctrl-label">Category:</span>
+      <select class="sel" id="selCat">
+        <option value="all">All Items</option>
+        <option value="artifacts">Artifacts</option>
+        <option value="resources">Resources</option>
+        <option value="weapons">Weapons</option>
+        <option value="armor">Armor</option>
+        <option value="mounts">Mounts</option>
+        <option value="misc">Misc</option>
+      </select>
+      <span class="ctrl-label" style="margin-left:12px">Min Profit %:</span>
+      <select class="sel" id="selMin">
+        <option value="5">5%</option>
+        <option value="10">10%</option>
+        <option value="20" selected>20%</option>
+        <option value="30">30%</option>
+        <option value="50">50%</option>
+      </select>
+      <span class="ctrl-label" style="margin-left:12px">Sort:</span>
+      <select class="sel" id="selSort">
+        <option value="pct">Profit %</option>
+        <option value="silver">Profit Silver</option>
+      </select>
+      <div class="divider"></div>
+      <button class="btn btn-gold" id="scanBtn" onclick="startScan()">⚡ Scan Flips</button>
+    </div>
+
+    <!-- Results area -->
+    <div id="results">
+      <div class="state-box">
+        <span class="state-icon">🔍</span>
+        <p class="state-msg">Click "Scan Flips" to find the best city-to-city trades</p>
+      </div>
+    </div>
+
+    <!-- Bottom ad -->
+    <div class="banner-ad" style="margin:32px -40px 0">
+      <div class="banner-inner">
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:728px;height:90px"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="4444444444"></ins>
+        <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+      </div>
+    </div>
+
+    <footer>
+      <p>AlbionMarketCalc.online</p>
+      <p>Data by <a href="https://www.albion-online-data.com" target="_blank">Albion Online Data Project</a></p>
+    </footer>
+  </div>
+  </div>
+</div>
+
+<script>
+const CITIES=['Caerleon','Bridgewatch','Martlock','Thetford','Fort Sterling','Lymhurst'];
+const CITY_COLORS={'Caerleon':'#E05252','Bridgewatch':'#E08840','Martlock':'#5B9CF6','Thetford':'#4CAF82','Fort Sterling':'#B0B0B0','Lymhurst':'#8BC34A'};
+const ICON_BASE='https://render.albiononline.com/v1/item';
+const TIER_COLORS={1:'#888',2:'#78c278',3:'#5b9cf6',4:'#c8a253',5:'#b060e0',6:'#e05252',7:'#e08840',8:'#ff4444'};
+
+const ALL_ITEMS=[
+  {id:'T4_RUNE',name:'Rune T4',cat:'artifacts',tier:4},{id:'T5_RUNE',name:'Rune T5',cat:'artifacts',tier:5},{id:'T6_RUNE',name:'Rune T6',cat:'artifacts',tier:6},{id:'T7_RUNE',name:'Rune T7',cat:'artifacts',tier:7},{id:'T8_RUNE',name:'Rune T8',cat:'artifacts',tier:8},
+  {id:'T4_SOUL',name:'Soul T4',cat:'artifacts',tier:4},{id:'T5_SOUL',name:'Soul T5',cat:'artifacts',tier:5},{id:'T6_SOUL',name:'Soul T6',cat:'artifacts',tier:6},{id:'T7_SOUL',name:'Soul T7',cat:'artifacts',tier:7},{id:'T8_SOUL',name:'Soul T8',cat:'artifacts',tier:8},
+  {id:'T4_RELIC',name:'Relic T4',cat:'artifacts',tier:4},{id:'T5_RELIC',name:'Relic T5',cat:'artifacts',tier:5},{id:'T6_RELIC',name:'Relic T6',cat:'artifacts',tier:6},{id:'T7_RELIC',name:'Relic T7',cat:'artifacts',tier:7},{id:'T8_RELIC',name:'Relic T8',cat:'artifacts',tier:8},
+  {id:'T6_SHARD_AVALONIAN',name:'Shard T6',cat:'artifacts',tier:6},{id:'T7_SHARD_AVALONIAN',name:'Shard T7',cat:'artifacts',tier:7},{id:'T8_SHARD_AVALONIAN',name:'Shard T8',cat:'artifacts',tier:8},
+  {id:'T4_ORE',name:'Tungsten Ore',cat:'resources',tier:4},{id:'T5_ORE',name:'Steel Ore',cat:'resources',tier:5},{id:'T6_ORE',name:'Titanium Ore',cat:'resources',tier:6},{id:'T7_ORE',name:'Runite Ore',cat:'resources',tier:7},{id:'T8_ORE',name:'Meteorite Ore',cat:'resources',tier:8},
+  {id:'T4_WOOD',name:'Cedar Wood',cat:'resources',tier:4},{id:'T5_WOOD',name:'Bloodoak Wood',cat:'resources',tier:5},{id:'T6_WOOD',name:'Ashenbark Wood',cat:'resources',tier:6},{id:'T7_WOOD',name:'Whitewood',cat:'resources',tier:7},{id:'T8_WOOD',name:'Gravite Wood',cat:'resources',tier:8},
+  {id:'T4_FIBER',name:'Hemp',cat:'resources',tier:4},{id:'T5_FIBER',name:'Skyflower',cat:'resources',tier:5},{id:'T6_FIBER',name:'Redleaf Cotton',cat:'resources',tier:6},{id:'T7_FIBER',name:'Sunflax',cat:'resources',tier:7},{id:'T8_FIBER',name:'Ghost Hemp',cat:'resources',tier:8},
+  {id:'T4_HIDE',name:'Medium Hide',cat:'resources',tier:4},{id:'T5_HIDE',name:'Heavy Hide',cat:'resources',tier:5},{id:'T6_HIDE',name:'Robust Hide',cat:'resources',tier:6},{id:'T7_HIDE',name:'Thick Hide',cat:'resources',tier:7},{id:'T8_HIDE',name:'Infernal Hide',cat:'resources',tier:8},
+  {id:'T4_METALBAR',name:'Steel Bar',cat:'resources',tier:4},{id:'T5_METALBAR',name:'Steel Bar T5',cat:'resources',tier:5},{id:'T6_METALBAR',name:'Titanium Bar',cat:'resources',tier:6},{id:'T7_METALBAR',name:'Runite Bar',cat:'resources',tier:7},{id:'T8_METALBAR',name:'Meteorite Bar',cat:'resources',tier:8},
+  {id:'T4_PLANKS',name:'Oak Planks',cat:'resources',tier:4},{id:'T5_PLANKS',name:'Pine Planks',cat:'resources',tier:5},{id:'T6_PLANKS',name:'Ash Planks',cat:'resources',tier:6},{id:'T7_PLANKS',name:'White Oak Planks',cat:'resources',tier:7},{id:'T8_PLANKS',name:'Black Oak Planks',cat:'resources',tier:8},
+  {id:'T4_CLOTH',name:'Cotton Cloth',cat:'resources',tier:4},{id:'T5_CLOTH',name:'Sky Cloth',cat:'resources',tier:5},{id:'T6_CLOTH',name:'Linen',cat:'resources',tier:6},{id:'T7_CLOTH',name:'Sun Cloth',cat:'resources',tier:7},{id:'T8_CLOTH',name:'Ghost Cloth',cat:'resources',tier:8},
+  {id:'T4_LEATHER',name:'Leather',cat:'resources',tier:4},{id:'T5_LEATHER',name:'Thick Leather',cat:'resources',tier:5},{id:'T6_LEATHER',name:'Robust Leather',cat:'resources',tier:6},{id:'T7_LEATHER',name:'Full Hide Leather',cat:'resources',tier:7},{id:'T8_LEATHER',name:'Infernal Leather',cat:'resources',tier:8},
+  {id:'T5_MAIN_SWORD',name:'Broadsword T5',cat:'weapons',tier:5},{id:'T6_MAIN_SWORD',name:'Broadsword T6',cat:'weapons',tier:6},{id:'T7_MAIN_SWORD',name:'Broadsword T7',cat:'weapons',tier:7},{id:'T8_MAIN_SWORD',name:'Broadsword T8',cat:'weapons',tier:8},
+  {id:'T5_2H_SWORD',name:'Claymore T5',cat:'weapons',tier:5},{id:'T6_2H_SWORD',name:'Claymore T6',cat:'weapons',tier:6},{id:'T7_2H_SWORD',name:'Claymore T7',cat:'weapons',tier:7},{id:'T8_2H_SWORD',name:'Claymore T8',cat:'weapons',tier:8},
+  {id:'T5_MAIN_SPEAR',name:'Spear T5',cat:'weapons',tier:5},{id:'T6_MAIN_SPEAR',name:'Spear T6',cat:'weapons',tier:6},{id:'T7_MAIN_SPEAR',name:'Spear T7',cat:'weapons',tier:7},{id:'T8_MAIN_SPEAR',name:'Spear T8',cat:'weapons',tier:8},
+  {id:'T5_2H_BOW',name:'Bow T5',cat:'weapons',tier:5},{id:'T6_2H_BOW',name:'Bow T6',cat:'weapons',tier:6},{id:'T7_2H_BOW',name:'Bow T7',cat:'weapons',tier:7},{id:'T8_2H_BOW',name:'Bow T8',cat:'weapons',tier:8},
+  {id:'T5_MAIN_FIRE',name:'Fire Staff T5',cat:'weapons',tier:5},{id:'T6_MAIN_FIRE',name:'Fire Staff T6',cat:'weapons',tier:6},{id:'T7_MAIN_FIRE',name:'Fire Staff T7',cat:'weapons',tier:7},{id:'T8_MAIN_FIRE',name:'Fire Staff T8',cat:'weapons',tier:8},
+  {id:'T5_MAIN_NATURE',name:'Nature Staff T5',cat:'weapons',tier:5},{id:'T6_MAIN_NATURE',name:'Nature Staff T6',cat:'weapons',tier:6},{id:'T7_MAIN_NATURE',name:'Nature Staff T7',cat:'weapons',tier:7},{id:'T8_MAIN_NATURE',name:'Nature Staff T8',cat:'weapons',tier:8},
+  {id:'T5_ARMOR_PLATE_SET1',name:'Knight Armor T5',cat:'armor',tier:5},{id:'T6_ARMOR_PLATE_SET1',name:'Knight Armor T6',cat:'armor',tier:6},{id:'T7_ARMOR_PLATE_SET1',name:'Knight Armor T7',cat:'armor',tier:7},{id:'T8_ARMOR_PLATE_SET1',name:'Knight Armor T8',cat:'armor',tier:8},
+  {id:'T5_ARMOR_LEATHER_SET1',name:'Hunter Jacket T5',cat:'armor',tier:5},{id:'T6_ARMOR_LEATHER_SET1',name:'Hunter Jacket T6',cat:'armor',tier:6},{id:'T7_ARMOR_LEATHER_SET1',name:'Hunter Jacket T7',cat:'armor',tier:7},{id:'T8_ARMOR_LEATHER_SET1',name:'Hunter Jacket T8',cat:'armor',tier:8},
+  {id:'T5_ARMOR_CLOTH_SET1',name:'Scholar Robe T5',cat:'armor',tier:5},{id:'T6_ARMOR_CLOTH_SET1',name:'Scholar Robe T6',cat:'armor',tier:6},{id:'T7_ARMOR_CLOTH_SET1',name:'Scholar Robe T7',cat:'armor',tier:7},{id:'T8_ARMOR_CLOTH_SET1',name:'Scholar Robe T8',cat:'armor',tier:8},
+  {id:'T5_OFF_SHIELD',name:'Shield T5',cat:'armor',tier:5},{id:'T6_OFF_SHIELD',name:'Shield T6',cat:'armor',tier:6},{id:'T7_OFF_SHIELD',name:'Shield T7',cat:'armor',tier:7},{id:'T8_OFF_SHIELD',name:'Shield T8',cat:'armor',tier:8},
+  {id:'T5_MOUNT_HORSE',name:'Riding Horse T5',cat:'mounts',tier:5},{id:'T6_MOUNT_HORSE',name:'Riding Horse T6',cat:'mounts',tier:6},{id:'T7_MOUNT_HORSE',name:'Riding Horse T7',cat:'mounts',tier:7},{id:'T8_MOUNT_HORSE',name:'Riding Horse T8',cat:'mounts',tier:8},
+  {id:'T5_MOUNT_DIREWOLF',name:'Direwolf T5',cat:'mounts',tier:5},{id:'T6_MOUNT_DIREWOLF',name:'Direwolf T6',cat:'mounts',tier:6},{id:'T7_MOUNT_DIREWOLF',name:'Direwolf T7',cat:'mounts',tier:7},{id:'T8_MOUNT_DIREWOLF',name:'Direwolf T8',cat:'mounts',tier:8},
+  {id:'T5_MOUNT_BEAR',name:'Bear T5',cat:'mounts',tier:5},{id:'T6_MOUNT_BEAR',name:'Bear T6',cat:'mounts',tier:6},{id:'T7_MOUNT_BEAR',name:'Bear T7',cat:'mounts',tier:7},
+  {id:'T4_BAG',name:'Bag T4',cat:'misc',tier:4},{id:'T5_BAG',name:'Bag T5',cat:'misc',tier:5},{id:'T6_BAG',name:'Bag T6',cat:'misc',tier:6},{id:'T7_BAG',name:'Bag T7',cat:'misc',tier:7},
+  {id:'T5_POTION_HEALING',name:'Healing Potion T5',cat:'misc',tier:5},{id:'T6_POTION_HEALING',name:'Healing Potion T6',cat:'misc',tier:6},
+];
+
+function fmtS(n){if(!n||n<=0)return'—';if(n>=1e6)return(n/1e6).toFixed(2)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toLocaleString()}
+
+// ── Ad Gate ──────────────────────────────────
+let gateResolve=null;
+function openGate(){
+  return new Promise(res=>{
+    gateResolve=res;
+    const gate=document.getElementById('adGate');
+    gate.classList.add('show');
+    let t=10;
+    const prog=document.getElementById('gateProg');
+    const timer=document.getElementById('gateTimer');
+    const skip=document.getElementById('gateSkip');
+    const go=document.getElementById('gateGo');
+    prog.style.width='0%';
+    timer.textContent=t;
+    go.classList.remove('show');
+    skip.textContent='Results will appear when the timer reaches 0';
+    const iv=setInterval(()=>{
+      t--;
+      timer.textContent=t;
+      prog.style.width=((10-t)/10*100)+'%';
+      if(t<=0){
+        clearInterval(iv);
+        timer.textContent='✓';
+        skip.textContent='';
+        go.classList.add('show');
+      }
+    },1000);
+  });
+}
+function closeGate(){
+  document.getElementById('adGate').classList.remove('show');
+  if(gateResolve)gateResolve();
+}
+
+// ── Scan ─────────────────────────────────────
+let scanData=null;
+
+async function startScan(){
+  const btn=document.getElementById('scanBtn');
+  btn.disabled=true;
+  btn.textContent='Scanning...';
+
+  // Show loading
+  document.getElementById('results').innerHTML=`<div class="state-box"><div class="spinner"></div><p class="state-msg" id="scanMsg">Fetching prices from all cities...</p><div class="progress-bar" style="max-width:300px;margin:12px auto 0"><div class="progress-fill" id="scanProg" style="width:0%"></div></div></div>`;
+
+  // Open ad gate WHILE data loads in background
+  const [,data] = await Promise.all([openGate(), fetchAllPrices()]);
+  scanData = data;
+  renderResults();
+  btn.disabled=false;
+  btn.textContent='⚡ Scan Again';
+}
+
+async function fetchAllPrices(){
+  const cat=document.getElementById('selCat').value;
+  const items=cat==='all'?ALL_ITEMS:ALL_ITEMS.filter(i=>i.cat===cat);
+  const ids=items.map(i=>i.id);
+  const locStr=CITIES.map(c=>encodeURIComponent(c)).join(',');
+
+  // Batch into 40-item chunks (URL limit ~4096 chars)
+  const BATCH=40;
+  const results={};
+  items.forEach(i=>{results[i.id]={};CITIES.forEach(c=>{results[i.id][c]={sell:0,date:null}});});
+
+  const hosts=['https://west.albion-online-data.com','https://europe.albion-online-data.com','https://east.albion-online-data.com'];
+
+  for(let i=0;i<ids.length;i+=BATCH){
+    const batch=ids.slice(i,i+BATCH);
+    const pct=Math.round((i/ids.length)*100);
+    const msg=document.getElementById('scanMsg');
+    const prog=document.getElementById('scanProg');
+    if(msg)msg.textContent=`Fetching prices... (${i}/${ids.length} items)`;
+    if(prog)prog.style.width=pct+'%';
+
+    let data=null;
+    for(const host of hosts){
+      try{
+        const direct=host+'/api/v2/stats/prices/'+batch.join(',')+'?locations='+locStr+'&qualities=1';
+        const proxy='https://corsproxy.io/?'+encodeURIComponent(direct);
+        for(const url of[direct,proxy]){
+          try{
+            const r=await fetch(url);
+            if(!r.ok)continue;
+            const raw=await r.text();
+            try{data=JSON.parse(raw);}catch(e){const m=JSON.parse(raw);data=m.contents?JSON.parse(m.contents):m;}
+            if(data)break;
+          }catch(e){continue;}
+        }
+        if(data)break;
+      }catch(e){continue;}
+    }
+    if(!data)continue;
+
+    data.forEach(d=>{
+      if(!results[d.item_id])return;
+      const cityKey=CITIES.find(c=>c.toLowerCase()===(d.city||'').toLowerCase());
+      if(cityKey&&d.sell_price_min>0)results[d.item_id][cityKey]={sell:d.sell_price_min,date:d.sell_price_min_date};
+    });
+  }
+  return{results,items};
+}
+
+function renderResults(){
+  if(!scanData)return;
+  const {results,items}=scanData;
+  const minPct=parseInt(document.getElementById('selMin').value)||20;
+  const sortBy=document.getElementById('selSort').value;
+
+  // Build flip opportunities
+  const flips=[];
+  items.forEach(item=>{
+    const cityPrices=results[item.id];
+    if(!cityPrices)return;
+    // Get all cities with sell prices
+    const entries=CITIES.map(c=>({city:c,sell:cityPrices[c]?.sell||0})).filter(e=>e.sell>0);
+    if(entries.length<2)return;
+    // Find best buy (cheapest) and best sell (most expensive)
+    const cheapest=entries.reduce((a,b)=>b.sell<a.sell?b:a);
+    const priciest=entries.reduce((a,b)=>b.sell>a.sell?b:a);
+    if(cheapest.city===priciest.city)return;
+    const profit=priciest.sell-cheapest.sell;
+    const pct=Math.round((profit/cheapest.sell)*100);
+    if(pct<minPct||profit<=0)return;
+    flips.push({item,buyCity:cheapest.city,buyPrice:cheapest.sell,sellCity:priciest.city,sellPrice:priciest.sell,profit,pct});
+  });
+
+  // Sort
+  flips.sort((a,b)=>sortBy==='silver'?b.profit-a.profit:b.pct-a.pct);
+
+  const count=flips.length;
+  if(count===0){
+    document.getElementById('results').innerHTML=`<div class="state-box"><span class="state-icon">📭</span><p class="state-msg">No flips found above ${minPct}% profit. Try lowering the minimum.</p></div>`;
+    return;
+  }
+
+  const rows=flips.map((f,i)=>{
+    const isRainbow=f.pct>=70;
+    const pctCls=f.pct>=50?'pct-high':f.pct>=25?'pct-med':'pct-low';
+    const buyCol=CITY_COLORS[f.buyCity]||'#888';
+    const sellCol=CITY_COLORS[f.sellCity]||'#888';
+    const tc=TIER_COLORS[f.item.tier]||'#888';
+    return `<tr class="${isRainbow?'rainbow-row':''}">
+      <td style="width:36px;text-align:center;font-family:var(--FM);font-size:12px;color:var(--tm)">${i+1}</td>
+      <td>
+        <div class="item-cell">
+          <div class="item-icon">
+            <img src="${ICON_BASE}/${f.item.id}.png?size=64&quality=1" alt="" onerror="this.style.display='none'"/>
+          </div>
+          <div>
+            <div class="item-name"><span class="tier-dot" style="background:${tc}"></span>${f.item.name}${isRainbow?'<span class="rainbow-badge">🌈 70%+</span>':''}</div>
+            <div class="item-id">${f.item.id}</div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <span class="chip"><span class="chip-dot" style="background:${buyCol}"></span>${f.buyCity}</span>
+          <span class="arrow-cell">→</span>
+          <span class="chip"><span class="chip-dot" style="background:${sellCol}"></span>${f.sellCity}</span>
+        </div>
+      </td>
+      <td class="price-cell">${fmtS(f.buyPrice)}</td>
+      <td class="price-cell">${fmtS(f.sellPrice)}</td>
+      <td class="profit-cell">
+        <div class="profit-num">+${fmtS(f.profit)}</div>
+        <span class="profit-pct ${pctCls}">+${f.pct}%</span>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('results').innerHTML=`
+    <div class="results-header">
+      <span class="results-title">Found <strong style="color:var(--tx)">${count}</strong> profitable trades</span>
+      <span class="results-count">Min ${minPct}% · Sorted by ${document.getElementById('selSort').value==='pct'?'Profit %':'Silver'}</span>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="flip-table">
+        <thead><tr>
+          <th>#</th>
+          <th>Item</th>
+          <th>Route</th>
+          <th class="r">Buy Price</th>
+          <th class="r">Sell Price</th>
+          <th class="r">Profit</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+</script>
 </body>
 </html>
