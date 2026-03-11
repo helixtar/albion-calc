@@ -40,9 +40,81 @@ footer{border-top:1px solid var(--bd);padding:18px 24px;display:flex;justify-con
 footer p{font-family:var(--FM);font-size:10px;color:var(--tm)}
 .footer-links{display:flex;gap:16px}
 @media(max-width:600px){.nav-links{display:none}.topics{grid-template-columns:1fr}}
+
+/* Cookie Banner */
+#cookieBanner{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0f0f0f;border-top:1px solid rgba(200,162,83,.3);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;transform:translateY(100%);transition:transform .4s ease;font-family:'Rajdhani',sans-serif}
+#cookieBanner.show{transform:translateY(0)}
+#cookieBanner p{font-size:13px;color:#888;line-height:1.5;flex:1;min-width:200px}
+#cookieBanner a{color:#C8A253;text-decoration:none}
+#cookieBanner a:hover{text-decoration:underline}
+.cookie-btns{display:flex;gap:8px;flex-shrink:0}
+#cookieAccept{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:9px 20px;background:linear-gradient(135deg,#C8A253,#8A5E24);color:#000;border:none;border-radius:6px;cursor:pointer;transition:all .2s}
+#cookieAccept:hover{background:linear-gradient(135deg,#FFD700,#C8A253)}
+#cookieDecline{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:9px 16px;background:transparent;color:#666;border:1px solid #222;border-radius:6px;cursor:pointer;transition:all .2s}
+#cookieDecline:hover{border-color:#444;color:#888}
+
+footer{border-top:1px solid var(--bd);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;background:var(--s1)}
+footer p{font-family:var(--FM);font-size:10px;color:#666}
+.footer-links{display:flex;gap:16px}
+.footer-links a{font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;opacity:.8}
+.footer-links a:hover{opacity:1}
+
+/* ── Cookie Banner ── */
+#cookie-banner{
+  position:fixed;bottom:0;left:0;right:0;z-index:9999;
+  background:#0d0d0d;border-top:1px solid rgba(200,162,83,.3);
+  padding:18px 24px;display:flex;align-items:flex-start;gap:20px;
+  box-shadow:0 -8px 32px rgba(0,0,0,.6);
+  animation:slideUp .35s ease;
+  font-family:'Rajdhani',sans-serif;
+}
+#cookie-banner.hidden{display:none}
+.ck-icon{font-size:28px;flex-shrink:0;margin-top:2px}
+.ck-body{flex:1}
+.ck-title{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:#EFEFEF;margin-bottom:5px}
+.ck-text{font-size:13px;color:#888;line-height:1.6;max-width:780px}
+.ck-text a{color:#C8A253;text-decoration:none}
+.ck-text a:hover{text-decoration:underline}
+.ck-btns{display:flex;gap:8px;flex-shrink:0;align-items:center;flex-wrap:wrap;margin-top:4px}
+.ck-accept{background:linear-gradient(135deg,#C8A253,#8A5E24);color:#000;border:none;border-radius:6px;padding:9px 20px;font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap}
+.ck-accept:hover{background:linear-gradient(135deg,#FFD700,#C8A253);transform:translateY(-1px)}
+.ck-decline{background:transparent;color:#888;border:1px solid #333;border-radius:6px;padding:9px 16px;font-family:'Cinzel',serif;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap}
+.ck-decline:hover{border-color:#555;color:#EFEFEF}
+.ck-settings{background:transparent;color:#7A6230;border:none;font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;text-decoration:underline;padding:0;white-space:nowrap}
+.ck-settings:hover{color:#C8A253}
+/* Cookie Settings Modal */
+#ck-modal{position:fixed;inset:0;z-index:10000;background:rgba(7,7,7,.92);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;padding:20px}
+#ck-modal.show{display:flex}
+.ck-modal-box{background:#0f0f0f;border:1px solid rgba(200,162,83,.25);border-radius:10px;padding:32px;max-width:540px;width:100%;max-height:90vh;overflow-y:auto}
+.ck-modal-title{font-family:'Cinzel Decorative',serif;font-size:14px;color:#C8A253;margin-bottom:6px}
+.ck-modal-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#444;margin-bottom:24px;letter-spacing:.15em;text-transform:uppercase}
+.ck-category{background:#161616;border:1px solid #222;border-radius:8px;padding:16px 18px;margin-bottom:10px}
+.ck-cat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.ck-cat-name{font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:#EFEFEF}
+.ck-cat-desc{font-size:13px;color:#888;line-height:1.55}
+/* Toggle switch */
+.ck-toggle{position:relative;width:40px;height:22px;flex-shrink:0}
+.ck-toggle input{opacity:0;width:0;height:0}
+.ck-slider{position:absolute;inset:0;background:#222;border-radius:22px;cursor:pointer;transition:.2s;border:1px solid #333}
+.ck-slider::before{content:'';position:absolute;width:16px;height:16px;left:2px;top:2px;background:#444;border-radius:50%;transition:.2s}
+.ck-toggle input:checked+.ck-slider{background:rgba(200,162,83,.25);border-color:rgba(200,162,83,.4)}
+.ck-toggle input:checked+.ck-slider::before{transform:translateX(18px);background:#C8A253}
+.ck-toggle input:disabled+.ck-slider{cursor:not-allowed;opacity:.6}
+.ck-modal-btns{display:flex;gap:8px;margin-top:20px;justify-content:flex-end}
+@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+
 </style>
 </head>
 <body>
+<!-- Cookie Consent Banner -->
+<div id="cookieBanner">
+  <p>🍪 We use cookies to serve personalized ads via <strong style="color:#efefef">Google AdSense</strong> and to analyze site traffic. By clicking "Accept", you consent to our use of cookies. <a href="privacy.html">Privacy Policy</a></p>
+  <div class="cookie-btns">
+    <button id="cookieDecline" onclick="cookieChoice(false)">Decline</button>
+    <button id="cookieAccept" onclick="cookieChoice(true)">Accept All</button>
+  </div>
+</div>
+
 <nav>
   <a href="index.html" class="logo">AlbionMarketCalc</a>
   <ul class="nav-links">
@@ -73,14 +145,93 @@ footer p{font-family:var(--FM);font-size:10px;color:var(--tm)}
     <div class="topic"><span class="topic-ico">📄</span>Privacy & legal inquiries</div>
   </div>
 </div>
-
 <footer>
   <p>© 2026 AlbionMarketCalc.online</p>
   <div class="footer-links">
-    <a href="about.html" style="font-family:var(--FM);font-size:10px;color:var(--gold-d)">About</a>
-    <a href="privacy.html" style="font-family:var(--FM);font-size:10px;color:var(--gold-d)">Privacy Policy</a>
-    <a href="contact.html" style="font-family:var(--FM);font-size:10px;color:var(--gold-d)">Contact</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="contact.html">Contact</a>
   </div>
 </footer>
+<script>// Cookie Consent
+(function(){
+  const key='amc_cookie_consent';
+  const val=localStorage.getItem(key);
+  if(val===null){
+    setTimeout(()=>document.getElementById('cookieBanner').classList.add('show'),800);
+  }
+})();
+function cookieChoice(accepted){
+  localStorage.setItem('amc_cookie_consent', accepted?'accepted':'declined');
+  const b=document.getElementById('cookieBanner');
+  b.style.transform='translateY(100%)';
+  setTimeout(()=>b.style.display='none',400);
+}</script>
+<script>
+// ── Cookie Consent ────────────────────────
+(function(){
+  const KEY = 'ck_consent_v1';
+  const stored = localStorage.getItem(KEY);
+  if(!stored) {
+    // Show banner after short delay
+    setTimeout(() => document.getElementById('cookie-banner').classList.remove('hidden'), 800);
+  } else {
+    const prefs = JSON.parse(stored);
+    if(prefs.ads) loadAds();
+  }
+})();
+
+function acceptCookies(){
+  const prefs = {essential:true, analytics:true, ads:true, functional:true};
+  localStorage.setItem('ck_consent_v1', JSON.stringify(prefs));
+  document.getElementById('cookie-banner').classList.add('hidden');
+  document.getElementById('ck-modal').classList.remove('show');
+  loadAds();
+}
+
+function declineCookies(){
+  const prefs = {essential:true, analytics:false, ads:false, functional:false};
+  localStorage.setItem('ck_consent_v1', JSON.stringify(prefs));
+  document.getElementById('cookie-banner').classList.add('hidden');
+  document.getElementById('ck-modal').classList.remove('show');
+}
+
+function openCkModal(){
+  const stored = localStorage.getItem('ck_consent_v1');
+  if(stored){
+    const p = JSON.parse(stored);
+    document.getElementById('ck-analytics').checked = p.analytics !== false;
+    document.getElementById('ck-ads').checked = p.ads !== false;
+    document.getElementById('ck-func').checked = p.functional !== false;
+  }
+  document.getElementById('ck-modal').classList.add('show');
+}
+
+function saveCkSettings(){
+  const prefs = {
+    essential: true,
+    analytics: document.getElementById('ck-analytics').checked,
+    ads: document.getElementById('ck-ads').checked,
+    functional: document.getElementById('ck-func').checked
+  };
+  localStorage.setItem('ck_consent_v1', JSON.stringify(prefs));
+  document.getElementById('cookie-banner').classList.add('hidden');
+  document.getElementById('ck-modal').classList.remove('show');
+  if(prefs.ads) loadAds();
+}
+
+function loadAds(){
+  // AdSense loads automatically via the script tag - consent recorded
+  if(window.adsbygoogle) {
+    try{ (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){}
+  }
+}
+
+// Close modal on backdrop click
+document.getElementById('ck-modal').addEventListener('click', function(e){
+  if(e.target === this) this.classList.remove('show');
+});
+
+</script>
 </body>
 </html>
