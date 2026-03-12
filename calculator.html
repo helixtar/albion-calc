@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Market Calculator — AlbionMarketCalc</title>
+<meta name="description" content="Free Albion Online market calculator. Enter buy price, sell price, amount and tax to instantly calculate your profit."/>
+<meta name="keywords" content="albion online market calculator, albion profit calculator, albion online tax calculator, albion silver profit"/>
+<meta name="robots" content="index, follow"/>
+<meta name="author" content="AlbionMarketCalc"/>
+<link rel="canonical" href="https://albionmarketcalc.online/calculator.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Albion Online Market Calculator"/>
+<meta property="og:description" content="Calculate your Albion Online trade profit instantly. Includes market tax, buy/sell price and amount."/>
+<meta property="og:url" content="https://albionmarketcalc.online/calculator.html"/>
+<meta property="og:site_name" content="AlbionMarketCalc"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Albion Online Market Calculator"/>
+<meta name="twitter:description" content="Calculate your Albion Online trade profit instantly."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ── Calculator-specific styles ── */
+.calc-page{min-height:calc(100vh - 54px);padding:48px 0 64px;display:flex;align-items:flex-start;justify-content:center}
+.calc-wrap{width:100%;max-width:560px;padding:0 24px}
+
+.calc-hero{text-align:center;margin-bottom:40px}
+.calc-hero-label{font-family:var(--FM);font-size:9px;letter-spacing:.5em;color:var(--gold-d);text-transform:uppercase;margin-bottom:12px}
+.calc-hero h1{font-family:var(--FD);font-size:clamp(22px,4vw,38px);font-weight:700;line-height:1.1;margin-bottom:10px}
+.calc-hero h1 em{font-style:normal;background:linear-gradient(90deg,#C8A253,#FFD700,#C8A253);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3.5s linear infinite}
+.calc-hero p{color:var(--td);font-size:14px}
+
+/* Card */
+.calc-card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden}
+.calc-card-header{background:var(--s2);padding:16px 22px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
+.calc-card-header span{font-family:var(--FT);font-size:13px;font-weight:700}
+.calc-card-body{padding:24px 22px}
+
+/* Input groups */
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.input-row.single{grid-template-columns:1fr}
+.input-group{display:flex;flex-direction:column;gap:5px}
+.input-label{font-family:var(--FM);font-size:9px;letter-spacing:.25em;color:var(--tm);text-transform:uppercase}
+.input-wrap{position:relative}
+.input-wrap input{width:100%;background:var(--s3);border:1px solid var(--bd);border-radius:var(--r);color:var(--tx);font-family:var(--FM);font-size:14px;font-weight:500;padding:11px 40px 11px 14px;outline:none;transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield}
+.input-wrap input::-webkit-outer-spin-button,.input-wrap input::-webkit-inner-spin-button{-webkit-appearance:none}
+.input-wrap input:focus{border-color:var(--gold-d);box-shadow:0 0 0 3px rgba(200,162,83,.08)}
+.input-wrap input::placeholder{color:var(--tm)}
+.input-suffix{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-family:var(--FM);font-size:10px;color:var(--tm);pointer-events:none}
+
+/* Divider */
+.calc-divider{height:1px;background:var(--bd);margin:20px 0}
+
+/* Tax presets */
+.tax-presets{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tax-preset{font-family:var(--FM);font-size:10px;padding:4px 10px;border-radius:12px;border:1px solid var(--bd);background:var(--s2);color:var(--td);cursor:pointer;transition:all .15s}
+.tax-preset:hover{border-color:var(--bg-gold);color:var(--tx)}
+.tax-preset.active{border-color:var(--bg-gold);background:rgba(200,162,83,.1);color:var(--gold)}
+
+/* Calculate button */
+.calc-btn{width:100%;margin-top:20px;padding:13px;background:linear-gradient(135deg,#C8A253,#8A5E24);color:#000;border:none;border-radius:var(--r);font-family:var(--FT);font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .2s;box-shadow:0 2px 16px rgba(200,162,83,.2)}
+.calc-btn:hover{background:linear-gradient(135deg,#FFD700,#C8A253);transform:translateY(-1px);box-shadow:0 4px 24px rgba(200,162,83,.35)}
+.calc-btn:active{transform:translateY(0)}
+
+/* Results */
+.result-box{margin-top:20px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;animation:fadeIn .3s ease;display:none}
+.result-box.show{display:block}
+.result-box.profit .result-header{background:rgba(76,175,130,.08);border-bottom:1px solid rgba(76,175,130,.2)}
+.result-box.loss .result-header{background:rgba(224,82,82,.07);border-bottom:1px solid rgba(224,82,82,.2)}
+.result-box.break .result-header{background:rgba(200,162,83,.07);border-bottom:1px solid rgba(200,162,83,.2)}
+.result-header{padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.result-verdict{font-family:var(--FT);font-size:13px;font-weight:700}
+.result-box.profit .result-verdict{color:var(--green)}
+.result-box.loss .result-verdict{color:var(--red)}
+.result-box.break .result-verdict{color:var(--gold)}
+.result-main{font-family:var(--FM);font-size:26px;font-weight:700}
+.result-box.profit .result-main{color:var(--green)}
+.result-box.loss .result-main{color:var(--red)}
+.result-box.break .result-main{color:var(--gold)}
+.result-rows{padding:0}
+.result-row{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;border-bottom:1px solid #111}
+.result-row:last-child{border-bottom:none}
+.result-row-label{font-family:var(--FM);font-size:10px;color:var(--td)}
+.result-row-val{font-family:var(--FM);font-size:12px;font-weight:600;color:var(--tx)}
+.result-row-val.pos{color:var(--green)}
+.result-row-val.neg{color:var(--red)}
+.result-row-val.gold{color:var(--gold)}
+
+/* ROI bar */
+.roi-bar-wrap{padding:12px 20px;border-top:1px solid var(--bd)}
+.roi-bar-label{font-family:var(--FM);font-size:9px;color:var(--tm);letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px;display:flex;justify-content:space-between}
+.roi-bar{height:6px;background:var(--s3);border-radius:3px;overflow:hidden}
+.roi-bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+
+/* Quick tip */
+.tip-box{margin-top:14px;background:rgba(200,162,83,.04);border:1px solid rgba(200,162,83,.12);border-radius:var(--r);padding:12px 16px;display:none}
+.tip-box.show{display:block}
+.tip-text{font-family:var(--FM);font-size:11px;color:var(--td);line-height:1.6}
+.tip-text strong{color:var(--gold)}
+
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.nav-calc{
+  color:var(--gold)!important;
+  border:1px solid rgba(200,162,83,.35)!important;
+  background:rgba(200,162,83,.07)!important;
+  border-radius:var(--r)!important;
+  position:relative;
+  overflow:hidden;
+}
+.nav-calc::before{
+  content:'';
+  position:absolute;
+  top:0;bottom:0;left:-60%;
+  width:40%;
+  background:linear-gradient(90deg,transparent,rgba(200,162,83,.35),transparent);
+  animation:calcShine 2.7s ease-in-out infinite;
+  pointer-events:none;
+}
+.nav-calc:hover{
+  background:rgba(200,162,83,.18)!important;
+  border-color:rgba(200,162,83,.7)!important;
+  box-shadow:0 0 14px rgba(200,162,83,.28)!important;
+}
+.nav-calc:hover::before{animation-play-state:paused}
+@keyframes calcShine{
+  0%,74%{transform:translateX(-10%);opacity:0}
+  75%{opacity:1}
+  100%{transform:translateX(340%);opacity:0}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">AlbionMarketCalc</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="market.html" >Market</a></li>
+    <li><a href="flipfinder.html" >Flip Finder</a></li>
+    <li><a href="calculator.html" class="active nav-calc">⚖ Calculator</a></li>
+    <li><a href="craft.html" class="nav-calc">🔥 Best Craft</a></li>
+  </ul>
+</nav>
+
+<!-- Cookie Banner -->
+<div id="cookie-banner" class="hidden">
+  <div class="ck-icon">🍪</div>
+  <div class="ck-body">
+    <div class="ck-title">We use cookies</div>
+    <div class="ck-text">We and our partners (including <strong style="color:#EFEFEF">Google AdSense</strong>) use cookies to personalise ads, analyse site traffic, and improve your experience. See our <a href="privacy.html">Privacy Policy</a>.</div>
+    <div class="ck-btns" style="margin-top:10px">
+      <button class="ck-accept" onclick="acceptCookies()">✓ Accept All</button>
+      <button class="ck-decline" onclick="declineCookies()">Essential Only</button>
+      <button class="ck-settings" onclick="openCkModal()">Manage Preferences</button>
+    </div>
+  </div>
+</div>
+
+<div id="ck-modal">
+  <div class="ck-modal-box">
+    <div class="ck-modal-title">Cookie Preferences</div>
+    <div class="ck-modal-sub">Manage what data we collect</div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">✅ Essential Cookies</span><label class="ck-toggle"><input type="checkbox" checked disabled><span class="ck-slider"></span></label></div><div class="ck-cat-desc">Required for the site to function. Cannot be disabled.</div></div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">📊 Analytics Cookies</span><label class="ck-toggle"><input type="checkbox" id="ck-analytics" checked><span class="ck-slider"></span></label></div><div class="ck-cat-desc">Help us understand how visitors use the site.</div></div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">📣 Advertising Cookies (Google AdSense)</span><label class="ck-toggle"><input type="checkbox" id="ck-ads" checked><span class="ck-slider"></span></label></div><div class="ck-cat-desc">Google AdSense uses cookies to show relevant ads. <a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy ↗</a></div></div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">🎨 Functional Cookies</span><label class="ck-toggle"><input type="checkbox" id="ck-func" checked><span class="ck-slider"></span></label></div><div class="ck-cat-desc">Remember your preferences.</div></div>
+    <div class="ck-modal-btns"><button class="ck-decline" onclick="saveCkSettings()">Save Preferences</button><button class="ck-accept" onclick="acceptCookies()">Accept All</button></div>
+  </div>
+</div>
+
+<div class="calc-page">
+  <div class="calc-wrap">
+
+    <div class="calc-hero">
+      <div class="calc-hero-label">Albion Online · Trade Tool</div>
+      <h1>Market <em>Calculator</em></h1>
+      <p>Calculate your exact profit after tax in seconds.</p>
+    </div>
+
+    <div class="ad-banner" style="margin-bottom:24px">
+      <div class="ad-inner">
+        <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="3333333333"></ins>
+        <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+      </div>
+    </div>
+
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <span style="font-size:16px">⚖️</span>
+        <span>Trade Profit Calculator</span>
+      </div>
+      <div class="calc-card-body">
+
+        <div class="input-row">
+          <div class="input-group">
+            <label class="input-label">Buy Price</label>
+            <div class="input-wrap">
+              <input type="number" id="buyPrice" placeholder="e.g. 50000" min="0" oninput="liveCalc()"/>
+              <span class="input-suffix">silver</span>
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Sell Price</label>
+            <div class="input-wrap">
+              <input type="number" id="sellPrice" placeholder="e.g. 75000" min="0" oninput="liveCalc()"/>
+              <span class="input-suffix">silver</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label class="input-label">Amount</label>
+            <div class="input-wrap">
+              <input type="number" id="amount" placeholder="e.g. 10" min="1" value="1" oninput="liveCalc()"/>
+              <span class="input-suffix">pcs</span>
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Market Tax</label>
+            <div class="input-wrap">
+              <input type="number" id="taxRate" placeholder="6" min="0" max="100" value="6" step="0.1" oninput="liveCalc()"/>
+              <span class="input-suffix">%</span>
+            </div>
+            <div class="tax-presets" id="taxPresets">
+              <span class="tax-preset" onclick="setTax(3)">3% Premium</span>
+              <span class="tax-preset active" onclick="setTax(6)">6% Standard</span>
+              <span class="tax-preset" onclick="setTax(8.5)">8.5% City</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-divider"></div>
+
+        <button class="calc-btn" onclick="calculate()">⚖ Calculate Profit</button>
+
+        <!-- Live result -->
+        <div class="result-box" id="resultBox">
+          <div class="result-header">
+            <span class="result-verdict" id="resultVerdict">—</span>
+            <span class="result-main" id="resultMain">—</span>
+          </div>
+          <div class="result-rows">
+            <div class="result-row">
+              <span class="result-row-label">Total Buy Cost</span>
+              <span class="result-row-val" id="rBuyCost">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-row-label">Gross Revenue</span>
+              <span class="result-row-val" id="rRevenue">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-row-label">Market Tax (<span id="rTaxPct">6</span>%)</span>
+              <span class="result-row-val neg" id="rTax">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-row-label">Net Revenue (after tax)</span>
+              <span class="result-row-val gold" id="rNet">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-row-label">Profit per Item</span>
+              <span class="result-row-val" id="rPerItem">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-row-label" style="font-weight:700;color:var(--tx)">Net Profit (total)</span>
+              <span class="result-row-val" id="rTotal" style="font-size:14px">—</span>
+            </div>
+          </div>
+          <div class="roi-bar-wrap">
+            <div class="roi-bar-label">
+              <span>ROI</span>
+              <span id="roiLabel">0%</span>
+            </div>
+            <div class="roi-bar"><div class="roi-bar-fill" id="roiFill" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <div class="tip-box" id="tipBox">
+          <div class="tip-text" id="tipText"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="ad-banner" style="margin-top:24px">
+      <div class="ad-inner">
+        <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="4444444444"></ins>
+        <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+      </div>
+    </div>
+
+    <!-- Quick tips -->
+    <div style="margin-top:28px;background:var(--s1);border:1px solid var(--bd);border-radius:var(--rl);padding:20px 22px">
+      <div style="font-family:var(--FT);font-size:12px;font-weight:700;margin-bottom:14px;color:var(--gold)">📖 Tax Guide</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="font-size:13px;color:var(--td)"><strong style="color:var(--tx);font-family:var(--FM)">3%</strong> — Premium account, Royal cities</div>
+        <div style="font-size:13px;color:var(--td)"><strong style="color:var(--tx);font-family:var(--FM)">4%</strong> — Premium, Black Market</div>
+        <div style="font-size:13px;color:var(--td)"><strong style="color:var(--tx);font-family:var(--FM)">6%</strong> — No premium, Royal cities</div>
+        <div style="font-size:13px;color:var(--td)"><strong style="color:var(--tx);font-family:var(--FM)">8.5%</strong> — Caerleon / no premium</div>
+      </div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--bd);font-family:var(--FM);font-size:10px;color:var(--tm)">
+        Tax is applied to the sell price only. Buy orders have their own separate 2.5% order fee not included here.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 AlbionMarketCalc.online · Not affiliated with Sandbox Interactive GmbH</p>
+  <div class="footer-links">
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+function fmtS(n){if(!n&&n!==0)return'—';const a=Math.abs(n);let s;if(a>=1e6)s=(n/1e6).toFixed(2)+'M';else if(a>=1e3)s=(n/1e3).toFixed(1)+'K';else s=n.toLocaleString();return s;}
+function fmtFull(n){return(n<0?'-':'')+Math.abs(Math.round(n)).toLocaleString()+' silver';}
+
+function setTax(v){
+  document.getElementById('taxRate').value=v;
+  document.querySelectorAll('.tax-preset').forEach(b=>b.classList.toggle('active', parseFloat(b.textContent)===v));
+}
+
+function liveCalc(){
+  // Only silently validate — don't auto-calculate. User presses the button.
+  // (prevents result showing before user is done typing)
+  const buy=parseFloat(document.getElementById('buyPrice').value)||0;
+  const sell=parseFloat(document.getElementById('sellPrice').value)||0;
+  if(!buy||!sell) document.getElementById('resultBox').classList.remove('show');
+}
+
+function calculate(fromBtn){
+  const buy=parseFloat(document.getElementById('buyPrice').value);
+  const sell=parseFloat(document.getElementById('sellPrice').value);
+  const amt=Math.max(1,parseInt(document.getElementById('amount').value)||1);
+  const tax=parseFloat(document.getElementById('taxRate').value)||6;
+
+  if(!buy||!sell||buy<=0||sell<=0){
+    document.getElementById('resultBox').classList.remove('show');
+    // Shake the inputs to hint something's missing
+    ['buyPrice','sellPrice'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(!(parseFloat(el.value)>0)){
+        el.style.borderColor='var(--red)';
+        setTimeout(()=>el.style.borderColor='',1200);
+      }
+    });
+    return;
+  }
+
+  const taxAmt=sell*amt*(tax/100);
+  const buyCost=buy*amt;
+  const revenue=sell*amt;
+  const netRevenue=revenue-taxAmt;
+  const netProfit=netRevenue-buyCost;
+  const profitPerItem=netProfit/amt;
+  const roi=(netProfit/buyCost)*100;
+
+  // Update tax label
+  document.getElementById('rTaxPct').textContent=tax;
+
+  // Fill rows
+  document.getElementById('rBuyCost').textContent=fmtFull(buyCost);
+  document.getElementById('rRevenue').textContent=fmtFull(revenue);
+  document.getElementById('rTax').textContent='-'+fmtFull(taxAmt);
+  document.getElementById('rNet').textContent=fmtFull(netRevenue);
+  document.getElementById('rPerItem').textContent=(profitPerItem>=0?'+':'')+fmtFull(profitPerItem);
+  document.getElementById('rPerItem').className='result-row-val '+(profitPerItem>=0?'pos':'neg');
+
+  const totalEl=document.getElementById('rTotal');
+  totalEl.textContent=(netProfit>=0?'+':'')+fmtFull(netProfit);
+  totalEl.className='result-row-val '+(netProfit>=0?'pos':'neg');
+
+  // ROI bar
+  const roiClamped=Math.min(Math.max(roi,0),200);
+  const fillPct=Math.min(roiClamped/2,100); // 200% roi = full bar
+  const fillColor=roi<0?'#E05252':roi<10?'#C8A253':'#4CAF82';
+  document.getElementById('roiFill').style.width=fillPct+'%';
+  document.getElementById('roiFill').style.background=fillColor;
+  document.getElementById('roiLabel').textContent=(roi>=0?'+':'')+roi.toFixed(1)+'%';
+
+  // Verdict
+  const box=document.getElementById('resultBox');
+  const verdict=document.getElementById('resultVerdict');
+  const main=document.getElementById('resultMain');
+
+  if(netProfit>0){
+    box.className='result-box show profit';
+    verdict.textContent='✓ Profitable Trade';
+    main.textContent='+'+fmtS(netProfit);
+  } else if(netProfit<0){
+    box.className='result-box show loss';
+    verdict.textContent='✗ Loss Trade';
+    main.textContent=fmtS(netProfit);
+  } else {
+    box.className='result-box show break';
+    verdict.textContent='⇌ Break Even';
+    main.textContent='0';
+  }
+
+  // Tip
+  const tip=document.getElementById('tipBox');
+  const tipText=document.getElementById('tipText');
+  let msg='';
+  if(netProfit>0&&roi<5) msg=`Only <strong>${roi.toFixed(1)}% ROI</strong>. After transport and time cost, this trade might not be worth it.`;
+  else if(roi>50) msg=`<strong>${roi.toFixed(1)}% ROI</strong> is very strong! Double-check prices on the market before committing large quantities.`;
+  else if(roi>0&&roi<=5) msg='Low margin trade. Consider checking the <a href="flipfinder.html" style="color:var(--gold)">Flip Finder</a> for better opportunities.';
+  else if(netProfit<0) msg=`You lose <strong>${fmtS(Math.abs(profitPerItem))}</strong> per item. Lower your buy price or find a better sell city.`;
+
+  if(msg){
+    tipText.innerHTML='💡 ' + msg;
+    tip.classList.add('show');
+  } else {
+    tip.classList.remove('show');
+  }
+
+  // Scroll result into view smoothly
+  setTimeout(()=>{
+    document.getElementById('resultBox').scrollIntoView({behavior:'smooth', block:'nearest'});
+  }, 60);
+}
+
+// Cookie consent
+(function(){
+  const stored=localStorage.getItem('ck_consent_v1');
+  if(!stored) setTimeout(()=>document.getElementById('cookie-banner').classList.remove('hidden'),800);
+})();
+function acceptCookies(){const p={essential:true,analytics:true,ads:true,functional:true};localStorage.setItem('ck_consent_v1',JSON.stringify(p));document.getElementById('cookie-banner').classList.add('hidden');document.getElementById('ck-modal').classList.remove('show');}
+function declineCookies(){const p={essential:true,analytics:false,ads:false,functional:false};localStorage.setItem('ck_consent_v1',JSON.stringify(p));document.getElementById('cookie-banner').classList.add('hidden');}
+function openCkModal(){document.getElementById('ck-modal').classList.add('show');}
+function saveCkSettings(){const p={essential:true,analytics:document.getElementById('ck-analytics').checked,ads:document.getElementById('ck-ads').checked,functional:document.getElementById('ck-func').checked};localStorage.setItem('ck_consent_v1',JSON.stringify(p));document.getElementById('cookie-banner').classList.add('hidden');document.getElementById('ck-modal').classList.remove('show');}
+document.getElementById('ck-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});
+</script>
+</body>
+</html>

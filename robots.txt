@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Disallow: /preview.html
+
+Sitemap: https://albionmarketcalc.online/sitemap.xml

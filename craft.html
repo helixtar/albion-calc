@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Most Profitable Craft Today — AlbionMarketCalc</title>
+<meta name="description" content="Find the most profitable items to craft in Albion Online today. Live material costs vs sell prices, updated in real time."/>
+<meta name="keywords" content="albion online crafting profit, albion best craft today, albion online crafting calculator, albion crafting guide"/>
+<meta name="robots" content="index, follow"/>
+<meta name="author" content="AlbionMarketCalc"/>
+<link rel="canonical" href="https://albionmarketcalc.online/craft.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Most Profitable Craft Today — Albion Online"/>
+<meta property="og:description" content="Live crafting profit margins for Albion Online. Material cost vs sell price, best crafts ranked."/>
+<meta property="og:url" content="https://albionmarketcalc.online/craft.html"/>
+<meta property="og:site_name" content="AlbionMarketCalc"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Craft-specific */
+.craft-header{padding:44px 0 32px}
+.craft-header h1{font-family:var(--FD);font-size:clamp(22px,4vw,38px);font-weight:700;margin-bottom:6px}
+.craft-header h1 em{font-style:normal;color:var(--gold)}
+.craft-header p{color:var(--td);font-size:13px}
+
+/* Filter bar */
+.filter-bar{display:flex;gap:10px;align-items:center;margin-bottom:20px;flex-wrap:wrap;background:var(--s1);border:1px solid var(--bd);border-radius:var(--rl);padding:14px 20px}
+.filter-label{font-family:var(--FM);font-size:9px;letter-spacing:.25em;color:var(--tm);text-transform:uppercase;white-space:nowrap}
+.filter-sel{font-family:var(--FM);font-size:12px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);color:var(--tx);padding:7px 10px;outline:none;cursor:pointer}
+.filter-div{flex:1}
+.scan-btn{font-family:var(--FT);font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;padding:9px 20px;border-radius:var(--r);border:none;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#C8A253,#8A5E24);color:#000;white-space:nowrap}
+.scan-btn:hover{background:linear-gradient(135deg,#FFD700,#C8A253);transform:translateY(-1px)}
+.scan-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* Top winner card */
+.wrap{max-width:1280px!important}
+/* Force table minimum width so columns breathe on PC */
+.ctbl{min-width:820px}
+.craft-table-wrap{overflow:visible}
+#craftResults{overflow-x:auto}
+
+.winner-card{background:var(--s1);border:1px solid var(--bg-gold);border-radius:var(--rl);padding:24px;margin-bottom:20px;display:none;position:relative;overflow:hidden}
+.winner-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(200,162,83,.05),transparent);pointer-events:none}
+.winner-label{font-family:var(--FM);font-size:9px;letter-spacing:.4em;color:var(--gold-d);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.winner-label::before{content:'🔥'}
+.winner-inner{display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:center}
+.winner-icon{width:72px;height:72px;background:var(--s3);border-radius:10px;border:1px solid var(--bg-gold);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.winner-icon img{width:64px;height:64px;object-fit:contain}
+.winner-name{font-family:var(--FD);font-size:18px;font-weight:700;margin-bottom:4px;color:var(--tx)}
+.winner-id{font-family:var(--FM);font-size:9px;color:var(--tm);margin-bottom:10px}
+.winner-mats{display:flex;gap:8px;flex-wrap:wrap}
+.mat-chip{font-family:var(--FM);font-size:10px;padding:3px 9px;border-radius:10px;background:var(--s3);border:1px solid var(--bd);color:var(--td)}
+.winner-stats{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.win-stat{text-align:right}
+.win-stat-label{font-family:var(--FM);font-size:8px;color:var(--tm);letter-spacing:.2em;text-transform:uppercase}
+.win-stat-val{font-family:var(--FM);font-size:20px;font-weight:700}
+
+/* Craft table */
+.craft-table-wrap{background:var(--s1);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden}
+.craft-table-head{background:var(--s2);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd)}
+.craft-table-title{font-family:var(--FT);font-size:15px;font-weight:700;letter-spacing:.04em}
+.craft-count{font-family:var(--FM);font-size:11px;color:var(--td)}
+.ctbl{width:100%;border-collapse:collapse}
+.ctbl th{font-family:var(--FM);font-size:9px;letter-spacing:.18em;color:var(--tm);text-transform:uppercase;padding:13px 18px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}
+.ctbl th.r{text-align:right}
+.ctbl td{padding:15px 18px;border-bottom:1px solid #111;vertical-align:middle;font-size:13px}
+.ctbl tr:last-child td{border-bottom:none}
+.ctbl tr:hover td{background:rgba(255,255,255,.018)}
+.ctbl tr.top1 td{background:rgba(200,162,83,.04)}
+.item-cell{display:flex;align-items:center;gap:10px}
+.ci-icon{width:44px;height:44px;border-radius:8px;background:var(--s3);overflow:hidden;flex-shrink:0;border:1px solid var(--bd);display:flex;align-items:center;justify-content:center}
+.ci-icon img{width:38px;height:38px;object-fit:contain}
+.ci-name{font-family:var(--FT);font-size:13px;font-weight:700;margin-bottom:2px}
+.ci-id{font-family:var(--FM);font-size:9px;color:var(--tm)}
+.mat-mini{font-family:var(--FM);font-size:10px;color:var(--td);line-height:1.9}
+.price-cell{font-family:var(--FM);font-size:12px;font-weight:600;text-align:right}
+.profit-cell{text-align:right}
+.profit-silver{font-family:var(--FM);font-size:13px;font-weight:700}
+.profit-silver.pos{color:var(--green)}
+.profit-silver.neg{color:var(--red)}
+.profit-pct-badge{font-family:var(--FM);font-size:11px;font-weight:700;padding:3px 10px;border-radius:5px;display:inline-block;margin-top:3px}
+.pct-high{background:rgba(76,175,130,.15);color:var(--green);border:1px solid rgba(76,175,130,.3)}
+.pct-med{background:rgba(200,162,83,.12);color:var(--gold);border:1px solid rgba(200,162,83,.25)}
+.pct-low{background:rgba(224,82,82,.1);color:var(--red);border:1px solid rgba(224,82,82,.25)}
+.rank-badge{font-family:var(--FM);font-size:10px;font-weight:700;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rank-1{background:rgba(200,162,83,.2);color:var(--gold);border:1px solid var(--bg-gold)}
+.rank-2{background:rgba(150,150,150,.15);color:#aaa;border:1px solid #333}
+.rank-3{background:rgba(180,100,40,.15);color:#cd7f32;border:1px solid rgba(180,100,40,.3)}
+.rank-n{background:var(--s3);color:var(--tm);border:1px solid var(--bd)}
+
+/* State boxes */
+.state-box{padding:64px 20px;text-align:center}
+.state-icon{font-size:40px;display:block;margin-bottom:12px;opacity:.35}
+.state-msg{font-family:var(--FM);font-size:11px;color:var(--td)}
+.loading-row{display:flex;align-items:center;justify-content:center;gap:10px;padding:40px}
+.spin-s{width:18px;height:18px;border:2px solid var(--bd);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite}
+
+/* Note box */
+.note-box{background:rgba(200,162,83,.04);border:1px solid rgba(200,162,83,.14);border-radius:var(--r);padding:12px 16px;margin-top:16px;font-family:var(--FM);font-size:10px;color:var(--td);line-height:1.7}
+.note-box strong{color:var(--gold)}
+
+.nav-calc{
+  color:var(--gold)!important;
+  border:1px solid rgba(200,162,83,.35)!important;
+  background:rgba(200,162,83,.07)!important;
+  border-radius:var(--r)!important;
+  position:relative;
+  overflow:hidden;
+}
+.nav-calc::before{
+  content:'';
+  position:absolute;
+  top:0;bottom:0;left:-60%;
+  width:40%;
+  background:linear-gradient(90deg,transparent,rgba(200,162,83,.35),transparent);
+  animation:calcShine 2.7s ease-in-out infinite;
+  pointer-events:none;
+}
+.nav-calc:hover{
+  background:rgba(200,162,83,.18)!important;
+  border-color:rgba(200,162,83,.7)!important;
+  box-shadow:0 0 14px rgba(200,162,83,.28)!important;
+}
+.nav-calc:hover::before{animation-play-state:paused}
+@keyframes calcShine{
+  0%,74%{transform:translateX(-10%);opacity:0}
+  75%{opacity:1}
+  100%{transform:translateX(340%);opacity:0}
+}50%{box-shadow:0 0 10px 2px rgba(200,162,83,.2)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+.gold-btn{
+  font-family:var(--FM);
+  font-size:10px;
+  padding:6px 14px;
+  border-radius:var(--r);
+  border:1px solid rgba(200,162,83,.6);
+  background:linear-gradient(135deg,#C8A253,#8A5E24);
+  color:#fff;
+  cursor:pointer;
+  transition:all .2s;
+}
+
+.gold-btn:hover{
+  background:linear-gradient(135deg,#FFD700,#C8A253);
+  box-shadow:0 0 10px rgba(200,162,83,.5);
+  transform:translateY(-1px);
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">AlbionMarketCalc</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="market.html">Market</a></li>
+    <li><a href="flipfinder.html">Flip Finder</a></li>
+    <li><a href="calculator.html" class="nav-calc">⚖ Calculator</a></li>
+    <li><a href="craft.html" class="active nav-calc">🔥 Best Craft</a></li>
+  </ul>
+</nav>
+
+<!-- Cookie Banner -->
+<div id="cookie-banner" class="hidden">
+  <div class="ck-icon">🍪</div>
+  <div class="ck-body">
+    <div class="ck-title">We use cookies</div>
+    <div class="ck-text">We and our partners (including <strong style="color:#EFEFEF">Google AdSense</strong>) use cookies to personalise ads and improve your experience. See our <a href="privacy.html">Privacy Policy</a>.</div>
+    <div class="ck-btns" style="margin-top:10px">
+      <button class="ck-accept" onclick="acceptCookies()">✓ Accept All</button>
+      <button class="ck-decline" onclick="declineCookies()">Essential Only</button>
+      <button class="ck-settings" onclick="openCkModal()">Manage Preferences</button>
+    </div>
+  </div>
+</div>
+<div id="ck-modal">
+  <div class="ck-modal-box">
+    <div class="ck-modal-title">Cookie Preferences</div>
+    <div class="ck-modal-sub">Manage what data we collect</div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">✅ Essential</span><label class="ck-toggle"><input type="checkbox" checked disabled><span class="ck-slider"></span></label></div><div class="ck-cat-desc">Required for the site to function.</div></div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">📊 Analytics</span><label class="ck-toggle"><input type="checkbox" id="ck-analytics" checked><span class="ck-slider"></span></label></div><div class="ck-cat-desc">Anonymous site usage data.</div></div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">📣 Advertising (Google AdSense)</span><label class="ck-toggle"><input type="checkbox" id="ck-ads" checked><span class="ck-slider"></span></label></div><div class="ck-cat-desc">Personalised ads. <a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy ↗</a></div></div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">🎨 Functional</span><label class="ck-toggle"><input type="checkbox" id="ck-func" checked><span class="ck-slider"></span></label></div><div class="ck-cat-desc">Remembers your preferences.</div></div>
+    <div class="ck-modal-btns"><button class="ck-decline" onclick="saveCkSettings()">Save</button><button class="ck-accept" onclick="acceptCookies()">Accept All</button></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="craft-header">
+    <h1>🔥 Most Profitable <em>Craft Today</em></h1>
+    <p>Live material cost vs. sell price. Ranked by profit margin. Data from Albion Online Data Project.</p>
+  </div>
+
+  <!-- Ad top -->
+  <div style="margin-bottom:24px">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <span class="filter-label">City</span>
+    <select class="filter-sel" id="selCity">
+      <option value="Caerleon">Caerleon</option>
+      <option value="Bridgewatch">Bridgewatch</option>
+      <option value="Martlock">Martlock</option>
+      <option value="Thetford">Thetford</option>
+      <option value="Fort Sterling">Fort Sterling</option>
+      <option value="Lymhurst">Lymhurst</option>
+    </select>
+    <span class="filter-label" style="margin-left:8px">Category</span>
+    <select class="filter-sel" id="selCat">
+      <option value="all">All Crafts</option>
+      <option value="weapons">Weapons</option>
+      <option value="armor">Armor</option>
+      <option value="resources">Refined Resources</option>
+    </select>
+    <span class="filter-label" style="margin-left:8px">Tier</span>
+    <select class="filter-sel" id="selTier">
+      <option value="all">All Tiers</option>
+      <option value="4">T4</option>
+      <option value="5">T5</option>
+      <option value="6" selected>T6</option>
+      <option value="7">T7</option>
+      <option value="8">T8</option>
+    </select>
+    <div class="filter-div"></div>
+    <button class="scan-btn" id="scanBtn" onclick="runCraftScan()">🔥 Scan Crafts</button>
+  </div>
+
+  <!-- Winner card -->
+  <div class="winner-card" id="winnerCard">
+    <div class="winner-label">Best Craft Right Now</div>
+    <div class="winner-inner">
+      <div class="winner-icon"><img id="wIcon" src="" alt=""/></div>
+      <div>
+        <div class="winner-name" id="wName">—</div>
+        <div class="winner-id" id="wId">—</div>
+        <div class="winner-mats" id="wMats"></div>
+      </div>
+      <div class="winner-stats">
+        <div class="win-stat">
+          <div class="win-stat-label">Profit Margin</div>
+          <div class="win-stat-val" id="wPct" style="color:var(--green)">—</div>
+        </div>
+        <div class="win-stat" style="margin-top:6px">
+          <div class="win-stat-label">Net Profit</div>
+          <div class="win-stat-val" id="wProfit" style="color:var(--gold);font-size:15px">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP scroll anchor + page info -->
+  <div id="craft-pag-top" style="margin-bottom:8px"></div>
+
+  <!-- Results table -->
+  <div class="craft-table-wrap" id="craftTable">
+    <div class="craft-table-head">
+      <span class="craft-table-title">Crafting Profit Rankings</span>
+      <span class="craft-count" id="craftCount">—</span>
+    </div>
+    <div id="craftResults">
+      <div class="state-box">
+        <span class="state-icon">⚒️</span>
+        <p class="state-msg">Select your city and click "Scan Crafts" to find the best crafts</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM pagination -->
+  <div id="craft-pag-bot" style="margin-top:8px"></div>
+
+  <div class="note-box">
+    <strong>Note:</strong> Prices are from the Albion Online Data Project community API and may be slightly delayed.
+    Material costs assume buying from the market (sell price). Craft does not include <strong>focus cost</strong> or <strong>return rate</strong>.
+    For a more accurate estimate, multiply material cost by <strong>0.8 with 100% focus</strong>.
+  </div>
+
+  <!-- Ad bottom -->
+  <div style="margin:24px 0">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="4444444444" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 AlbionMarketCalc.online · Not affiliated with Sandbox Interactive GmbH</p>
+  <div class="footer-links">
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+const HOSTS=['https://west.albion-online-data.com','https://europe.albion-online-data.com'];
+const ICON='https://render.albiononline.com/v1/item';
+
+// ── Craft Recipe Database ─────────────────────────────────────────────────
+// Each recipe: { id, name, cat, tier, materials:[{id,qty,label}] }
+// profit = sell_price - sum(material_price * qty)
+// profit_margin = profit / material_cost
+const RECIPES = [
+  // ── WEAPONS ──────────────────────────────────────────────────────────────
+  // Swords
+  {id:'T4_MAIN_SWORD',    name:'Broadsword T4',    cat:'weapons',tier:4, mats:[{id:'T4_METALBAR',qty:8,  l:'Steel Bar T4'}]},
+  {id:'T5_MAIN_SWORD',    name:'Broadsword T5',    cat:'weapons',tier:5, mats:[{id:'T5_METALBAR',qty:12, l:'Steel Bar T5'},{id:'T4_METALBAR',qty:4,l:'Steel Bar T4'}]},
+  {id:'T6_MAIN_SWORD',    name:'Broadsword T6',    cat:'weapons',tier:6, mats:[{id:'T6_METALBAR',qty:16, l:'Titanium Bar'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
+  {id:'T7_MAIN_SWORD',    name:'Broadsword T7',    cat:'weapons',tier:7, mats:[{id:'T7_METALBAR',qty:20, l:'Runite Bar'},{id:'T6_METALBAR',qty:4,l:'Titanium Bar'}]},
+  {id:'T8_MAIN_SWORD',    name:'Broadsword T8',    cat:'weapons',tier:8, mats:[{id:'T8_METALBAR',qty:24, l:'Meteor Bar'},{id:'T7_METALBAR',qty:4,l:'Runite Bar'}]},
+  // Claymores
+  {id:'T6_2H_CLAYMORE',   name:'Claymore T6',      cat:'weapons',tier:6, mats:[{id:'T6_METALBAR',qty:20, l:'Titanium Bar'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
+  {id:'T7_2H_CLAYMORE',   name:'Claymore T7',      cat:'weapons',tier:7, mats:[{id:'T7_METALBAR',qty:24, l:'Runite Bar'},{id:'T6_METALBAR',qty:4,l:'Titanium Bar'}]},
+  {id:'T8_2H_CLAYMORE',   name:'Claymore T8',      cat:'weapons',tier:8, mats:[{id:'T8_METALBAR',qty:28, l:'Meteor Bar'},{id:'T7_METALBAR',qty:4,l:'Runite Bar'}]},
+  // Bows
+  {id:'T5_2H_BOW',        name:'Bow T5',           cat:'weapons',tier:5, mats:[{id:'T5_PLANKS',qty:12,  l:'Ashenbark Planks'},{id:'T4_PLANKS',qty:4,l:'Cedar Planks'}]},
+  {id:'T6_2H_BOW',        name:'Bow T6',           cat:'weapons',tier:6, mats:[{id:'T6_PLANKS',qty:16,  l:'Whitewood Planks'},{id:'T5_PLANKS',qty:4,l:'Ashenbark Planks'}]},
+  {id:'T7_2H_BOW',        name:'Bow T7',           cat:'weapons',tier:7, mats:[{id:'T7_PLANKS',qty:20,  l:'Gravite Planks'},{id:'T6_PLANKS',qty:4,l:'Whitewood Planks'}]},
+  {id:'T8_2H_BOW',        name:'Bow T8',           cat:'weapons',tier:8, mats:[{id:'T8_PLANKS',qty:24,  l:'Bloodoak Planks'},{id:'T7_PLANKS',qty:4,l:'Gravite Planks'}]},
+  // Staffs
+  {id:'T6_MAIN_FIRE',     name:'Fire Staff T6',    cat:'weapons',tier:6, mats:[{id:'T6_PLANKS',qty:16,  l:'Whitewood Planks'},{id:'T5_PLANKS',qty:4,l:'Ashenbark Planks'}]},
+  {id:'T7_MAIN_FIRE',     name:'Fire Staff T7',    cat:'weapons',tier:7, mats:[{id:'T7_PLANKS',qty:20,  l:'Gravite Planks'},{id:'T6_PLANKS',qty:4,l:'Whitewood Planks'}]},
+  {id:'T8_MAIN_FIRE',     name:'Fire Staff T8',    cat:'weapons',tier:8, mats:[{id:'T8_PLANKS',qty:24,  l:'Bloodoak Planks'},{id:'T7_PLANKS',qty:4,l:'Gravite Planks'}]},
+  {id:'T6_MAIN_NATURE',   name:'Nature Staff T6',  cat:'weapons',tier:6, mats:[{id:'T6_PLANKS',qty:16,  l:'Whitewood Planks'},{id:'T5_PLANKS',qty:4,l:'Ashenbark Planks'}]},
+  {id:'T7_MAIN_NATURE',   name:'Nature Staff T7',  cat:'weapons',tier:7, mats:[{id:'T7_PLANKS',qty:20,  l:'Gravite Planks'},{id:'T6_PLANKS',qty:4,l:'Whitewood Planks'}]},
+  // Axes
+  {id:'T6_MAIN_AXE',      name:'Axe T6',           cat:'weapons',tier:6, mats:[{id:'T6_METALBAR',qty:16, l:'Titanium Bar'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
+  {id:'T7_MAIN_AXE',      name:'Axe T7',           cat:'weapons',tier:7, mats:[{id:'T7_METALBAR',qty:20, l:'Runite Bar'},{id:'T6_METALBAR',qty:4,l:'Titanium Bar'}]},
+  {id:'T8_MAIN_AXE',      name:'Axe T8',           cat:'weapons',tier:8, mats:[{id:'T8_METALBAR',qty:24, l:'Meteor Bar'},{id:'T7_METALBAR',qty:4,l:'Runite Bar'}]},
+  // ── ARMOR ─────────────────────────────────────────────────────────────────
+  // Plate (Knight)
+  {id:'T5_ARMOR_PLATE_SET1', name:'Knight Armor T5', cat:'armor',tier:5, mats:[{id:'T5_METALBAR',qty:12, l:'Steel Bar T5'},{id:'T4_METALBAR',qty:4,l:'Steel Bar T4'}]},
+  {id:'T6_ARMOR_PLATE_SET1', name:'Knight Armor T6', cat:'armor',tier:6, mats:[{id:'T6_METALBAR',qty:16, l:'Titanium Bar'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
+  {id:'T7_ARMOR_PLATE_SET1', name:'Knight Armor T7', cat:'armor',tier:7, mats:[{id:'T7_METALBAR',qty:20, l:'Runite Bar'},{id:'T6_METALBAR',qty:4,l:'Titanium Bar'}]},
+  {id:'T8_ARMOR_PLATE_SET1', name:'Knight Armor T8', cat:'armor',tier:8, mats:[{id:'T8_METALBAR',qty:24, l:'Meteor Bar'},{id:'T7_METALBAR',qty:4,l:'Runite Bar'}]},
+  {id:'T6_HEAD_PLATE_SET1',  name:'Knight Helm T6',  cat:'armor',tier:6, mats:[{id:'T6_METALBAR',qty:12, l:'Titanium Bar'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
+  {id:'T7_HEAD_PLATE_SET1',  name:'Knight Helm T7',  cat:'armor',tier:7, mats:[{id:'T7_METALBAR',qty:16, l:'Runite Bar'},{id:'T6_METALBAR',qty:4,l:'Titanium Bar'}]},
+  {id:'T6_SHOES_PLATE_SET1', name:'Knight Boots T6', cat:'armor',tier:6, mats:[{id:'T6_METALBAR',qty:12, l:'Titanium Bar'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
+  // Leather (Hunter)
+  {id:'T5_ARMOR_LEATHER_SET1', name:'Hunter Jacket T5', cat:'armor',tier:5, mats:[{id:'T5_LEATHER',qty:12, l:'Thick Hide T5'},{id:'T4_LEATHER',qty:4,l:'Thin Hide T4'}]},
+  {id:'T6_ARMOR_LEATHER_SET1', name:'Hunter Jacket T6', cat:'armor',tier:6, mats:[{id:'T6_LEATHER',qty:16, l:'Robust Hide T6'},{id:'T5_LEATHER',qty:4,l:'Thick Hide T5'}]},
+  {id:'T7_ARMOR_LEATHER_SET1', name:'Hunter Jacket T7', cat:'armor',tier:7, mats:[{id:'T7_LEATHER',qty:20, l:'Infernal Hide T7'},{id:'T6_LEATHER',qty:4,l:'Robust Hide T6'}]},
+  {id:'T8_ARMOR_LEATHER_SET1', name:'Hunter Jacket T8', cat:'armor',tier:8, mats:[{id:'T8_LEATHER',qty:24, l:'Morgana Hide T8'},{id:'T7_LEATHER',qty:4,l:'Infernal Hide T7'}]},
+  {id:'T6_HEAD_LEATHER_SET1',  name:'Hunter Hood T6',   cat:'armor',tier:6, mats:[{id:'T6_LEATHER',qty:12, l:'Robust Hide T6'},{id:'T5_LEATHER',qty:4,l:'Thick Hide T5'}]},
+  {id:'T7_HEAD_LEATHER_SET1',  name:'Hunter Hood T7',   cat:'armor',tier:7, mats:[{id:'T7_LEATHER',qty:16, l:'Infernal Hide T7'},{id:'T6_LEATHER',qty:4,l:'Robust Hide T6'}]},
+  // Cloth (Scholar)
+  {id:'T5_ARMOR_CLOTH_SET1', name:'Scholar Robe T5', cat:'armor',tier:5, mats:[{id:'T5_CLOTH',qty:12, l:'Skyflower Cloth'},{id:'T4_CLOTH',qty:4,l:'Hemp Cloth'}]},
+  {id:'T6_ARMOR_CLOTH_SET1', name:'Scholar Robe T6', cat:'armor',tier:6, mats:[{id:'T6_CLOTH',qty:16, l:'Redleaf Cloth'},{id:'T5_CLOTH',qty:4,l:'Skyflower Cloth'}]},
+  {id:'T7_ARMOR_CLOTH_SET1', name:'Scholar Robe T7', cat:'armor',tier:7, mats:[{id:'T7_CLOTH',qty:20, l:'Sunflax Cloth'},{id:'T6_CLOTH',qty:4,l:'Redleaf Cloth'}]},
+  {id:'T8_ARMOR_CLOTH_SET1', name:'Scholar Robe T8', cat:'armor',tier:8, mats:[{id:'T8_CLOTH',qty:24, l:'Ghostweb Silk'},{id:'T7_CLOTH',qty:4,l:'Sunflax Cloth'}]},
+  {id:'T6_HEAD_CLOTH_SET1',  name:'Scholar Cowl T6', cat:'armor',tier:6, mats:[{id:'T6_CLOTH',qty:12, l:'Redleaf Cloth'},{id:'T5_CLOTH',qty:4,l:'Skyflower Cloth'}]},
+  {id:'T7_HEAD_CLOTH_SET1',  name:'Scholar Cowl T7', cat:'armor',tier:7, mats:[{id:'T7_CLOTH',qty:16, l:'Sunflax Cloth'},{id:'T6_CLOTH',qty:4,l:'Redleaf Cloth'}]},
+  // ── REFINED RESOURCES ─────────────────────────────────────────────────────
+  // Metal Bars (1 bar = 2 ore)
+  {id:'T4_METALBAR', name:'Steel Bar T4',    cat:'resources',tier:4, mats:[{id:'T4_ORE',qty:2, l:'Tungsten Ore'}]},
+  {id:'T5_METALBAR', name:'Steel Bar T5',    cat:'resources',tier:5, mats:[{id:'T5_ORE',qty:2, l:'Steel Ore'},{id:'T4_ORE',qty:1,l:'Tungsten Ore'}]},
+  {id:'T6_METALBAR', name:'Titanium Bar T6', cat:'resources',tier:6, mats:[{id:'T6_ORE',qty:2, l:'Titanium Ore'},{id:'T5_ORE',qty:1,l:'Steel Ore'}]},
+  {id:'T7_METALBAR', name:'Runite Bar T7',   cat:'resources',tier:7, mats:[{id:'T7_ORE',qty:2, l:'Runite Ore'},{id:'T6_ORE',qty:1,l:'Titanium Ore'}]},
+  {id:'T8_METALBAR', name:'Meteor Bar T8',   cat:'resources',tier:8, mats:[{id:'T8_ORE',qty:2, l:'Meteorite Ore'},{id:'T7_ORE',qty:1,l:'Runite Ore'}]},
+  // Planks (1 plank = 2 wood)
+  {id:'T4_PLANKS',   name:'Cedar Planks T4', cat:'resources',tier:4, mats:[{id:'T4_WOOD',qty:2, l:'Cedar Wood'}]},
+  {id:'T5_PLANKS',   name:'Ashenbark T5',    cat:'resources',tier:5, mats:[{id:'T5_WOOD',qty:2, l:'Bloodoak Wood'},{id:'T4_WOOD',qty:1,l:'Cedar Wood'}]},
+  {id:'T6_PLANKS',   name:'Whitewood T6',    cat:'resources',tier:6, mats:[{id:'T6_WOOD',qty:2, l:'Ashenbark Wood'},{id:'T5_WOOD',qty:1,l:'Bloodoak Wood'}]},
+  {id:'T7_PLANKS',   name:'Gravite T7',      cat:'resources',tier:7, mats:[{id:'T7_WOOD',qty:2, l:'Whitewood'},{id:'T6_WOOD',qty:1,l:'Ashenbark Wood'}]},
+  {id:'T8_PLANKS',   name:'Bloodoak T8',     cat:'resources',tier:8, mats:[{id:'T8_WOOD',qty:2, l:'Gravite Wood'},{id:'T7_WOOD',qty:1,l:'Whitewood'}]},
+  // Cloth
+  {id:'T4_CLOTH',    name:'Hemp Cloth T4',   cat:'resources',tier:4, mats:[{id:'T4_FIBER',qty:2, l:'Hemp Fiber'}]},
+  {id:'T5_CLOTH',    name:'Skyflower T5',    cat:'resources',tier:5, mats:[{id:'T5_FIBER',qty:2, l:'Skyflower Fiber'},{id:'T4_FIBER',qty:1,l:'Hemp Fiber'}]},
+  {id:'T6_CLOTH',    name:'Redleaf T6',      cat:'resources',tier:6, mats:[{id:'T6_FIBER',qty:2, l:'Redleaf Fiber'},{id:'T5_FIBER',qty:1,l:'Skyflower Fiber'}]},
+  {id:'T7_CLOTH',    name:'Sunflax T7',      cat:'resources',tier:7, mats:[{id:'T7_FIBER',qty:2, l:'Sunflax Fiber'},{id:'T6_FIBER',qty:1,l:'Redleaf Fiber'}]},
+  {id:'T8_CLOTH',    name:'Ghostweb T8',     cat:'resources',tier:8, mats:[{id:'T8_FIBER',qty:2, l:'Ghost Hemp'},{id:'T7_FIBER',qty:1,l:'Sunflax Fiber'}]},
+  // Leather
+  {id:'T4_LEATHER',  name:'Thin Hide T4',    cat:'resources',tier:4, mats:[{id:'T4_HIDE',qty:2, l:'Medium Hide'}]},
+  {id:'T5_LEATHER',  name:'Thick Hide T5',   cat:'resources',tier:5, mats:[{id:'T5_HIDE',qty:2, l:'Heavy Hide'},{id:'T4_HIDE',qty:1,l:'Medium Hide'}]},
+  {id:'T6_LEATHER',  name:'Robust Hide T6',  cat:'resources',tier:6, mats:[{id:'T6_HIDE',qty:2, l:'Robust Hide'},{id:'T5_HIDE',qty:1,l:'Heavy Hide'}]},
+  {id:'T7_LEATHER',  name:'Infernal T7',     cat:'resources',tier:7, mats:[{id:'T7_HIDE',qty:2, l:'Thick Hide'},{id:'T6_HIDE',qty:1,l:'Robust Hide'}]},
+  {id:'T8_LEATHER',  name:'Morgana Hide T8', cat:'resources',tier:8, mats:[{id:'T8_HIDE',qty:2, l:'Infernal Hide'},{id:'T7_HIDE',qty:1,l:'Thick Hide'}]},
+];
+
+function fmtS(n){if(!n&&n!==0)return'—';const a=Math.abs(n);let s;if(a>=1e6)s=(n/1e6).toFixed(2)+'M';else if(a>=1e3)s=(n/1e3).toFixed(1)+'K';else s=Math.round(n).toLocaleString();return(n<0&&a>=1?'-':'')+s;}
+
+async function apiFetch(path){
+  for(const h of HOSTS){
+    for(const url of[h+path,'https://corsproxy.io/?'+encodeURIComponent(h+path)]){
+      try{const r=await fetch(url,{signal:AbortSignal.timeout(8000)});if(r.ok)return await r.json();}catch(e){}
+    }
+  }
+  return null;
+}
+
+async function runCraftScan(){
+  const city = document.getElementById('selCity').value;
+  const catFilter = document.getElementById('selCat').value;
+  const tierFilter = document.getElementById('selTier').value;
+  const btn = document.getElementById('scanBtn');
+  btn.disabled=true; btn.textContent='Scanning...';
+
+  document.getElementById('winnerCard').style.display='none';
+  document.getElementById('craftResults').innerHTML=`<div class="loading-row"><div class="spin-s"></div><span style="font-family:var(--FM);font-size:11px;color:var(--td)">Fetching prices for ${city}...</span></div>`;
+
+  // Filter recipes
+  let recipes = RECIPES;
+  if(catFilter!=='all') recipes=recipes.filter(r=>r.cat===catFilter);
+  if(tierFilter!=='all') recipes=recipes.filter(r=>r.tier===parseInt(tierFilter));
+
+  // Collect all unique item IDs needed (crafted items + all materials)
+  const allIds = new Set();
+  recipes.forEach(r=>{
+    allIds.add(r.id);
+    r.mats.forEach(m=>allIds.add(m.id));
+  });
+
+  // Fetch all prices in batches
+  const ids=[...allIds];
+  const priceMap={}; // id -> sell_price_min (in selected city)
+  const BATCH=40;
+  const cityEnc=encodeURIComponent(city);
+
+  for(let i=0;i<ids.length;i+=BATCH){
+    const batch=ids.slice(i,i+BATCH);
+    const data=await apiFetch(`/api/v2/stats/prices/${batch.join(',')}?locations=${cityEnc}&qualities=1`);
+    if(data) data.forEach(d=>{
+      if(d.sell_price_min>0) priceMap[d.item_id]=d.sell_price_min;
+    });
+  }
+
+  // Calculate profit for each recipe
+  const results=[];
+  recipes.forEach(recipe=>{
+    const sellPrice=priceMap[recipe.id];
+    if(!sellPrice||sellPrice<=0) return;
+
+    let matCost=0;
+    let missingMats=false;
+    recipe.mats.forEach(m=>{
+      const mp=priceMap[m.id];
+      if(!mp||mp<=0){missingMats=true;return;}
+      matCost+=mp*m.qty;
+    });
+    if(missingMats||matCost<=0) return;
+
+    const profit=sellPrice-matCost;
+    const margin=(profit/matCost)*100;
+
+    // Sanity check: margin > 500% = bad data
+    if(margin>500) return;
+
+    results.push({recipe, sellPrice, matCost, profit, margin});
+  });
+
+  // Sort by margin desc
+  results.sort((a,b)=>b.margin-a.margin);
+
+  btn.disabled=false; btn.textContent='🔥 Scan Crafts';
+  document.getElementById('craftCount').textContent=`${results.length} crafts analyzed`;
+
+  if(results.length===0){
+    document.getElementById('craftResults').innerHTML=`<div class="state-box"><span class="state-icon">📭</span><p class="state-msg">No craft data found for ${city}. Try a different city or check back later.</p></div>`;
+    document.getElementById('craft-pag-top').innerHTML='';
+    document.getElementById('craft-pag-bot').innerHTML='';
+    return;
+  }
+
+  // ── Winner card ──────────────────────────────────────────────────────────
+  const best=results[0];
+  const wc=document.getElementById('winnerCard');
+  wc.style.display='block';
+  wc.style.animation='fadeIn .4s ease';
+  document.getElementById('wIcon').src=`${ICON}/${best.recipe.id}.png?size=128&quality=1`;
+  document.getElementById('wName').textContent=best.recipe.name;
+  document.getElementById('wId').textContent=best.recipe.id+' · '+city;
+  document.getElementById('wMats').innerHTML=best.recipe.mats.map(m=>`<span class="mat-chip">${m.qty}× ${m.l}</span>`).join('');
+  document.getElementById('wPct').textContent=(best.margin>=0?'+':'')+best.margin.toFixed(1)+'%';
+  document.getElementById('wProfit').textContent=(best.profit>=0?'+':'')+fmtS(best.profit)+' silver';
+
+  // ── Table ────────────────────────────────────────────────────────────────
+  const rows=results.slice(0,30).map((r,i)=>{
+    const rankCls=i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-n';
+    const pctCls=r.margin>30?'pct-high':r.margin>10?'pct-med':'pct-low';
+    const matHtml=r.recipe.mats.map(m=>{
+      const mp=priceMap[m.id];
+      return `${m.qty}× <strong style="color:var(--tx)">${m.l}</strong> <span style="color:var(--gold)">${fmtS(mp)}</span>`;
+    }).join('<br/>');
+
+    return `<tr class="${i===0?'top1':''}">
+      <td><span class="rank-badge ${rankCls}">${i+1}</span></td>
+      <td><div class="item-cell">
+        <div class="ci-icon"><img src="${ICON}/${r.recipe.id}.png?size=64&quality=1" alt="" onerror="this.style.display='none'"/></div>
+        <div><div class="ci-name">${r.recipe.name}</div><div class="ci-id">${r.recipe.id}</div></div>
+      </div></td>
+      <td><div class="mat-mini">${matHtml}</div></td>
+      <td class="price-cell">${fmtS(r.matCost)}<br/><span style="font-family:var(--FM);font-size:9px;color:var(--tm)">mat cost</span></td>
+      <td class="price-cell">${fmtS(r.sellPrice)}<br/><span style="font-family:var(--FM);font-size:9px;color:var(--tm)">sell price</span></td>
+      <td class="profit-cell">
+        <div class="profit-silver ${r.profit>=0?'pos':'neg'}">${r.profit>=0?'+':''}${fmtS(r.profit)}</div>
+        <span class="profit-pct-badge ${pctCls}">${r.margin>=0?'+':''}${r.margin.toFixed(1)}%</span>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('craftResults').innerHTML=`
+    <div style="overflow-x:auto">
+      <table class="ctbl">
+        <thead><tr>
+          <th style="width:44px">#</th>
+          <th>Item</th>
+          <th>Materials</th>
+          <th class="r">Mat Cost</th>
+          <th class="r">Sell Price</th>
+          <th class="r">Profit</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+
+  // Build a simple page info / scroll nav for dual scroll
+  // Top nav — scroll DOWN to table
+  document.getElementById('craft-pag-top').innerHTML = `<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;font-family:var(--FM);font-size:10px;color:var(--tm)">
+    <span>${results.length} crafts ranked by margin</span>
+    <button class="gold-btn"
+	onclick="document.getElementById('craft-pag-bot').scrollIntoView({behavior:'smooth',block:'start'})" style="font-family:var(--FM);font-size:10px;padding:5px 12px;border:1px solid var(--bd);border-radius:var(--r);background:var(--s2);color:var(--td);cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='rgba(200,162,83,.4)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--bd)';this.style.color='var(--td)'">&#8681; Jump to Results</button>
+  </div>`;
+  // Bottom nav — scroll UP to top of page
+  document.getElementById('craft-pag-bot').innerHTML = `<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;font-family:var(--FM);font-size:10px;color:var(--tm)">
+    <span>${results.length} crafts ranked by margin</span>
+    <button onclick="window.scrollTo({top:0,behavior:'smooth'})" style="font-family:var(--FM);font-size:10px;padding:5px 12px;border:1px solid var(--bd);border-radius:var(--r);background:var(--s2);color:var(--td);cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='rgba(200,162,83,.4)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--bd)';this.style.color='var(--td)'">&#8679; Back to Top</button>
+  </div>`;
+
+  // Scroll to results automatically
+  setTimeout(()=>document.getElementById('craft-pag-top').scrollIntoView({behavior:'smooth',block:'start'}), 100);
+}
+
+// Cookie consent
+(function(){
+  const s=localStorage.getItem('ck_consent_v1');
+  if(!s) setTimeout(()=>document.getElementById('cookie-banner').classList.remove('hidden'),800);
+})();
+function acceptCookies(){localStorage.setItem('ck_consent_v1',JSON.stringify({essential:true,analytics:true,ads:true,functional:true}));document.getElementById('cookie-banner').classList.add('hidden');document.getElementById('ck-modal').classList.remove('show');}
+function declineCookies(){localStorage.setItem('ck_consent_v1',JSON.stringify({essential:true,analytics:false,ads:false,functional:false}));document.getElementById('cookie-banner').classList.add('hidden');}
+function openCkModal(){document.getElementById('ck-modal').classList.add('show');}
+function saveCkSettings(){localStorage.setItem('ck_consent_v1',JSON.stringify({essential:true,analytics:document.getElementById('ck-analytics').checked,ads:document.getElementById('ck-ads').checked,functional:document.getElementById('ck-func').checked}));document.getElementById('cookie-banner').classList.add('hidden');document.getElementById('ck-modal').classList.remove('show');}
+document.getElementById('ck-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});
+
+// Auto-scan on load with default settings
+window.addEventListener('load',()=>runCraftScan());
+</script>
+</body>
+</html>

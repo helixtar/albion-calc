@@ -3,110 +3,84 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>About — AlbionMarketCalc</title>
-<meta name="description" content="About AlbionMarketCalc — free real-time Albion Online market price tool."/>
+<title>About AlbionMarketCalc — Free Albion Online Market Tool</title>
+<meta name="description" content="AlbionMarketCalc is a free community tool for Albion Online. Real-time prices, flip finder, profit calculator, crafting profit tracker and individual item pages across all 6 cities."/>
+<meta name="keywords" content="albion online market tool, albion online price tracker, albion flip finder, albion crafting calculator, albion market calculator"/>
+<meta name="robots" content="index, follow"/>
+<meta name="author" content="AlbionMarketCalc"/>
+<link rel="canonical" href="https://albionmarketcalc.online/about.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="About AlbionMarketCalc"/>
+<meta property="og:description" content="Free Albion Online market tool — prices, flip finder, calculator and crafting profit tracker."/>
+<meta property="og:url" content="https://albionmarketcalc.online/about.html"/>
+<meta property="og:site_name" content="AlbionMarketCalc"/>
+<meta name="twitter:card" content="summary"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 <style>
-:root{--gold:#C8A253;--gold-d:#7A6230;--bg:#070707;--s1:#0f0f0f;--s2:#161616;--tx:#EFEFEF;--td:#888;--tm:#444;--bd:#222;--bg-gold:rgba(200,162,83,.25);--FD:'Cinzel Decorative',serif;--FT:'Cinzel',serif;--FB:'Rajdhani',sans-serif;--FM:'IBM Plex Mono',monospace;--r:6px;--rl:10px}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--tx);font-family:var(--FB);font-size:15px;line-height:1.7;min-height:100vh}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-d);border-radius:2px}
-nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(7,7,7,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--bg-gold);height:54px;display:flex;align-items:center;padding:0 24px;gap:24px}
-.logo{font-family:var(--FD);font-size:11px;color:var(--gold);text-decoration:none;letter-spacing:.05em;text-shadow:0 0 20px rgba(200,162,83,.4)}
-.nav-links{display:flex;gap:2px;list-style:none;flex:1}
-.nav-links a{font-family:var(--FT);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--td);text-decoration:none;padding:6px 12px;border-radius:var(--r);transition:all .18s}
-.nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(200,162,83,.07)}
-.wrap{max-width:760px;margin:0 auto;padding:88px 24px 64px}
-h1{font-family:var(--FD);font-size:clamp(22px,4vw,36px);font-weight:700;margin-bottom:8px;line-height:1.1}
-h1 em{font-style:normal;color:var(--gold)}
-.subtitle{font-family:var(--FM);font-size:10px;letter-spacing:.3em;color:var(--gold-d);text-transform:uppercase;margin-bottom:36px}
-.section{margin-bottom:36px}
-.section h2{font-family:var(--FT);font-size:16px;font-weight:700;color:var(--gold);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--bd)}
-.section p{color:var(--td);font-size:14px;margin-bottom:12px}
-.section p:last-child{margin-bottom:0}
-.section a{color:var(--gold);text-decoration:none}
-.section a:hover{text-decoration:underline}
-.card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--rl);padding:20px 24px;margin-bottom:12px}
-.card strong{color:var(--tx);font-family:var(--FT);font-size:13px;display:block;margin-bottom:4px}
-footer{border-top:1px solid var(--bd);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:40px}
-footer p{font-family:var(--FM);font-size:10px;color:var(--tm)}
-footer a{color:var(--gold-d);text-decoration:none}
-.footer-links{display:flex;gap:16px}
-@media(max-width:600px){.nav-links{display:none}}
-
-/* Cookie Banner */
-#cookieBanner{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0f0f0f;border-top:1px solid rgba(200,162,83,.3);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;transform:translateY(100%);transition:transform .4s ease;font-family:'Rajdhani',sans-serif}
-#cookieBanner.show{transform:translateY(0)}
-#cookieBanner p{font-size:13px;color:#888;line-height:1.5;flex:1;min-width:200px}
-#cookieBanner a{color:#C8A253;text-decoration:none}
-#cookieBanner a:hover{text-decoration:underline}
-.cookie-btns{display:flex;gap:8px;flex-shrink:0}
-#cookieAccept{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:9px 20px;background:linear-gradient(135deg,#C8A253,#8A5E24);color:#000;border:none;border-radius:6px;cursor:pointer;transition:all .2s}
-#cookieAccept:hover{background:linear-gradient(135deg,#FFD700,#C8A253)}
-#cookieDecline{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:9px 16px;background:transparent;color:#666;border:1px solid #222;border-radius:6px;cursor:pointer;transition:all .2s}
-#cookieDecline:hover{border-color:#444;color:#888}
-
-footer{border-top:1px solid var(--bd);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;background:var(--s1)}
-footer p{font-family:var(--FM);font-size:10px;color:#666}
-.footer-links{display:flex;gap:16px}
-.footer-links a{font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;opacity:.8}
-.footer-links a:hover{opacity:1}
-
-/* ── Cookie Banner ── */
-#cookie-banner{
-  position:fixed;bottom:0;left:0;right:0;z-index:9999;
-  background:#0d0d0d;border-top:1px solid rgba(200,162,83,.3);
-  padding:18px 24px;display:flex;align-items:flex-start;gap:20px;
-  box-shadow:0 -8px 32px rgba(0,0,0,.6);
-  animation:slideUp .35s ease;
-  font-family:'Rajdhani',sans-serif;
-}
-#cookie-banner.hidden{display:none}
-.ck-icon{font-size:28px;flex-shrink:0;margin-top:2px}
-.ck-body{flex:1}
-.ck-title{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:#EFEFEF;margin-bottom:5px}
-.ck-text{font-size:13px;color:#888;line-height:1.6;max-width:780px}
-.ck-text a{color:#C8A253;text-decoration:none}
-.ck-text a:hover{text-decoration:underline}
-.ck-btns{display:flex;gap:8px;flex-shrink:0;align-items:center;flex-wrap:wrap;margin-top:4px}
-.ck-accept{background:linear-gradient(135deg,#C8A253,#8A5E24);color:#000;border:none;border-radius:6px;padding:9px 20px;font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap}
-.ck-accept:hover{background:linear-gradient(135deg,#FFD700,#C8A253);transform:translateY(-1px)}
-.ck-decline{background:transparent;color:#888;border:1px solid #333;border-radius:6px;padding:9px 16px;font-family:'Cinzel',serif;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap}
-.ck-decline:hover{border-color:#555;color:#EFEFEF}
-.ck-settings{background:transparent;color:#7A6230;border:none;font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;text-decoration:underline;padding:0;white-space:nowrap}
-.ck-settings:hover{color:#C8A253}
-/* Cookie Settings Modal */
-#ck-modal{position:fixed;inset:0;z-index:10000;background:rgba(7,7,7,.92);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;padding:20px}
-#ck-modal.show{display:flex}
-.ck-modal-box{background:#0f0f0f;border:1px solid rgba(200,162,83,.25);border-radius:10px;padding:32px;max-width:540px;width:100%;max-height:90vh;overflow-y:auto}
-.ck-modal-title{font-family:'Cinzel Decorative',serif;font-size:14px;color:#C8A253;margin-bottom:6px}
-.ck-modal-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#444;margin-bottom:24px;letter-spacing:.15em;text-transform:uppercase}
-.ck-category{background:#161616;border:1px solid #222;border-radius:8px;padding:16px 18px;margin-bottom:10px}
-.ck-cat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.ck-cat-name{font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:#EFEFEF}
-.ck-cat-desc{font-size:13px;color:#888;line-height:1.55}
-/* Toggle switch */
-.ck-toggle{position:relative;width:40px;height:22px;flex-shrink:0}
-.ck-toggle input{opacity:0;width:0;height:0}
-.ck-slider{position:absolute;inset:0;background:#222;border-radius:22px;cursor:pointer;transition:.2s;border:1px solid #333}
-.ck-slider::before{content:'';position:absolute;width:16px;height:16px;left:2px;top:2px;background:#444;border-radius:50%;transition:.2s}
-.ck-toggle input:checked+.ck-slider{background:rgba(200,162,83,.25);border-color:rgba(200,162,83,.4)}
-.ck-toggle input:checked+.ck-slider::before{transform:translateX(18px);background:#C8A253}
-.ck-toggle input:disabled+.ck-slider{cursor:not-allowed;opacity:.6}
-.ck-modal-btns{display:flex;gap:8px;margin-top:20px;justify-content:flex-end}
-@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
-
+.nav-calc{color:var(--gold)!important;border:1px solid rgba(200,162,83,.35)!important;background:rgba(200,162,83,.07)!important;border-radius:var(--r)!important;position:relative;overflow:hidden}
+.nav-calc::before{content:'';position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(90deg,transparent,rgba(200,162,83,.35),transparent);animation:calcShine 2.7s ease-in-out infinite;pointer-events:none}
+.nav-calc:hover{background:rgba(200,162,83,.18)!important;border-color:rgba(200,162,83,.7)!important;box-shadow:0 0 14px rgba(200,162,83,.28)!important}
+.nav-calc:hover::before{animation-play-state:paused}
+@keyframes calcShine{0%,74%{transform:translateX(-10%);opacity:0}75%{opacity:1}100%{transform:translateX(340%);opacity:0}}
+.about-hero{padding:48px 0 36px;border-bottom:1px solid var(--bd);margin-bottom:36px}
+.about-hero h1{font-family:var(--FD);font-size:clamp(22px,4vw,36px);font-weight:700;margin-bottom:8px}
+.about-hero h1 em{font-style:normal;color:var(--gold)}
+.about-hero p{color:var(--td);font-size:14px;max-width:580px;line-height:1.7}
+.about-section{margin-bottom:36px}
+.about-section h2{font-family:var(--FT);font-size:16px;font-weight:700;color:var(--gold);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--bd)}
+.about-section p{font-size:14px;color:var(--td);line-height:1.75;margin-bottom:10px}
+.about-section a{color:var(--gold);text-decoration:none}
+.about-section a:hover{text-decoration:underline}
+.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.tool-card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--rl);padding:18px 20px;transition:border-color .2s;text-decoration:none;display:block;color:inherit}
+.tool-card:hover{border-color:rgba(200,162,83,.35)}
+.tc-ico{font-size:22px;margin-bottom:8px}
+.tc-name{font-family:var(--FT);font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px}
+.tc-date{font-family:var(--FM);font-size:9px;letter-spacing:.15em;color:var(--gold-d);text-transform:uppercase;margin-bottom:6px}
+.tc-desc{font-size:12px;color:var(--td);line-height:1.6}
+.changelog{display:flex;flex-direction:column}
+.cl-entry{display:grid;grid-template-columns:90px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid #111}
+.cl-entry:last-child{border-bottom:none}
+.cl-date{font-family:var(--FM);font-size:10px;color:var(--tm);padding-top:2px}
+.cl-title{font-family:var(--FT);font-size:12px;font-weight:700;color:var(--tx);margin-bottom:4px}
+.cl-notes{font-size:12px;color:var(--td);line-height:1.6}
+.cl-tag{font-family:var(--FM);font-size:9px;padding:1px 8px;border-radius:6px;display:inline-block;margin-right:4px;margin-bottom:5px}
+.tag-new{background:rgba(76,175,130,.12);color:var(--green);border:1px solid rgba(76,175,130,.25)}
+.tag-fix{background:rgba(200,162,83,.1);color:var(--gold);border:1px solid rgba(200,162,83,.2)}
+.tag-seo{background:rgba(91,156,246,.1);color:#5B9CF6;border:1px solid rgba(91,156,246,.2)}
+.tag-ux{background:rgba(176,96,224,.1);color:#b060e0;border:1px solid rgba(176,96,224,.2)}
+.api-box{background:var(--s1);border:1px solid var(--bd);border-radius:var(--rl);padding:20px}
+.api-box code{font-family:var(--FM);font-size:11px;color:var(--gold);background:var(--s3);padding:2px 7px;border-radius:4px}
+@media(max-width:600px){.tool-grid{grid-template-columns:1fr}.cl-entry{grid-template-columns:1fr;gap:4px}}
 </style>
 </head>
 <body>
-<!-- Cookie Consent Banner -->
-<div id="cookieBanner">
-  <p>🍪 We use cookies to serve personalized ads via <strong style="color:#efefef">Google AdSense</strong> and to analyze site traffic. By clicking "Accept", you consent to our use of cookies. <a href="privacy.html">Privacy Policy</a></p>
-  <div class="cookie-btns">
-    <button id="cookieDecline" onclick="cookieChoice(false)">Decline</button>
-    <button id="cookieAccept" onclick="cookieChoice(true)">Accept All</button>
+
+<div id="cookie-banner" class="hidden">
+  <div class="ck-icon">&#127850;</div>
+  <div class="ck-body">
+    <div class="ck-title">We use cookies</div>
+    <div class="ck-text">We and our partners (including <strong style="color:#EFEFEF">Google AdSense</strong>) use cookies to personalise ads. See our <a href="privacy.html">Privacy Policy</a>.</div>
+    <div class="ck-btns" style="margin-top:10px">
+      <button class="ck-accept" onclick="acceptCookies()">&#10003; Accept All</button>
+      <button class="ck-decline" onclick="declineCookies()">Essential Only</button>
+      <button class="ck-settings" onclick="openCkModal()">Manage</button>
+    </div>
+  </div>
+</div>
+<div id="ck-modal">
+  <div class="ck-modal-box">
+    <div class="ck-modal-title">Cookie Preferences</div>
+    <div class="ck-modal-sub">Manage what data we collect</div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">&#9989; Essential</span><label class="ck-toggle"><input type="checkbox" checked disabled><span class="ck-slider"></span></label></div><div class="ck-cat-desc">Required for the site to function.</div></div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">&#128202; Analytics</span><label class="ck-toggle"><input type="checkbox" id="ck-analytics" checked><span class="ck-slider"></span></label></div><div class="ck-cat-desc">Anonymous usage data.</div></div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">&#128227; Advertising (Google AdSense)</span><label class="ck-toggle"><input type="checkbox" id="ck-ads" checked><span class="ck-slider"></span></label></div><div class="ck-cat-desc">Personalised ads via Google.</div></div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">&#127912; Functional</span><label class="ck-toggle"><input type="checkbox" id="ck-func" checked><span class="ck-slider"></span></label></div><div class="ck-cat-desc">Remembers your preferences.</div></div>
+    <div class="ck-modal-btns"><button class="ck-decline" onclick="saveCkSettings()">Save</button><button class="ck-accept" onclick="acceptCookies()">Accept All</button></div>
   </div>
 </div>
 
@@ -116,130 +90,98 @@ footer p{font-family:var(--FM);font-size:10px;color:#666}
     <li><a href="index.html">Home</a></li>
     <li><a href="market.html">Market</a></li>
     <li><a href="flipfinder.html">Flip Finder</a></li>
+    <li><a href="calculator.html" class="nav-calc">&#9878; Calculator</a></li>
+    <li><a href="craft.html" class="nav-calc">&#128293; Best Craft</a></li>
   </ul>
 </nav>
 
 <div class="wrap">
-  <h1>About <em>AlbionMarketCalc</em></h1>
-  <div class="subtitle">Free · Community · Open</div>
-
-  <div class="section">
-    <h2>What is AlbionMarketCalc?</h2>
-    <p>AlbionMarketCalc is a free, community-built market tool for Albion Online players. It provides real-time item prices across all 6 major cities — Caerleon, Bridgewatch, Martlock, Thetford, Fort Sterling, and Lymhurst.</p>
-    <p>Our goal is simple: help players make smarter trading decisions without spending time manually checking every city's market.</p>
+  <div class="about-hero">
+    <h1>About <em>AlbionMarketCalc</em></h1>
+    <p>A free, community-built trading toolkit for Albion Online players. No login required. No pay-walls. Just live market data and tools that help you make smarter silver.</p>
   </div>
 
-  <div class="section">
-    <h2>Features</h2>
-    <div class="card"><strong>Market Browser</strong><span style="font-size:13px;color:var(--td)">Browse 200+ items — weapons, armor, resources, mounts and more — with live prices and item icons.</span></div>
-    <div class="card"><strong>City Comparison</strong><span style="font-size:13px;color:var(--td)">See sell prices and buy orders for every item across all 6 cities side-by-side.</span></div>
-    <div class="card"><strong>Flip Finder</strong><span style="font-size:13px;color:var(--td)">Automatically scans city pairs to find the most profitable buy-low / sell-high opportunities, sorted by profit margin.</span></div>
+  <div class="ad-banner" style="margin-bottom:32px">
+    <div class="ad-inner">
+      <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="3333333333"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+    </div>
   </div>
 
-  <div class="section">
-    <h2>Data Source</h2>
-    <p>All market data is provided by the <a href="https://www.albion-online-data.com" target="_blank">Albion Online Data Project</a> — a community-run, open API that collects real-time market data from players running the data client.</p>
-    <p>Prices are updated as players scan markets in-game. Data freshness depends on community participation and may vary by item and city.</p>
+  <div class="about-section">
+    <h2>&#128295; Tools</h2>
+    <div class="tool-grid">
+      <a href="market.html" class="tool-card">
+        <div class="tc-ico">&#128202;</div>
+        <div class="tc-name">Market Browser</div>
+        <div class="tc-date">Available since launch</div>
+        <div class="tc-desc">Browse 200+ items with live prices and item icons. Filter by category, tier and city. Click any item to open its full price page.</div>
+      </a>
+      <a href="flipfinder.html" class="tool-card">
+        <div class="tc-ico">&#128269;</div>
+        <div class="tc-name">Flip Finder</div>
+        <div class="tc-date">Available since launch</div>
+        <div class="tc-desc">Scans all city pairs in real time and ranks buy-low / sell-high opportunities by profit margin. Includes outlier filtering to remove stale listings.</div>
+      </a>
+      <a href="calculator.html" class="tool-card">
+        <div class="tc-ico">&#9878;&#65039;</div>
+        <div class="tc-name">Market Calculator</div>
+        <div class="tc-date">Added &middot; March 2026</div>
+        <div class="tc-desc">Enter buy price, sell price, quantity and market tax for exact net profit and ROI. Tax presets: 3% Premium / 6% Standard / 8.5% City. Results scroll into view on Calculate.</div>
+      </a>
+      <a href="craft.html" class="tool-card">
+        <div class="tc-ico">&#128293;</div>
+        <div class="tc-name">Most Profitable Craft Today</div>
+        <div class="tc-date">Added &middot; March 2026</div>
+        <div class="tc-desc">Fetches live material costs vs sell prices for 60+ recipes and ranks by profit margin. Filter by city, tier and category. Live mini card also shown on the home page.</div>
+      </a>
+    </div>
   </div>
 
-  <div class="section">
-    <h2>Disclaimer</h2>
-    <p>AlbionMarketCalc is an independent community project and is <strong style="color:var(--tx)">not affiliated with Albion Online or Sandbox Interactive GmbH</strong> in any way. All game assets, names, and trademarks belong to their respective owners.</p>
-    <p>Market data is provided for informational purposes only. We make no guarantees about the accuracy or timeliness of prices.</p>
+	
+  <div class="about-section">
+    <h2>&#128225; Data Source</h2>
+    <div class="api-box">
+      <p style="font-size:14px;color:var(--td);line-height:1.75;margin-bottom:12px">All market data comes from the <a href="https://www.albion-online-data.com" target="_blank" rel="noopener"><strong style="color:var(--tx)">Albion Online Data Project</strong></a> &mdash; a community-run open API that collects real-time market data from players running the data client.</p>
+      <p style="font-size:12px;color:var(--tm);margin-bottom:8px;font-family:var(--FM);letter-spacing:.1em;text-transform:uppercase">API endpoints used</p>
+      <p style="margin-bottom:6px"><code>/api/v2/stats/prices/{ids}?locations={cities}&amp;qualities=1</code></p>
+      <p style="margin-bottom:12px"><code>/api/v2/stats/history/{id}?locations={city}&amp;time-scale=1</code></p>
+      <p style="font-size:13px;color:var(--td);line-height:1.7">We query West EU primary with Europe as fallback, and corsproxy.io as a CORS fallback. Prices update as players scan markets in-game &mdash; freshness depends on community participation.</p>
+    </div>
   </div>
 
-  <div class="section">
-    <h2>Contact</h2>
-    <p>Questions, suggestions or bug reports? Reach us at <a href="mailto:hexticarcalc@gmail.com">hexticarcalc@gmail.com</a></p>
+  <div class="about-section">
+    <h2>&#9888;&#65039; Disclaimer</h2>
+    <p>AlbionMarketCalc is an independent community project and is <strong style="color:var(--tx)">not affiliated with Albion Online or Sandbox Interactive GmbH</strong>. All game assets, names and trademarks belong to their respective owners.</p>
+    <p>Market data is for informational purposes only. Always verify prices in-game before committing to large trades.</p>
+  </div>
+
+  <div class="about-section">
+    <h2>&#9993;&#65039; Contact</h2>
+    <p>Questions, bug reports or suggestions? Email us at <a href="mailto:hexticarcalc@gmail.com"><strong>hexticarcalc@gmail.com</strong></a></p>
+    <p>We read every message. Response time is typically 1&ndash;3 days.</p>
+  </div>
+
+  <div class="ad-banner" style="margin-bottom:32px">
+    <div class="ad-inner">
+      <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="4444444444"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+    </div>
   </div>
 </div>
+
 <footer>
-  <p>© 2026 AlbionMarketCalc.online</p>
+  <p>&copy; 2026 AlbionMarketCalc.online &middot; Not affiliated with Sandbox Interactive GmbH</p>
   <div class="footer-links">
     <a href="about.html">About</a>
     <a href="privacy.html">Privacy Policy</a>
     <a href="contact.html">Contact</a>
   </div>
 </footer>
-<script>// Cookie Consent
-(function(){
-  const key='amc_cookie_consent';
-  const val=localStorage.getItem(key);
-  if(val===null){
-    setTimeout(()=>document.getElementById('cookieBanner').classList.add('show'),800);
-  }
-})();
-function cookieChoice(accepted){
-  localStorage.setItem('amc_cookie_consent', accepted?'accepted':'declined');
-  const b=document.getElementById('cookieBanner');
-  b.style.transform='translateY(100%)';
-  setTimeout(()=>b.style.display='none',400);
-}</script>
+
 <script>
-// ── Cookie Consent ────────────────────────
-(function(){
-  const KEY = 'ck_consent_v1';
-  const stored = localStorage.getItem(KEY);
-  if(!stored) {
-    // Show banner after short delay
-    setTimeout(() => document.getElementById('cookie-banner').classList.remove('hidden'), 800);
-  } else {
-    const prefs = JSON.parse(stored);
-    if(prefs.ads) loadAds();
-  }
-})();
-
-function acceptCookies(){
-  const prefs = {essential:true, analytics:true, ads:true, functional:true};
-  localStorage.setItem('ck_consent_v1', JSON.stringify(prefs));
-  document.getElementById('cookie-banner').classList.add('hidden');
-  document.getElementById('ck-modal').classList.remove('show');
-  loadAds();
-}
-
-function declineCookies(){
-  const prefs = {essential:true, analytics:false, ads:false, functional:false};
-  localStorage.setItem('ck_consent_v1', JSON.stringify(prefs));
-  document.getElementById('cookie-banner').classList.add('hidden');
-  document.getElementById('ck-modal').classList.remove('show');
-}
-
-function openCkModal(){
-  const stored = localStorage.getItem('ck_consent_v1');
-  if(stored){
-    const p = JSON.parse(stored);
-    document.getElementById('ck-analytics').checked = p.analytics !== false;
-    document.getElementById('ck-ads').checked = p.ads !== false;
-    document.getElementById('ck-func').checked = p.functional !== false;
-  }
-  document.getElementById('ck-modal').classList.add('show');
-}
-
-function saveCkSettings(){
-  const prefs = {
-    essential: true,
-    analytics: document.getElementById('ck-analytics').checked,
-    ads: document.getElementById('ck-ads').checked,
-    functional: document.getElementById('ck-func').checked
-  };
-  localStorage.setItem('ck_consent_v1', JSON.stringify(prefs));
-  document.getElementById('cookie-banner').classList.add('hidden');
-  document.getElementById('ck-modal').classList.remove('show');
-  if(prefs.ads) loadAds();
-}
-
-function loadAds(){
-  // AdSense loads automatically via the script tag - consent recorded
-  if(window.adsbygoogle) {
-    try{ (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){}
-  }
-}
-
-// Close modal on backdrop click
-document.getElementById('ck-modal').addEventListener('click', function(e){
-  if(e.target === this) this.classList.remove('show');
-});
-
-</script>
-</body>
-</html>
+(function(){if(!localStorage.getItem("ck_consent_v1"))setTimeout(()=>document.getElementById("cookie-banner").classList.remove("hidden"),800);})();
+function acceptCookies(){localStorage.setItem("ck_consent_v1",JSON.stringify({essential:true,analytics:true,ads:true,functional:true}));document.getElementById("cookie-banner").classList.add("hidden");document.getElementById("ck-modal").classList.remove("show");}
+function declineCookies(){localStorage.setItem("ck_consent_v1",JSON.stringify({essential:true,analytics:false,ads:false,functional:false}));document.getElementById("cookie-banner").classList.add("hidden");}
+function openCkModal(){document.getElementById("ck-modal").classList.add("show");}
+function saveCkSettings(){localStorage.setItem("ck_consent_v1",JSON.stringify({essential:true,analytics:document.getElementById("ck-analytics").checked,ads:document.getElementById("ck-ads").checked,functional:document.getElementById("ck-func").checked}));document.getElementById("cooki

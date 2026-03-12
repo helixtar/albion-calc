@@ -7,195 +7,82 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<meta name="keywords" content="albion online flip, albion online trading, albion city flip, albion online profit, albion market flip"/>
+<meta name="robots" content="index, follow"/>
+<meta name="author" content="AlbionMarketCalc"/>
+<link rel="canonical" href="https://albionmarketcalc.online/flipfinder.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Albion Online Flip Finder — Best City Trades"/>
+<meta property="og:description" content="Find the best city-to-city trade opportunities in Albion Online. Sort by profit margin and maximize your silver income."/>
+<meta property="og:url" content="https://albionmarketcalc.online/flipfinder.html"/>
+<meta property="og:site_name" content="AlbionMarketCalc"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Albion Online Flip Finder — Best City Trades"/>
+<meta name="twitter:description" content="Find the best city-to-city trade opportunities in Albion Online. Sort by profit margin and maximize your silver income."/>
 <style>
-:root{--gold:#C8A253;--gold-b:#FFD700;--gold-d:#7A6230;--bg:#070707;--s1:#111;--s2:#181818;--s3:#202020;--tx:#EFEFEF;--td:#7A7A7A;--tm:#444;--bd:#252525;--bg-gold:rgba(200,162,83,.35);--red:#E05252;--green:#4CAF82;--blue:#5B9CF6;--glow:0 0 20px rgba(200,162,83,.4),0 0 60px rgba(200,162,83,.15);--FD:'Cinzel Decorative',serif;--FT:'Cinzel',serif;--FB:'Rajdhani',sans-serif;--FM:'IBM Plex Mono',monospace;--r:6px;--rl:12px}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--tx);font-family:var(--FB);font-size:15px;line-height:1.5;overflow-x:hidden}
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-d);border-radius:3px}
-
-.nav{position:fixed;top:0;width:100%;z-index:200;background:rgba(7,7,7,.96);backdrop-filter:blur(24px);border-bottom:1px solid var(--bg-gold);height:58px;display:flex;align-items:center;padding:0 20px;gap:0}
-.nav-logo{font-family:var(--FD);font-size:11px;color:var(--gold);text-decoration:none;text-shadow:0 0 20px rgba(200,162,83,.5);letter-spacing:.05em;margin-right:28px;white-space:nowrap}
-.nav-links{display:flex;gap:2px;list-style:none;flex:1}
-.nav-links a{font-family:var(--FT);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--td);text-decoration:none;padding:7px 12px;border-radius:var(--r);transition:all .2s}
-.nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(200,162,83,.08)}
-
-.page-wrap{display:block;width:100%}
-.ad-col{display:none!important}
-.ad-label{font-family:var(--FM);font-size:8px;color:var(--tm);letter-spacing:.2em;text-transform:uppercase}
-.ad-box{width:160px;background:rgba(255,255,255,.02);border:1px dashed #1e1e1e;border-radius:var(--r);overflow:hidden;display:flex;align-items:center;justify-content:center}
-.ad-box.sky{height:600px}
-.content{min-width:0;padding:32px 40px 60px}
-
-/* Banner ad */
-.banner-ad{display:flex;justify-content:center;padding:12px 0;background:#090909;border-bottom:1px solid var(--bd);margin-bottom:0}
-.banner-inner{min-height:90px;width:100%;max-width:728px;background:rgba(255,255,255,.02);border:1px dashed #1e1e1e;border-radius:var(--r);display:flex;align-items:center;justify-content:center;overflow:hidden}
-
-/* Page header */
-.page-header{margin-bottom:28px}
-.page-header h1{font-family:var(--FD);font-size:clamp(20px,3vw,32px);font-weight:900;margin-bottom:6px}
-.page-header h1 span{background:linear-gradient(90deg,#C8A253,#FFD700,#C8A253);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s linear infinite}
-.page-header p{color:var(--td);font-size:13px}
-
-/* Controls bar */
-.controls{display:flex;gap:10px;align-items:center;margin-bottom:24px;flex-wrap:wrap;background:var(--s1);border:1px solid var(--bd);border-radius:var(--rl);padding:16px 20px}
-.ctrl-label{font-family:var(--FM);font-size:10px;color:var(--td);letter-spacing:.15em;text-transform:uppercase;margin-right:4px}
-.sel{font-family:var(--FM);font-size:12px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);color:var(--tx);padding:7px 12px;outline:none;cursor:pointer;transition:border-color .2s}
-.sel:focus{border-color:var(--gold-d)}
-.btn{font-family:var(--FT);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:10px 22px;border-radius:var(--r);border:none;cursor:pointer;transition:all .22s;text-decoration:none;display:inline-flex;align-items:center;gap:7px}
-.btn-gold{background:linear-gradient(135deg,#C8A253,#8A5E24);color:#000;box-shadow:0 2px 16px rgba(200,162,83,.25)}
-.btn-gold:hover{background:linear-gradient(135deg,#FFD700,#C8A253);transform:translateY(-1px)}
-.btn-gold:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.divider{flex:1}
-
-/* Filters */
-.cat-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
-.cat-btn{font-family:var(--FM);font-size:10px;padding:5px 13px;border-radius:20px;border:1px solid var(--bd);background:var(--s2);color:var(--td);cursor:pointer;transition:all .2s}
-.cat-btn:hover{border-color:var(--bg-gold);color:var(--tx)}
-.cat-btn.active{background:rgba(200,162,83,.12);border-color:var(--bg-gold);color:var(--gold)}
-
-/* Ad interstitial overlay */
-.ad-gate{position:fixed;inset:0;z-index:500;background:rgba(7,7,7,.95);backdrop-filter:blur(16px);display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px}
-.ad-gate.show{display:flex}
-.gate-box{background:var(--s1);border:1px solid var(--bg-gold);border-radius:var(--rl);padding:36px 48px;text-align:center;max-width:580px;width:100%;box-shadow:var(--glow)}
-.gate-title{font-family:var(--FD);font-size:16px;margin-bottom:8px;color:var(--gold)}
-.gate-sub{font-family:var(--FM);font-size:12px;color:var(--td);margin-bottom:16px;min-height:20px;transition:opacity .3s}
-.gate-dots{display:flex;gap:5px;justify-content:center;margin-bottom:16px}
-.gate-dots span{width:6px;height:6px;border-radius:50%;background:var(--gold-d);animation:dot-blink 1.4s ease-in-out infinite}
-.gate-dots span:nth-child(2){animation-delay:.2s}
-.gate-dots span:nth-child(3){animation-delay:.4s}
-@keyframes dot-blink{0%,80%,100%{transform:scale(.6);opacity:.3}40%{transform:scale(1);opacity:1}}
-.gate-timer{font-family:var(--FM);font-size:48px;font-weight:700;color:var(--gold);text-shadow:0 0 24px rgba(200,162,83,.5);margin-bottom:12px;animation:pulse-num 1s ease-in-out infinite}
-.gate-skip{font-family:var(--FM);font-size:11px;color:var(--tm);margin-top:8px}
-.gate-ad-area{width:100%;min-height:90px;background:rgba(255,255,255,.02);border:1px dashed #222;border-radius:var(--r);display:flex;align-items:center;justify-content:center;overflow:hidden;margin:16px 0}
-.gate-go{display:none;padding:12px 36px;background:linear-gradient(135deg,#C8A253,#8A5E24);color:#000;border:none;border-radius:var(--r);font-family:var(--FT);font-size:12px;font-weight:700;letter-spacing:.15em;cursor:pointer;transition:all .2s}
-.gate-go:hover{background:linear-gradient(135deg,#FFD700,#C8A253)}
-.gate-go.show{display:block}
-
-/* Results */
-.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
-.results-title{font-family:var(--FT);font-size:13px;font-weight:600;color:var(--td)}
-.results-count{font-family:var(--FM);font-size:11px;color:var(--tm)}
-
-/* Flip table */
-.flip-table{width:100%;border-collapse:collapse}
-.flip-table th{font-family:var(--FM);font-size:9px;letter-spacing:.2em;color:var(--tm);text-transform:uppercase;padding:10px 12px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}
-.flip-table th.r{text-align:right}
-.flip-table td{padding:11px 12px;border-bottom:1px solid #151515;vertical-align:middle;font-size:13px;transition:background .15s}
-.flip-table tr:hover td{background:rgba(200,162,83,.03)}
-.flip-table tr.rainbow-row td{animation:rainbow-bg 3s linear infinite}
-.item-cell{display:flex;align-items:center;gap:10px}
-.item-icon{width:36px;height:36px;border-radius:6px;background:var(--s3);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid var(--bd)}
-.item-icon img{width:34px;height:34px;object-fit:contain}
-.item-name{font-family:var(--FT);font-size:12px;font-weight:600;line-height:1.3}
-.item-id{font-family:var(--FM);font-size:9px;color:var(--tm);margin-top:1px}
-.chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--FM);font-size:10px;padding:3px 8px;border-radius:4px;background:var(--s3);border:1px solid var(--bd);white-space:nowrap}
-.chip-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.arrow-cell{color:var(--gold-d);font-size:14px;text-align:center}
-.price-cell{font-family:var(--FM);font-size:12px;text-align:right}
-.profit-cell{text-align:right}
-.profit-num{font-family:var(--FM);font-size:13px;font-weight:700;color:var(--green)}
-.profit-pct{font-family:var(--FM);font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;display:inline-block}
-.pct-high{background:rgba(76,175,130,.15);color:var(--green);border:1px solid rgba(76,175,130,.3)}
-.pct-med{background:rgba(200,162,83,.12);color:var(--gold);border:1px solid rgba(200,162,83,.25)}
-.pct-low{background:rgba(255,255,255,.04);color:var(--td);border:1px solid var(--bd)}
-.rainbow-badge{font-family:var(--FM);font-size:9px;padding:2px 7px;border-radius:10px;animation:rainbow-border 2s linear infinite;border:1px solid;color:#fff;display:inline-block;margin-left:6px}
-.tier-dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px;flex-shrink:0}
-
-/* Empty / loading states */
-.state-box{text-align:center;padding:80px 20px;color:var(--td)}
-.state-icon{font-size:40px;margin-bottom:14px;opacity:.4;display:block}
-.state-msg{font-family:var(--FM);font-size:12px}
-.spinner{width:32px;height:32px;border:2px solid var(--bd);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
-.progress-bar{width:100%;height:3px;background:var(--bd);border-radius:2px;overflow:hidden;margin-top:12px}
-.progress-fill{height:100%;background:linear-gradient(to right,#C8A253,#FFD700);border-radius:2px;transition:width .3s}
-
-/* Toast */
-#toasts{position:fixed;bottom:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:6px}
-.toast{font-size:13px;padding:10px 18px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);color:var(--tx);animation:fadeUp .3s ease}
-.toast.gold{border-color:var(--bg-gold)}
-
-/* Footer */
-footer{border-top:1px solid var(--bd);padding:24px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:40px}
-footer p{color:var(--tm);font-size:11px;font-family:var(--FM)}
-footer a{color:var(--gold-d);text-decoration:none}
-
-@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
-@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse-num{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-@keyframes rainbow-bg{0%{background:rgba(255,0,0,.04)}33%{background:rgba(255,255,0,.04)}66%{background:rgba(0,255,100,.04)}100%{background:rgba(255,0,0,.04)}}
-@keyframes rainbow-border{0%{border-color:#f00;color:#f00}33%{border-color:#ff0;color:#ff0}66%{border-color:#0f4;color:#0f4}100%{border-color:#f00;color:#f00}}
-@media(max-width:1100px){.page-wrap{grid-template-columns:0 1fr 0}.ad-col{display:none!important}}
-@media(max-width:700px){.nav-links{display:none}.content{padding:20px 16px 40px}.flip-table .price-cell,.flip-table .arrow-cell{display:none}}
-
-/* Cookie Banner */
-#cookieBanner{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0f0f0f;border-top:1px solid rgba(200,162,83,.3);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;transform:translateY(100%);transition:transform .4s ease;font-family:'Rajdhani',sans-serif}
-#cookieBanner.show{transform:translateY(0)}
-#cookieBanner p{font-size:13px;color:#888;line-height:1.5;flex:1;min-width:200px}
-#cookieBanner a{color:#C8A253;text-decoration:none}
-#cookieBanner a:hover{text-decoration:underline}
-.cookie-btns{display:flex;gap:8px;flex-shrink:0}
-#cookieAccept{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:9px 20px;background:linear-gradient(135deg,#C8A253,#8A5E24);color:#000;border:none;border-radius:6px;cursor:pointer;transition:all .2s}
-#cookieAccept:hover{background:linear-gradient(135deg,#FFD700,#C8A253)}
-#cookieDecline{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:9px 16px;background:transparent;color:#666;border:1px solid #222;border-radius:6px;cursor:pointer;transition:all .2s}
-#cookieDecline:hover{border-color:#444;color:#888}
-
-/* ── Cookie Banner ── */
-#cookie-banner{
-  position:fixed;bottom:0;left:0;right:0;z-index:9999;
-  background:#0d0d0d;border-top:1px solid rgba(200,162,83,.3);
-  padding:18px 24px;display:flex;align-items:flex-start;gap:20px;
-  box-shadow:0 -8px 32px rgba(0,0,0,.6);
-  animation:slideUp .35s ease;
-  font-family:'Rajdhani',sans-serif;
+/* Calculator nav glow button */
+.nav-calc{
+  color:var(--gold)!important;
+  border:1px solid rgba(200,162,83,.35)!important;
+  background:rgba(200,162,83,.07)!important;
+  border-radius:var(--r)!important;
+  position:relative;
+  overflow:hidden;
+  animation:calcPulse 2.5s ease-in-out infinite;
 }
-#cookie-banner.hidden{display:none}
-.ck-icon{font-size:28px;flex-shrink:0;margin-top:2px}
-.ck-body{flex:1}
-.ck-title{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:#EFEFEF;margin-bottom:5px}
-.ck-text{font-size:13px;color:#888;line-height:1.6;max-width:780px}
-.ck-text a{color:#C8A253;text-decoration:none}
-.ck-text a:hover{text-decoration:underline}
-.ck-btns{display:flex;gap:8px;flex-shrink:0;align-items:center;flex-wrap:wrap;margin-top:4px}
-.ck-accept{background:linear-gradient(135deg,#C8A253,#8A5E24);color:#000;border:none;border-radius:6px;padding:9px 20px;font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap}
-.ck-accept:hover{background:linear-gradient(135deg,#FFD700,#C8A253);transform:translateY(-1px)}
-.ck-decline{background:transparent;color:#888;border:1px solid #333;border-radius:6px;padding:9px 16px;font-family:'Cinzel',serif;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap}
-.ck-decline:hover{border-color:#555;color:#EFEFEF}
-.ck-settings{background:transparent;color:#7A6230;border:none;font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;text-decoration:underline;padding:0;white-space:nowrap}
-.ck-settings:hover{color:#C8A253}
-/* Cookie Settings Modal */
-#ck-modal{position:fixed;inset:0;z-index:10000;background:rgba(7,7,7,.92);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;padding:20px}
-#ck-modal.show{display:flex}
-.ck-modal-box{background:#0f0f0f;border:1px solid rgba(200,162,83,.25);border-radius:10px;padding:32px;max-width:540px;width:100%;max-height:90vh;overflow-y:auto}
-.ck-modal-title{font-family:'Cinzel Decorative',serif;font-size:14px;color:#C8A253;margin-bottom:6px}
-.ck-modal-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#444;margin-bottom:24px;letter-spacing:.15em;text-transform:uppercase}
-.ck-category{background:#161616;border:1px solid #222;border-radius:8px;padding:16px 18px;margin-bottom:10px}
-.ck-cat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.ck-cat-name{font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:#EFEFEF}
-.ck-cat-desc{font-size:13px;color:#888;line-height:1.55}
-/* Toggle switch */
-.ck-toggle{position:relative;width:40px;height:22px;flex-shrink:0}
-.ck-toggle input{opacity:0;width:0;height:0}
-.ck-slider{position:absolute;inset:0;background:#222;border-radius:22px;cursor:pointer;transition:.2s;border:1px solid #333}
-.ck-slider::before{content:'';position:absolute;width:16px;height:16px;left:2px;top:2px;background:#444;border-radius:50%;transition:.2s}
-.ck-toggle input:checked+.ck-slider{background:rgba(200,162,83,.25);border-color:rgba(200,162,83,.4)}
-.ck-toggle input:checked+.ck-slider::before{transform:translateX(18px);background:#C8A253}
-.ck-toggle input:disabled+.ck-slider{cursor:not-allowed;opacity:.6}
-.ck-modal-btns{display:flex;gap:8px;margin-top:20px;justify-content:flex-end}
-@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
-
+.nav-calc::before{
+  content:'';
+  position:absolute;
+  inset:-1px;
+  border-radius:var(--r);
+  background:linear-gradient(90deg,transparent,rgba(200,162,83,.25),transparent);
+  transform:translateX(-100%);
+  animation:calcShine 2.5s ease-in-out infinite;
+}
+.nav-calc:hover{
+  background:rgba(200,162,83,.18)!important;
+  border-color:rgba(200,162,83,.7)!important;
+  box-shadow:0 0 16px rgba(200,162,83,.3)!important;
+  animation:none!important;
+}
+@keyframes calcPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(200,162,83,0)}
+  50%{box-shadow:0 0 10px 2px rgba(200,162,83,.2)}
+}
+@keyframes calcShine{
+  0%{transform:translateX(-100%)}
+  60%,100%{transform:translateX(100%)}
+}
 </style>
 </head>
 <body>
-<!-- Cookie Consent Banner -->
-<div id="cookieBanner">
-  <p>🍪 We use cookies to serve personalized ads via <strong style="color:#efefef">Google AdSense</strong> and to analyze site traffic. By clicking "Accept", you consent to our use of cookies. <a href="privacy.html">Privacy Policy</a></p>
-  <div class="cookie-btns">
-    <button id="cookieDecline" onclick="cookieChoice(false)">Decline</button>
-    <button id="cookieAccept" onclick="cookieChoice(true)">Accept All</button>
+
+<div id="cookie-banner" class="hidden">
+  <div class="ck-icon">&#127850;</div>
+  <div class="ck-body">
+    <div class="ck-title">We use cookies</div>
+    <div class="ck-text">We and our partners (including <strong style="color:#EFEFEF">Google AdSense</strong>) use cookies. See our <a href="privacy.html">Privacy Policy</a>.</div>
+    <div class="ck-btns" style="margin-top:10px">
+      <button class="ck-accept" onclick="acceptCookies()">&#10003; Accept All</button>
+      <button class="ck-decline" onclick="declineCookies()">Essential Only</button>
+      <button class="ck-settings" onclick="openCkModal()">Manage</button>
+    </div>
   </div>
 </div>
+<div id="ck-modal">
+  <div class="ck-modal-box">
+    <div class="ck-modal-title">Cookie Preferences</div>
+    <div class="ck-modal-sub">Manage what data we collect</div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">&#9989; Essential</span><label class="ck-toggle"><input type="checkbox" checked disabled><span class="ck-slider"></span></label></div></div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">&#128202; Analytics</span><label class="ck-toggle"><input type="checkbox" id="ck-analytics" checked><span class="ck-slider"></span></label></div></div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">&#128227; Advertising</span><label class="ck-toggle"><input type="checkbox" id="ck-ads" checked><span class="ck-slider"></span></label></div></div>
+    <div class="ck-category"><div class="ck-cat-header"><span class="ck-cat-name">&#127912; Functional</span><label class="ck-toggle"><input type="checkbox" id="ck-func" checked><span class="ck-slider"></span></label></div></div>
+    <div class="ck-modal-btns"><button class="ck-decline" onclick="saveCkSettings()">Save</button><button class="ck-accept" onclick="acceptCookies()">Accept All</button></div>
+  </div>
+</div>
+
 
 
 <!-- Ad gate overlay (10s countdown) -->
@@ -207,8 +94,6 @@ footer a{color:var(--gold-d);text-decoration:none}
     <div class="gate-dots" id="gateDots"><span></span><span></span><span></span></div>
     <div class="progress-bar"><div class="progress-fill" id="gateProg" style="width:0%"></div></div>
     <div class="gate-ad-area">
-
-      <script>(function(s){s.dataset.zone='10714158',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
       <!-- Google AdSense — Large Rectangle 336x280 -->
       <ins class="adsbygoogle"
            style="display:inline-block;width:336px;height:280px"
@@ -225,8 +110,10 @@ footer a{color:var(--gold-d);text-decoration:none}
   <a href="index.html" class="nav-logo">AlbionMarketCalc</a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="market.html">Market</a></li>
+    <li><a href="market.html" >Market</a></li>
     <li><a href="flipfinder.html" class="active">Flip Finder</a></li>
+    <li><a href="calculator.html" class="nav-calc">⚖ Calculator</a></li>
+    <li><a href="craft.html" class="nav-calc">🔥 Best Craft</a></li>
   </ul>
 </nav>
 
@@ -305,10 +192,9 @@ footer a{color:var(--gold-d);text-decoration:none}
     <a href="privacy.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Privacy Policy</a>
     <a href="contact.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Contact</a>
   </div>
-</footer>
-  </div>
-  </div>
 </div>
+
+</footer>
 
 <script>
 const CITIES=['Caerleon','Bridgewatch','Martlock','Thetford','Fort Sterling','Lymhurst'];
@@ -484,15 +370,27 @@ function renderResults(){
     const cityPrices=results[item.id];
     if(!cityPrices)return;
     // Get all cities with sell prices
-    const entries=CITIES.map(c=>({city:c,sell:cityPrices[c]?.sell||0})).filter(e=>e.sell>0);
+    const raw=CITIES.map(c=>({city:c,sell:cityPrices[c]?.sell||0})).filter(e=>e.sell>0);
+    if(raw.length<2)return;
+
+    // ── Outlier filter ────────────────────────────────────────────────────
+    // 1. Require at least 2 data points
+    // 2. Calculate median price; discard any price > 8x or < 0.125x the median
+    //    (catches stale listings like 13.6K vs current 14M)
+    // 3. Hard cap: profit% > 400% is almost always bad data
+    const vals=raw.map(e=>e.sell).sort((a,b)=>a-b);
+    const mid=Math.floor(vals.length/2);
+    const median=vals.length%2===0?(vals[mid-1]+vals[mid])/2:vals[mid];
+    const entries=raw.filter(e=>e.sell>=median/8 && e.sell<=median*8);
     if(entries.length<2)return;
-    // Find best buy (cheapest) and best sell (most expensive)
+
     const cheapest=entries.reduce((a,b)=>b.sell<a.sell?b:a);
     const priciest=entries.reduce((a,b)=>b.sell>a.sell?b:a);
     if(cheapest.city===priciest.city)return;
     const profit=priciest.sell-cheapest.sell;
     const pct=Math.round((profit/cheapest.sell)*100);
-    if(pct<minPct||profit<=0)return;
+    // Hard cap 400% — any higher is almost certainly stale data
+    if(pct<minPct||profit<=0||pct>400)return;
     flips.push({item,buyCity:cheapest.city,buyPrice:cheapest.sell,sellCity:priciest.city,sellPrice:priciest.sell,profit,pct});
   });
 
@@ -560,87 +458,15 @@ function renderResults(){
     </div>`;
 }
 </script>
+
+
 <script>
-// Cookie Consent
-(function(){
-  const key='amc_cookie_consent';
-  const val=localStorage.getItem(key);
-  if(val===null){
-    setTimeout(()=>document.getElementById('cookieBanner').classList.add('show'),800);
-  }
-})();
-function cookieChoice(accepted){
-  localStorage.setItem('amc_cookie_consent', accepted?'accepted':'declined');
-  const b=document.getElementById('cookieBanner');
-  b.style.transform='translateY(100%)';
-  setTimeout(()=>b.style.display='none',400);
-}
-</script>
-<script>
-// ── Cookie Consent ────────────────────────
-(function(){
-  const KEY = 'ck_consent_v1';
-  const stored = localStorage.getItem(KEY);
-  if(!stored) {
-    // Show banner after short delay
-    setTimeout(() => document.getElementById('cookie-banner').classList.remove('hidden'), 800);
-  } else {
-    const prefs = JSON.parse(stored);
-    if(prefs.ads) loadAds();
-  }
-})();
-
-function acceptCookies(){
-  const prefs = {essential:true, analytics:true, ads:true, functional:true};
-  localStorage.setItem('ck_consent_v1', JSON.stringify(prefs));
-  document.getElementById('cookie-banner').classList.add('hidden');
-  document.getElementById('ck-modal').classList.remove('show');
-  loadAds();
-}
-
-function declineCookies(){
-  const prefs = {essential:true, analytics:false, ads:false, functional:false};
-  localStorage.setItem('ck_consent_v1', JSON.stringify(prefs));
-  document.getElementById('cookie-banner').classList.add('hidden');
-  document.getElementById('ck-modal').classList.remove('show');
-}
-
-function openCkModal(){
-  const stored = localStorage.getItem('ck_consent_v1');
-  if(stored){
-    const p = JSON.parse(stored);
-    document.getElementById('ck-analytics').checked = p.analytics !== false;
-    document.getElementById('ck-ads').checked = p.ads !== false;
-    document.getElementById('ck-func').checked = p.functional !== false;
-  }
-  document.getElementById('ck-modal').classList.add('show');
-}
-
-function saveCkSettings(){
-  const prefs = {
-    essential: true,
-    analytics: document.getElementById('ck-analytics').checked,
-    ads: document.getElementById('ck-ads').checked,
-    functional: document.getElementById('ck-func').checked
-  };
-  localStorage.setItem('ck_consent_v1', JSON.stringify(prefs));
-  document.getElementById('cookie-banner').classList.add('hidden');
-  document.getElementById('ck-modal').classList.remove('show');
-  if(prefs.ads) loadAds();
-}
-
-function loadAds(){
-  // AdSense loads automatically via the script tag - consent recorded
-  if(window.adsbygoogle) {
-    try{ (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){}
-  }
-}
-
-// Close modal on backdrop click
-document.getElementById('ck-modal').addEventListener('click', function(e){
-  if(e.target === this) this.classList.remove('show');
-});
-
+(function(){if(!localStorage.getItem('ck_consent_v1'))setTimeout(()=>document.getElementById('cookie-banner').classList.remove('hidden'),800);})();
+function acceptCookies(){localStorage.setItem('ck_consent_v1',JSON.stringify({essential:true,analytics:true,ads:true,functional:true}));document.getElementById('cookie-banner').classList.add('hidden');document.getElementById('ck-modal').classList.remove('show');}
+function declineCookies(){localStorage.setItem('ck_consent_v1',JSON.stringify({essential:true,analytics:false,ads:false,functional:false}));document.getElementById('cookie-banner').classList.add('hidden');}
+function openCkModal(){document.getElementById('ck-modal').classList.add('show');}
+function saveCkSettings(){localStorage.setItem('ck_consent_v1',JSON.stringify({essential:true,analytics:document.getElementById('ck-analytics').checked,ads:document.getElementById('ck-ads').checked,functional:document.getElementById('ck-func').checked}));document.getElementById('cookie-banner').classList.add('hidden');document.getElementById('ck-modal').classList.remove('show');}
+document.getElementById('ck-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});
 </script>
 </body>
 </html>
