@@ -108,8 +108,8 @@
 
 <script>
 // ── Shared Core ───────────────────────────────────────────────
-const API_HOSTS=['https://west.albion-online-data.com','https://europe.albion-online-data.com','https://east.albion-online-data.com'];
-let API_BASE=API_HOSTS[0];
+// API hosts — always call AMC.getApiHosts() at fetch time
+const getHosts=()=>window.AMC?.getApiHosts()||['https://west.albion-online-data.com','https://europe.albion-online-data.com'];
 const ICON_BASE='https://render.albiononline.com/v1/item';
 const CITIES=['Caerleon','Bridgewatch','Martlock','Thetford','Fort Sterling','Lymhurst'];
 const CITY_COLORS={'Caerleon':'#E05252','Bridgewatch':'#E08840','Martlock':'#5B9CF6','Thetford':'#4CAF82','Fort Sterling':'#B0B0B0','Lymhurst':'#8BC34A'};
@@ -120,7 +120,7 @@ const Toast={show(m,c=''){let el=document.getElementById('toasts');if(!el){el=do
 
 async function fetchPrices(ids,cities=CITIES){
   const locStr=cities.map(c=>encodeURIComponent(c)).join(',');
-  for(const host of API_HOSTS){
+  for(const host of getHosts()){
     try{
       const url=host+'/api/v2/stats/prices/'+ids.join(',')+'?locations='+locStr+'&qualities=1';
       const r=await fetch(url);
@@ -229,7 +229,7 @@ async function loadPricesForCity(city){
       const batch=ids.slice(i,i+batchSize);
       msg.textContent=AMC.ts('market.loading',{city,i,n:ids.length});
       let batchData=null;
-      const directUrl='https://west.albion-online-data.com/api/v2/stats/prices/'+batch.join(',')+'?locations='+encodeURIComponent(city)+'&qualities=1';
+      const directUrl=getHosts()[0]+'/api/v2/stats/prices/'+batch.join(',')+'?locations='+encodeURIComponent(city)+'&qualities=1';
       const proxyUrl='https://corsproxy.io/?'+encodeURIComponent(directUrl);
       for(const tryUrl of [directUrl, proxyUrl]){
         try{

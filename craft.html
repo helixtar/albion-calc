@@ -315,7 +315,8 @@
 </footer>
 
 <script>
-const HOSTS = AMC?.getApiHosts() || ['https://west.albion-online-data.com','https://europe.albion-online-data.com'];
+// HOSTS must be a function so it re-reads region on every call
+const getHosts=()=>window.AMC?.getApiHosts()||['https://west.albion-online-data.com','https://europe.albion-online-data.com'];
 const ICON='https://render.albiononline.com/v1/item';
 
 // ── Craft Recipe Database ─────────────────────────────────────────────────
@@ -402,7 +403,7 @@ const RECIPES = [
 function fmtS(n){if(!n&&n!==0)return'—';const a=Math.abs(n);let s;if(a>=1e6)s=(n/1e6).toFixed(2)+'M';else if(a>=1e3)s=(n/1e3).toFixed(1)+'K';else s=Math.round(n).toLocaleString();return(n<0&&a>=1?'-':'')+s;}
 
 async function apiFetch(path){
-  for(const h of HOSTS){
+  for(const h of getHosts()){
     for(const url of[h+path,'https://corsproxy.io/?'+encodeURIComponent(h+path)]){
       try{const r=await fetch(url,{signal:AbortSignal.timeout(8000)});if(r.ok)return await r.json();}catch(e){}
     }

@@ -87,8 +87,8 @@
 </footer>
 
 <script>
-const API_HOSTS=['https://west.albion-online-data.com','https://europe.albion-online-data.com','https://east.albion-online-data.com'];
-const API_BASE=API_HOSTS[0]; // fallback logic below
+// API hosts — always call AMC.getApiHosts() at fetch time, never cache
+const getHosts=()=>window.AMC?.getApiHosts()||['https://west.albion-online-data.com','https://europe.albion-online-data.com'];
 const ICON_BASE='https://render.albiononline.com/v1/item';
 const CITIES=['Caerleon','Bridgewatch','Martlock','Thetford','Fort Sterling','Lymhurst'];
 const CITY_COLORS={'Caerleon':'#E05252','Bridgewatch':'#E08840','Martlock':'#5B9CF6','Thetford':'#4CAF82','Fort Sterling':'#B0B0B0','Lymhurst':'#8BC34A'};
@@ -126,19 +126,21 @@ async function loadItem(){
   try{
     // URL-encode cities (Fort Sterling has space)
     const locStr=CITIES.map(c=>encodeURIComponent(c)).join(',');
-    const API_DIRECT='https://west.albion-online-data.com/api/v2/stats/prices/'+itemId+'?locations='+locStr+'&qualities=1';
-    const API_PROXY='https://corsproxy.io/?'+encodeURIComponent(API_DIRECT);
+    // Try all hosts in priority order (based on user's selected language/region)
     let data=null, lastErr='';
-    for(const tryUrl of [API_DIRECT, API_PROXY]){
-      try{
-        console.log('Trying:', tryUrl.substring(0,80)+'...');
-        const r=await fetch(tryUrl);
-        if(!r.ok){lastErr='HTTP '+r.status;continue;}
-        const raw=await r.text();
-        // corsproxy wraps response, handle both
-        try{data=JSON.parse(raw);}catch(e){const m=JSON.parse(raw);data=m.contents?JSON.parse(m.contents):m;}
-        if(data)break;
-      }catch(e){lastErr=e.message;console.warn('Failed:',e.message);}
+    for(const host of getHosts()){
+      const url=host+'/api/v2/stats/prices/'+itemId+'?locations='+locStr+'&qualities=1';
+      const proxy='https://corsproxy.io/?'+encodeURIComponent(url);
+      for(const tryUrl of [url, proxy]){
+        try{
+          const r=await fetch(tryUrl);
+          if(!r.ok){lastErr='HTTP '+r.status;continue;}
+          const raw=await r.text();
+          try{data=JSON.parse(raw);}catch(e){const m=JSON.parse(raw);data=m.contents?JSON.parse(m.contents):m;}
+          if(data)break;
+        }catch(e){lastErr=e.message;}
+      }
+      if(data)break;
     }
     if(!data)throw new Error('API unreachable. Last error: '+lastErr+'. Check your internet connection.');
 
