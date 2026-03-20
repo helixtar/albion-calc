@@ -58,6 +58,7 @@
   60%,100%{transform:translateX(100%)}
 }
 </style>
+<script src="i18n.js"></script>
 </head>
 <body>
 
@@ -65,7 +66,7 @@
   <div class="ck-icon">&#127850;</div>
   <div class="ck-body">
     <div class="ck-title">We use cookies</div>
-    <div class="ck-text">We and our partners (including <strong style="color:#EFEFEF">Google AdSense</strong>) use cookies. See our <a href="privacy.html">Privacy Policy</a>.</div>
+    <div class="ck-text">We and our partners (including <strong style="color:#EFEFEF">Google AdSense</strong>) use cookies. See our <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>.</div>
     <div class="ck-btns" style="margin-top:10px">
       <button class="ck-accept" onclick="acceptCookies()">&#10003; Accept All</button>
       <button class="ck-decline" onclick="declineCookies()">Essential Only</button>
@@ -89,42 +90,42 @@
 <nav>
   <a href="index.html" class="logo">AlbionMarketCalc</a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="market.html" >Market</a></li>
-    <li><a href="flipfinder.html" >Flip Finder</a></li>
-    <li><a href="calculator.html" class="nav-calc">⚖ Calculator</a></li>
-    <li><a href="craft.html" class="nav-calc">🔥 Best Craft</a></li>
+    <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+    <li><a href="market.html"  data-i18n="nav.market">Market</a></li>
+    <li><a href="flipfinder.html"  data-i18n="nav.flip">Flip Finder</a></li>
+    <li><a href="calculator.html" class="nav-calc" data-i18n="nav.calc">⚖ Calculator</a></li>
+    <li><a href="craft.html" class="nav-calc"> data-i18n="nav.craft">🔥 Best Craft</a></li>
   </ul>
 </nav>
 
 <div class="wrap">
-  <h1>Contact <em>Us</em></h1>
-  <span class="subtitle">Get in touch</span>
+  <h1 data-i18n="contact.title">Contact Us</h1>
+  <span class="subtitle" data-i18n="contact.subtitle">Get in touch</span>
 
   <div class="contact-card">
     <span class="contact-icon">✉️</span>
-    <h2>Send us an email</h2>
-    <p>Have a question, found a bug, or want to suggest a feature? We'd love to hear from you. Send us an email and we'll get back to you as soon as possible.</p>
-    <a href="mailto:hexticarcalc@gmail.com">hexticarcalc@gmail.com</a>
-    <span class="email-raw">hexticarcalc@gmail.com</span>
+    <h2 data-i18n="contact.send_email">Send us an email</h2>
+    <p data-i18n="contact.email_desc">Have a question, found a bug, or want to suggest a feature? We'd love to hear from you.</p>
+    <a href="/cdn-cgi/l/email-protection#ea828f929e83898b98898b8689aa8d878b8386c4898587"><span class="__cf_email__" data-cfemail="553d302d213c36342736343936153238343c397b363a38">[email&#160;protected]</span></a>
+    <span class="email-raw"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0a626f727e63696b78696b66694a6d676b636624696567">[email&#160;protected]</a></span>
   </div>
 
   <div class="topics">
-    <div class="topic"><span class="topic-ico">🐛</span>Bug reports & broken prices</div>
-    <div class="topic"><span class="topic-ico">💡</span>Feature suggestions</div>
-    <div class="topic"><span class="topic-ico">🤝</span>Partnerships & collaborations</div>
-    <div class="topic"><span class="topic-ico">📄</span>Privacy & legal inquiries</div>
+    <div class="topic"><span class="topic-ico">🐛</span><span data-i18n="contact.bug">Bug reports &amp; broken prices</span></div>
+    <div class="topic"><span class="topic-ico">💡</span><span data-i18n="contact.feature">Feature suggestions</span></div>
+    <div class="topic"><span class="topic-ico">🤝</span><span data-i18n="contact.partner">Partnerships &amp; collaborations</span></div>
+    <div class="topic"><span class="topic-ico">📄</span><span data-i18n="contact.legal">Privacy &amp; legal inquiries</span></div>
   </div>
 </div>
 <footer>
-  <p>© 2026 AlbionMarketCalc.online</p>
+  <p>© 2026 AlbionMarketCalc.online &middot; <span data-i18n="footer.disclaimer">Not affiliated with Sandbox Interactive GmbH</span></p>
   <div class="footer-links">
-    <a href="about.html">About</a>
+    <a href="about.html" data-i18n="footer.about">About</a>
     <a href="privacy.html">Privacy Policy</a>
-    <a href="contact.html">Contact</a>
+    <a href="contact.html" data-i18n="footer.contact">Contact</a>
   </div>
 </footer>
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── Cookie Consent ────────────────────────
 (function(){
   const KEY = 'ck_consent_v1';
@@ -167,14 +168,4 @@ function openCkModal(){
 function saveCkSettings(){
   const prefs = {
     essential: true,
-    analytics: document.getElementById('ck-analytics').checked,
-    ads: document.getElementById('ck-ads').checked,
-    functional: document.getElementById('ck-func').checked
-  };
-  localStorage.setItem('ck_consent_v1', JSON.stringify(prefs));
-  document.getElementById('cookie-banner').classList.add('hidden');
-  document.getElementById('ck-modal').classList.remove('show');
-  if(prefs.ads) loadAds();
-}
-
-function loadAds()
+    analytics: document.getElementById('ck-analyti

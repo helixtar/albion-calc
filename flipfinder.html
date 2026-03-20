@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>  
-<script>(function(s){s.dataset.zone='10714158',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-<script>(function(s){s.dataset.zone='10714206',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-  
+<head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Flip Finder — AlbionMarketCalc</title>
@@ -58,7 +55,24 @@
   0%{transform:translateX(-100%)}
   60%,100%{transform:translateX(100%)}
 }
+
+/* ── Mobile fixes ── */
+@media(max-width:700px){
+  .controls{flex-wrap:wrap;gap:6px;padding:12px}
+  .ctrl-label{margin-left:0!important}
+  .divider{width:100%;height:1px;margin:4px 0}
+  .flip-table th:nth-child(3),.flip-table td:nth-child(3){display:none}
+  .flip-table th:nth-child(1),.flip-table td:nth-child(1){width:24px;font-size:10px}
+  .item-cell{flex-direction:row}
+  .item-icon{width:32px;height:32px;min-width:32px}
+  .profit-num{font-size:13px}
+  .ad-gate .gate-box{padding:16px 12px;margin:8px;max-height:90vh;overflow-y:auto}
+  .ad-gate .gate-ad-area{display:none}
+  .banner-ad{display:none}
+  #results{overflow-x:auto}
+}
 </style>
+<script src="i18n.js"></script>
 </head>
 <body>
 
@@ -91,7 +105,7 @@
 <!-- Ad gate overlay (10s countdown) -->
 <div class="ad-gate" id="adGate">
   <div class="gate-box">
-    <div class="gate-title">◈ Flip Finder</div>
+    <div class="gate-title" data-i18n="flip.gate_title">◈ Flip Finder</div>
     <div class="gate-sub" id="gateSub">Scanning all cities for the best trades...</div>
     <div class="gate-timer" id="gateTimer">10</div>
     <div class="gate-dots" id="gateDots"><span></span><span></span><span></span></div>
@@ -105,7 +119,7 @@
       <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
     </div>
     <div class="gate-skip" id="gateSkip">Results will appear when the timer reaches 0</div>
-    <button class="gate-go" id="gateGo" onclick="closeGate()">View Results →</button>
+    <button class="gate-go" id="gateGo" onclick="closeGate()" data-i18n="flip.view_results">View Results →</button>
   </div>
 </div>
 
@@ -136,13 +150,13 @@
     </div>
 
     <div class="page-header">
-      <h1>◈ <span>Flip Finder</span></h1>
-      <p>Finds the most profitable city-to-city trades. Buy cheap in one city, sell high in another.</p>
+      <h1><span data-i18n="flip.title">◈ Flip Finder</span></h1>
+      <p data-i18n="flip.desc">Finds the most profitable city-to-city trades. Buy cheap in one city, sell high in another.</p>
     </div>
 
     <!-- Controls -->
     <div class="controls">
-      <span class="ctrl-label">Category:</span>
+      <span class="ctrl-label" data-i18n="flip.category">Category:</span>
       <select class="sel" id="selCat">
         <option value="all">All Items</option>
         <option value="artifacts">Artifacts</option>
@@ -152,7 +166,7 @@
         <option value="mounts">Mounts</option>
         <option value="misc">Misc</option>
       </select>
-      <span class="ctrl-label" style="margin-left:12px">Min Profit %:</span>
+      <span class="ctrl-label" style="margin-left:12px" data-i18n="flip.min_profit">Min Profit %:</span>
       <select class="sel" id="selMin">
         <option value="5">5%</option>
         <option value="10">10%</option>
@@ -160,10 +174,17 @@
         <option value="30">30%</option>
         <option value="50">50%</option>
       </select>
-      <span class="ctrl-label" style="margin-left:12px">Sort:</span>
+      <span class="ctrl-label" style="margin-left:12px" data-i18n="flip.sort">Sort:</span>
       <select class="sel" id="selSort">
         <option value="pct">Profit %</option>
         <option value="silver">Profit Silver</option>
+      </select>
+      <span class="ctrl-label" style="margin-left:12px" data-i18n="flip.tax">Market Tax:</span>
+      <select class="sel" id="selTax">
+        <option value="0.065">6.5% (Standard)</option>
+        <option value="0.03">3% (Guild Station)</option>
+        <option value="0.025">2.5% (Low Tax)</option>
+        <option value="0">0% (Ignore Tax)</option>
       </select>
       <div class="divider"></div>
       <button class="btn btn-gold" id="scanBtn" onclick="startScan()">⚡ Scan Flips</button>
@@ -191,9 +212,9 @@
     <footer>
   <p>© 2026 AlbionMarketCalc.online · Not affiliated with Sandbox Interactive GmbH</p>
   <div style="display:flex;gap:16px;flex-wrap:wrap">
-    <a href="about.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">About</a>
-    <a href="privacy.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Privacy Policy</a>
-    <a href="contact.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Contact</a>
+    <a href="about.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'" data-i18n="footer.about">About</a>
+    <a href="privacy.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'" data-i18n="footer.privacy">Privacy Policy</a>
+    <a href="contact.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'" data-i18n="footer.contact">Contact</a>
   </div>
 </div>
 
@@ -251,15 +272,15 @@ function openGate(){
     const skip=document.getElementById('gateSkip');
     const go=document.getElementById('gateGo');
     const MSGS=[
-      '🐀 A rat is calculating your profit...',
+      AMC.t('gate.msg1'),
       '🫏 Your donkey is carrying market data...',
       '📊 A guild accountant is crying over spreadsheets...',
       '🤝 Negotiating with a greedy merchant...',
       '😱 Someone just flipped your flip...',
       '🕵️ Scanning Caerleon black market...',
-      '💰 Bribing a market trader for secret prices...',
+      AMC.t('gate.msg2'),
       '🧙 Asking a guild crafter for insider info...',
-      '🏃 Sending scouts to every city market...',
+      AMC.t('gate.msg3'),
       '🔍 Checking suspicious merchant profits...',
       '📜 Consulting ancient trading scrolls...',
     ];
@@ -282,7 +303,7 @@ function openGate(){
       if(t<=0){
         clearInterval(iv);
         timer.textContent='✓';
-        sub.textContent='✅ Prices loaded! Ready to flip!';
+        sub.textContent=AMC.t('flip.prices_loaded');
         go.classList.add('show');
       }
     },1000);
@@ -299,7 +320,7 @@ let scanData=null;
 async function startScan(){
   const btn=document.getElementById('scanBtn');
   btn.disabled=true;
-  btn.textContent='Scanning...';
+  btn.textContent=AMC.t('flip.scanning_btn');
 
   // Show loading
   document.getElementById('results').innerHTML=`<div class="state-box"><div class="spinner"></div><p class="state-msg" id="scanMsg">Fetching prices from all cities...</p><div class="progress-bar" style="max-width:300px;margin:12px auto 0"><div class="progress-fill" id="scanProg" style="width:0%"></div></div></div>`;
@@ -309,7 +330,7 @@ async function startScan(){
   scanData = data;
   renderResults();
   btn.disabled=false;
-  btn.textContent='⚡ Scan Again';
+  btn.textContent=AMC.t('btn.scan_again');
 }
 
 async function fetchAllPrices(){
@@ -323,7 +344,7 @@ async function fetchAllPrices(){
   const results={};
   items.forEach(i=>{results[i.id]={};CITIES.forEach(c=>{results[i.id][c]={sell:0,date:null}});});
 
-  const hosts=['https://west.albion-online-data.com','https://europe.albion-online-data.com','https://east.albion-online-data.com'];
+  const hosts = AMC?.getApiHosts() || ['https://west.albion-online-data.com','https://europe.albion-online-data.com'];
 
   for(let i=0;i<ids.length;i+=BATCH){
     const batch=ids.slice(i,i+BATCH);
@@ -390,11 +411,14 @@ function renderResults(){
     const cheapest=entries.reduce((a,b)=>b.sell<a.sell?b:a);
     const priciest=entries.reduce((a,b)=>b.sell>a.sell?b:a);
     if(cheapest.city===priciest.city)return;
-    const profit=priciest.sell-cheapest.sell;
+    // Tax: Albion charges market fee on the sell side
+    const tax=parseFloat(document.getElementById('selTax').value)||0.065;
+    const netSell=priciest.sell*(1-tax);
+    const profit=Math.round(netSell-cheapest.sell);
     const pct=Math.round((profit/cheapest.sell)*100);
     // Hard cap 400% — any higher is almost certainly stale data
     if(pct<minPct||profit<=0||pct>400)return;
-    flips.push({item,buyCity:cheapest.city,buyPrice:cheapest.sell,sellCity:priciest.city,sellPrice:priciest.sell,profit,pct});
+    flips.push({item,buyCity:cheapest.city,buyPrice:cheapest.sell,sellCity:priciest.city,sellPrice:priciest.sell,netSell:Math.round(netSell),profit,pct,tax});
   });
 
   // Sort
@@ -433,10 +457,11 @@ function renderResults(){
         </div>
       </td>
       <td class="price-cell">${fmtS(f.buyPrice)}</td>
-      <td class="price-cell">${fmtS(f.sellPrice)}</td>
+      <td class="price-cell">${fmtS(f.sellPrice)}<br><span style="font-family:var(--FM);font-size:9px;color:var(--tm)">net: ${fmtS(f.netSell)}</span></td>
       <td class="profit-cell">
         <div class="profit-num">+${fmtS(f.profit)}</div>
         <span class="profit-pct ${pctCls}">+${f.pct}%</span>
+        <div style="font-family:var(--FM);font-size:9px;color:var(--tm)">after ${Math.round(f.tax*100)}% tax</div>
       </td>
     </tr>`;
   }).join('');
@@ -450,10 +475,10 @@ function renderResults(){
       <table class="flip-table">
         <thead><tr>
           <th>#</th>
-          <th>Item</th>
-          <th>Route</th>
-          <th class="r">Buy Price</th>
-          <th class="r">Sell Price</th>
+          <th data-i18n="ui.item">Item</th>
+          <th data-i18n="flip.route">Route</th>
+          <th class="r" data-i18n="flip.buy_price">Buy Price</th>
+          <th class="r" data-i18n="flip.sell_price">Sell Price (Net)</th>
           <th class="r">Profit</th>
         </tr></thead>
         <tbody>${rows}</tbody>
@@ -470,6 +495,16 @@ function declineCookies(){localStorage.setItem('ck_consent_v1',JSON.stringify({e
 function openCkModal(){document.getElementById('ck-modal').classList.add('show');}
 function saveCkSettings(){localStorage.setItem('ck_consent_v1',JSON.stringify({essential:true,analytics:document.getElementById('ck-analytics').checked,ads:document.getElementById('ck-ads').checked,functional:document.getElementById('ck-func').checked}));document.getElementById('cookie-banner').classList.add('hidden');document.getElementById('ck-modal').classList.remove('show');}
 document.getElementById('ck-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});
+</script>
+
+<script>
+window.addEventListener('amc:langchange', () => {
+  // Re-fetch with new regional API when language changes
+  const rescan = document.getElementById('scanBtn');
+  if(rescan) {
+    setTimeout(() => rescan.click(), 100);
+  }
+});
 </script>
 </body>
 </html>

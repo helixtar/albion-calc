@@ -21,6 +21,7 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Albion Online Market Browser — Live Item Prices"/>
 <meta name="twitter:description" content="Browse 200+ Albion Online items with live prices across all 6 cities. Weapons, armor, resources, mounts and more."/>
+<script src="i18n.js"></script>
 </head>
 <body>
 
@@ -52,11 +53,11 @@
 <nav>
   <a href="index.html" class="logo">AlbionMarketCalc</a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="market.html" class="active">Market</a></li>
-    <li><a href="flipfinder.html">Flip Finder</a></li>
-    <li><a href="calculator.html" class="nav-calc">&#9878; Calculator</a></li>
-    <li><a href="craft.html" class="nav-calc">&#128293; Best Craft</a></li>
+    <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+    <li><a href="market.html" class="active" data-i18n="nav.market">Market</a></li>
+    <li><a href="flipfinder.html" data-i18n="nav.flip">Flip Finder</a></li>
+    <li><a href="calculator.html" class="nav-calc" data-i18n="nav.calc" data-i18n="nav.calc">⚖ Calculator</a></li>
+    <li><a href="craft.html" class="nav-calc" data-i18n="nav.craft" data-i18n="nav.craft">🔥 Best Craft</a></li>
   </ul>
 </nav>
 
@@ -65,7 +66,7 @@
   <div class="controls">
     <div class="search-box">
       <span class="search-icon">🔎</span>
-      <input id="q" type="text" placeholder="Search items..." autocomplete="off"/>
+      <input id="q" type="text" placeholder="Search items..." data-i18n-placeholder="market.search_placeholder" autocomplete="off"/>
     </div>
     <div class="cat-tabs" id="cat-tabs"></div>
   </div>
@@ -94,15 +95,15 @@
 <footer>
   <p>© 2026 AlbionMarketCalc.online · Not affiliated with Sandbox Interactive GmbH</p>
   <div style="display:flex;gap:16px;flex-wrap:wrap">
-    <a href="about.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">About</a>
-    <a href="privacy.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Privacy Policy</a>
-    <a href="contact.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Contact</a>
+    <a href="about.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'" data-i18n="footer.about">About</a>
+    <a href="privacy.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'" data-i18n="footer.privacy">Privacy Policy</a>
+    <a href="contact.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'" data-i18n="footer.contact">Contact</a>
   </div>
 </footer>
 
 <div class="load-overlay" id="loader">
   <div class="spinner"></div>
-  <span id="loader-msg">Loading prices...</span>
+  <span id="loader-msg"><span data-i18n="ui.loading">Loading prices...</span></span>
 </div>
 
 <script>
@@ -226,7 +227,7 @@ async function loadPricesForCity(city){
     const batchSize=50;
     for(let i=0;i<ids.length;i+=batchSize){
       const batch=ids.slice(i,i+batchSize);
-      msg.textContent=`Loading ${city}... (${i}/${ids.length})`;
+      msg.textContent=AMC.ts('market.loading',{city,i,n:ids.length});
       let batchData=null;
       const directUrl='https://west.albion-online-data.com/api/v2/stats/prices/'+batch.join(',')+'?locations='+encodeURIComponent(city)+'&qualities=1';
       const proxyUrl='https://corsproxy.io/?'+encodeURIComponent(directUrl);

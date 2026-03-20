@@ -196,7 +196,21 @@ footer p{font-family:var(--FM);font-size:10px;color:#666}
   .nav-links{display:none}
   .tier-tabs{flex-wrap:wrap}
 }
+/* ── Hamburger ── */
+.hamburger{display:none;flex-direction:column;justify-content:space-between;width:26px;height:18px;background:none;border:none;cursor:pointer;padding:0;margin-left:auto;z-index:200}
+.hamburger span{display:block;height:2px;width:100%;background:var(--td);border-radius:2px;transition:all .22s ease}
+.hamburger.open span:nth-child(1){transform:translateY(8px) rotate(45deg);background:var(--gold)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg);background:var(--gold)}
+.mobile-nav{display:none;position:fixed;top:54px;left:0;right:0;background:rgba(7,7,7,.98);border-bottom:1px solid var(--bg-gold);backdrop-filter:blur(20px);z-index:99;padding:8px 0;flex-direction:column;gap:0}
+.mobile-nav.open{display:flex}
+.mobile-nav a{font-family:var(--FT);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--td);text-decoration:none;padding:13px 24px;border-bottom:1px solid rgba(255,255,255,.04);transition:all .15s}
+.mobile-nav a:hover,.mobile-nav a.active{color:var(--gold);background:rgba(200,162,83,.07)}
+@media(max-width:600px){
+  .hamburger{display:flex}
+}
 </style>
+<script src="i18n.js"></script>
 </head>
 <body>
 
@@ -231,24 +245,34 @@ footer p{font-family:var(--FM);font-size:10px;color:#666}
 <!-- ── Nav ── -->
 <nav>
   <a href="index.html" class="logo">AlbionMarketCalc</a>
-  <ul class="nav-links">
-    <li><a href="index.html" class="active">Home</a></li>
-    <li><a href="market.html">Market</a></li>
-    <li><a href="flipfinder.html">Flip Finder</a></li>
-    <li><a href="calculator.html" class="nav-calc">&#9878; Calculator</a></li>
-    <li><a href="craft.html" class="nav-calc">&#128293; Best Craft</a></li>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" class="active" data-i18n="nav.home">Home</a></li>
+    <li><a href="market.html" data-i18n="nav.market">Market</a></li>
+    <li><a href="flipfinder.html" data-i18n="nav.flip">Flip Finder</a></li>
+    <li><a href="calculator.html" class="nav-calc" data-i18n="nav.calc" data-i18n="nav.calc">⚖ Calculator</a></li>
+    <li><a href="craft.html" class="nav-calc" data-i18n="nav.craft" data-i18n="nav.craft">🔥 Best Craft</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" class="active" data-i18n="nav.home">Home</a>
+  <a href="market.html" data-i18n="nav.market">Market</a>
+  <a href="flipfinder.html" data-i18n="nav.flip">Flip Finder</a>
+  <a href="calculator.html" data-i18n="nav.calc">⚖ Calculator</a>
+  <a href="craft.html" data-i18n="nav.craft">🔥 Best Craft</a>
+</div>
 
 <!-- ── Hero ── -->
 <div class="hero">
   <canvas id="cvs"></canvas>
   <div class="wrap">
-    <div class="hero-label">Albion Online · Market Intelligence</div>
+    <div class="hero-label" data-i18n="index.hero_label">Albion Online · Market Intelligence</div>
     <h1>Albion<br/><em>MarketCalc</em></h1>
-    <p>Real-time prices across all 6 cities. Free, always.</p>
+    <p data-i18n="index.hero_sub">Real-time prices across all 6 cities. Free, always.</p>
     <div class="hero-btns">
-      <a href="market.html" class="btn btn-gold">&#9876; Browse Market</a>
+      <a href="market.html" class="btn btn-gold" data-i18n="index.browse_market">⚔ Browse Market</a>
       <a href="flipfinder.html" class="btn btn-out">&#9672; Flip Finder</a>
     </div>
   </div>
@@ -273,11 +297,11 @@ footer p{font-family:var(--FM);font-size:10px;color:#666}
 <div class="live-section">
   <div class="wrap">
     <div class="sec-header">
-      <div class="sec-title">Live <span>Artifact Prices</span></div>
+      <div class="sec-title" data-i18n="index.live_artifacts">Live Artifact Prices</div>
       <div class="tier-tabs" id="tierTabs"></div>
     </div>
     <div class="price-grid" id="priceGrid">
-      <div class="price-card"><div class="pc-loading"><div class="sp"></div><p>Loading...</p></div></div>
+      <div class="price-card"><div class="pc-loading"><div class="sp"></div><p data-i18n="index.loading">Loading...</p></div></div>
       <div class="price-card"><div class="pc-loading"><div class="sp"></div><p>Loading...</p></div></div>
       <div class="price-card"><div class="pc-loading"><div class="sp"></div><p>Loading...</p></div></div>
     </div>
@@ -298,9 +322,9 @@ footer p{font-family:var(--FM);font-size:10px;color:#666}
     <div class="craft-header">
       <div>
         <div class="craft-label">Live · Caerleon</div>
-        <div class="craft-title">&#128293; Most Profitable Craft Today</div>
+        <div class="craft-title"><span data-i18n="index.most_profitable">🔥 Most Profitable Craft Today</span></div>
       </div>
-      <a href="craft.html" class="craft-link">View Full Rankings &#8594;</a>
+      <a href="craft.html" class="craft-link" data-i18n="index.view_full">View Full Rankings →</a>
     </div>
     <div class="craft-cards" id="craftTop3">
       <div class="craft-card">
@@ -314,26 +338,26 @@ footer p{font-family:var(--FM);font-size:10px;color:#666}
 <!-- ── Tools ── -->
 <div class="quick-section">
   <div class="wrap" style="padding-top:40px">
-    <div style="font-family:var(--FT);font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--td);margin-bottom:14px">&#9889; Tools</div>
+    <div style="font-family:var(--FT);font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--td);margin-bottom:14px" data-i18n="index.tools">⚡ Tools</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
       <a href="market.html" class="qc">
         <div class="qc-ico">&#128202;</div>
-        <div><div class="qc-title">Market Browser</div><div class="qc-desc">All items with live prices and 6-city comparison.</div></div>
+        <div><div class="qc-title" data-i18n="nav.market">Market Browser</div><div class="qc-desc"><span data-i18n="index.qc_market_desc">All items with live prices and 6-city comparison.</span></div></div>
         <span class="qc-arr">&#8594;</span>
       </a>
       <a href="flipfinder.html" class="qc">
         <div class="qc-ico">&#128269;</div>
-        <div><div class="qc-title">Flip Finder</div><div class="qc-desc">Best city-to-city trades sorted by profit margin.</div></div>
+        <div><div class="qc-title">Flip Finder</div><div class="qc-desc"><span data-i18n="index.qc_flip_desc">Best city-to-city trades sorted by profit margin.</span></div></div>
         <span class="qc-arr">&#8594;</span>
       </a>
       <a href="calculator.html" class="qc">
         <div class="qc-ico">&#9878;&#65039;</div>
-        <div><div class="qc-title">Market Calculator</div><div class="qc-desc">Enter buy/sell price and tax to calculate exact profit.</div></div>
+        <div><div class="qc-title">Market Calculator</div><div class="qc-desc"><span data-i18n="index.qc_calc_desc">Enter buy/sell price and tax to calculate exact profit.</span></div></div>
         <span class="qc-arr">&#8594;</span>
       </a>
       <a href="craft.html" class="qc" style="border-color:rgba(200,162,83,.2);background:rgba(200,162,83,.03)">
         <div class="qc-ico" style="background:rgba(200,162,83,.1);border-color:rgba(200,162,83,.25)">&#128293;</div>
-        <div><div class="qc-title" style="color:var(--gold)">Most Profitable Craft</div><div class="qc-desc">Live material cost vs. sell price ranked by margin.</div></div>
+        <div><div class="qc-title" style="color:var(--gold)">Most Profitable Craft</div><div class="qc-desc"><span data-i18n="index.qc_craft_desc">Live material cost vs. sell price ranked by margin.</span></div></div>
         <span class="qc-arr" style="color:var(--gold)">&#8594;</span>
       </a>
     </div>
@@ -343,9 +367,9 @@ footer p{font-family:var(--FM);font-size:10px;color:#666}
 <footer>
   <p>&#169; 2026 AlbionMarketCalc.online &middot; Not affiliated with Sandbox Interactive GmbH</p>
   <div class="footer-links">
-    <a href="about.html">About</a>
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="contact.html">Contact</a>
+    <a href="about.html" data-i18n="footer.about">About</a>
+    <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
+    <a href="contact.html" data-i18n="footer.contact">Contact</a>
   </div>
 </footer>
 
@@ -354,7 +378,7 @@ footer p{font-family:var(--FM);font-size:10px;color:#666}
 const CITIES = ['Caerleon','Bridgewatch','Martlock','Thetford','Fort Sterling','Lymhurst'];
 const CITY_COL = {'Caerleon':'#E05252','Bridgewatch':'#E08840','Martlock':'#5B9CF6','Thetford':'#4CAF82','Fort Sterling':'#B0B0B0','Lymhurst':'#8BC34A'};
 const ICON = 'https://render.albiononline.com/v1/item';
-const HOSTS = ['https://west.albion-online-data.com','https://europe.albion-online-data.com'];
+const HOSTS = AMC?.getApiHosts() || ['https://west.albion-online-data.com','https://europe.albion-online-data.com'];
 const ARTS = [{id:'RUNE',name:'Rune'},{id:'SOUL',name:'Soul'},{id:'RELIC',name:'Relic'}];
 let curTier = 4;
 
@@ -574,6 +598,34 @@ function declineCookies(){localStorage.setItem('ck_consent_v1',JSON.stringify({e
 function openCkModal(){document.getElementById('ck-modal').classList.add('show');}
 function saveCkSettings(){localStorage.setItem('ck_consent_v1',JSON.stringify({essential:true,analytics:document.getElementById('ck-analytics').checked,ads:document.getElementById('ck-ads').checked,functional:document.getElementById('ck-func').checked}));document.getElementById('cookie-banner').classList.add('hidden');document.getElementById('ck-modal').classList.remove('show');}
 document.getElementById('ck-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});
+</script>
+
+<script>
+function toggleNav(){
+  const btn=document.getElementById('hamburger');
+  const nav=document.getElementById('mobileNav');
+  btn.classList.toggle('open');
+  nav.classList.toggle('open');
+}
+// Close mobile nav on outside click
+document.addEventListener('click',function(e){
+  const btn=document.getElementById('hamburger');
+  const nav=document.getElementById('mobileNav');
+  if(nav.classList.contains('open')&&!nav.contains(e.target)&&!btn.contains(e.target)){
+    btn.classList.remove('open');
+    nav.classList.remove('open');
+  }
+});
+</script>
+
+<script>
+window.addEventListener('amc:langchange', () => {
+  // Re-fetch with new regional API when language changes
+  const rescan = document.getElementById('scanBtn');
+  if(rescan) {
+    setTimeout(() => rescan.click(), 100);
+  }
+});
 </script>
 </body>
 </html>

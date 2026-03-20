@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(s){s.dataset.zone='10714206',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Market Calculator — AlbionMarketCalc</title>
@@ -89,7 +88,7 @@
 .result-row-val.neg{color:var(--red)}
 .result-row-val.gold{color:var(--gold)}
 
-/* ROI bar */
+/* <span data-i18n="calc.roi">ROI</span> bar */
 .roi-bar-wrap{padding:12px 20px;border-top:1px solid var(--bd)}
 .roi-bar-label{font-family:var(--FM);font-size:9px;color:var(--tm);letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px;display:flex;justify-content:space-between}
 .roi-bar{height:6px;background:var(--s3);border-radius:3px;overflow:hidden}
@@ -132,17 +131,18 @@
   100%{transform:translateX(340%);opacity:0}
 }
 </style>
+<script src="i18n.js"></script>
 </head>
 <body>
 
 <nav>
   <a href="index.html" class="logo">AlbionMarketCalc</a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="market.html" >Market</a></li>
-    <li><a href="flipfinder.html" >Flip Finder</a></li>
-    <li><a href="calculator.html" class="active nav-calc">⚖ Calculator</a></li>
-    <li><a href="craft.html" class="nav-calc">🔥 Best Craft</a></li>
+    <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+    <li><a href="market.html"  data-i18n="nav.market">Market</a></li>
+    <li><a href="flipfinder.html"  data-i18n="nav.flip">Flip Finder</a></li>
+    <li><a href="calculator.html" class="active nav-calc" data-i18n="nav.calc">⚖ Calculator</a></li>
+    <li><a href="craft.html" class="nav-calc" data-i18n="nav.craft">🔥 Best Craft</a></li>
   </ul>
 </nav>
 
@@ -177,8 +177,8 @@
 
     <div class="calc-hero">
       <div class="calc-hero-label">Albion Online · Trade Tool</div>
-      <h1>Market <em>Calculator</em></h1>
-      <p>Calculate your exact profit after tax in seconds.</p>
+      <h1 data-i18n="calc.title">⚖ Market Calculator</h1>
+      <p><span data-i18n="calc.desc">Calculate your exact profit after tax in seconds.</span></p>
     </div>
 
     <div class="ad-banner" style="margin-bottom:24px">
@@ -191,20 +191,20 @@
     <div class="calc-card">
       <div class="calc-card-header">
         <span style="font-size:16px">⚖️</span>
-        <span>Trade Profit Calculator</span>
+        <span><span data-i18n="calc.title">Trade Profit Calculator</span></span>
       </div>
       <div class="calc-card-body">
 
         <div class="input-row">
           <div class="input-group">
-            <label class="input-label">Buy Price</label>
+            <label class="input-label" data-i18n="calc.buy_price">Buy Price</label>
             <div class="input-wrap">
               <input type="number" id="buyPrice" placeholder="e.g. 50000" min="0" oninput="liveCalc()"/>
               <span class="input-suffix">silver</span>
             </div>
           </div>
           <div class="input-group">
-            <label class="input-label">Sell Price</label>
+            <label class="input-label" data-i18n="calc.sell_price">Sell Price</label>
             <div class="input-wrap">
               <input type="number" id="sellPrice" placeholder="e.g. 75000" min="0" oninput="liveCalc()"/>
               <span class="input-suffix">silver</span>
@@ -214,14 +214,14 @@
 
         <div class="input-row">
           <div class="input-group">
-            <label class="input-label">Amount</label>
+            <label class="input-label" data-i18n="calc.enter_qty">Amount</label>
             <div class="input-wrap">
               <input type="number" id="amount" placeholder="e.g. 10" min="1" value="1" oninput="liveCalc()"/>
               <span class="input-suffix">pcs</span>
             </div>
           </div>
           <div class="input-group">
-            <label class="input-label">Market Tax</label>
+            <label class="input-label" data-i18n="calc.tax">Market Tax</label>
             <div class="input-wrap">
               <input type="number" id="taxRate" placeholder="6" min="0" max="100" value="6" step="0.1" oninput="liveCalc()"/>
               <span class="input-suffix">%</span>
@@ -236,7 +236,7 @@
 
         <div class="calc-divider"></div>
 
-        <button class="calc-btn" onclick="calculate()">⚖ Calculate Profit</button>
+        <button class="calc-btn" onclick="calculate()" data-i18n="btn.calculate">⚖ Calculate Profit</button>
 
         <!-- Live result -->
         <div class="result-box" id="resultBox">
@@ -246,7 +246,7 @@
           </div>
           <div class="result-rows">
             <div class="result-row">
-              <span class="result-row-label">Total Buy Cost</span>
+              <span class="result-row-label"><span data-i18n="calc.title">Total Buy Cost</span></span>
               <span class="result-row-val" id="rBuyCost">—</span>
             </div>
             <div class="result-row">
@@ -266,7 +266,7 @@
               <span class="result-row-val" id="rPerItem">—</span>
             </div>
             <div class="result-row">
-              <span class="result-row-label" style="font-weight:700;color:var(--tx)">Net Profit (total)</span>
+              <span class="result-row-label" style="font-weight:700;color:var(--tx)"><span data-i18n="calc.net_profit">Net Profit</span> (total)</span>
               <span class="result-row-val" id="rTotal" style="font-size:14px">—</span>
             </div>
           </div>
@@ -313,9 +313,9 @@
 <footer>
   <p>© 2026 AlbionMarketCalc.online · Not affiliated with Sandbox Interactive GmbH</p>
   <div class="footer-links">
-    <a href="about.html">About</a>
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="contact.html">Contact</a>
+    <a href="about.html" data-i18n="footer.about">About</a>
+    <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
+    <a href="contact.html" data-i18n="footer.contact">Contact</a>
   </div>
 </footer>
 

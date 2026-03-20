@@ -58,6 +58,7 @@
   60%,100%{transform:translateX(100%)}
 }
 </style>
+<script src="i18n.js"></script>
 </head>
 <body>
 
@@ -65,7 +66,7 @@
   <div class="ck-icon">&#127850;</div>
   <div class="ck-body">
     <div class="ck-title">We use cookies</div>
-    <div class="ck-text">We and our partners (including <strong style="color:#EFEFEF">Google AdSense</strong>) use cookies. See our <a href="privacy.html">Privacy Policy</a>.</div>
+    <div class="ck-text">We and our partners (including <strong style="color:#EFEFEF">Google AdSense</strong>) use cookies. See our <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>.</div>
     <div class="ck-btns" style="margin-top:10px">
       <button class="ck-accept" onclick="acceptCookies()">&#10003; Accept All</button>
       <button class="ck-decline" onclick="declineCookies()">Essential Only</button>
@@ -89,17 +90,17 @@
 <nav>
   <a href="index.html" class="logo">AlbionMarketCalc</a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="market.html" >Market</a></li>
-    <li><a href="flipfinder.html" >Flip Finder</a></li>
-    <li><a href="calculator.html" class="nav-calc">⚖ Calculator</a></li>
-    <li><a href="craft.html" class="nav-calc">🔥 Best Craft</a></li>
+    <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+    <li><a href="market.html"  data-i18n="nav.market">Market</a></li>
+    <li><a href="flipfinder.html"  data-i18n="nav.flip">Flip Finder</a></li>
+    <li><a href="calculator.html" class="nav-calc" data-i18n="nav.calc">⚖ Calculator</a></li>
+    <li><a href="craft.html" class="nav-calc"> data-i18n="nav.craft">🔥 Best Craft</a></li>
   </ul>
 </nav>
 
 <div class="wrap">
-  <h1>Privacy <em>Policy</em></h1>
-  <span class="updated">Last updated: March 2026</span>
+  <h1 data-i18n="privacy.title">Privacy Policy</h1>
+  <span class="updated" data-i18n="privacy.updated">Last updated: March 2026</span>
 
   <div class="section">
     <h2>1. Introduction</h2>
@@ -164,18 +165,18 @@
 
   <div class="section">
     <h2>9. Contact</h2>
-    <p>If you have any questions about this Privacy Policy, please contact us at: <a href="mailto:hexticarcalc@gmail.com">hexticarcalc@gmail.com</a></p>
+    <p>If you have any questions about this Privacy Policy, please contact us at: <a href="/cdn-cgi/l/email-protection#7b131e030f12181a09181a17183b1c161a121755181416"><span class="__cf_email__" data-cfemail="20484558544943415243414c4360474d41494c0e434f4d">[email&#160;protected]</span></a></p>
   </div>
 </div>
 <footer>
-  <p>© 2026 AlbionMarketCalc.online</p>
+  <p>© 2026 AlbionMarketCalc.online &middot; <span data-i18n="footer.disclaimer">Not affiliated with Sandbox Interactive GmbH</span></p>
   <div class="footer-links">
-    <a href="about.html">About</a>
+    <a href="about.html" data-i18n="footer.about">About</a>
     <a href="privacy.html">Privacy Policy</a>
-    <a href="contact.html">Contact</a>
+    <a href="contact.html" data-i18n="footer.contact">Contact</a>
   </div>
 </footer>
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── Cookie Consent ────────────────────────
 (function(){
   const KEY = 'ck_consent_v1';
@@ -223,12 +224,4 @@ function saveCkSettings(){
     functional: document.getElementById('ck-func').checked
   };
   localStorage.setItem('ck_consent_v1', JSON.stringify(prefs));
-  document.getElementById('cookie-banner').classList.add('hidden');
-  document.getElementById('ck-modal').classList.remove('show');
-  if(prefs.ads) loadAds();
-}
-
-function loadAds(){
-  // AdSense loads automatically via the script tag - consent recorded
-  if(window.adsbygoogle) {
-    try{ (adsbygoogle = w
+  document.getElementById('cookie-banner').classList.add

@@ -21,6 +21,7 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Albion Online Item Prices — 6 City Comparison"/>
 <meta name="twitter:description" content="View detailed Albion Online item prices across all 6 cities. See best sell price, cheapest buy, and flip margin."/>
+<script src="i18n.js"></script>
 </head>
 <body>
 
@@ -28,7 +29,7 @@
   <div class="ck-icon">&#127850;</div>
   <div class="ck-body">
     <div class="ck-title">We use cookies</div>
-    <div class="ck-text">We and our partners (including <strong style="color:#EFEFEF">Google AdSense</strong>) use cookies. See our <a href="privacy.html">Privacy Policy</a>.</div>
+    <div class="ck-text">We and our partners (including <strong style="color:#EFEFEF">Google AdSense</strong>) use cookies. See our <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>.</div>
     <div class="ck-btns" style="margin-top:10px">
       <button class="ck-accept" onclick="acceptCookies()">&#10003; Accept All</button>
       <button class="ck-decline" onclick="declineCookies()">Essential Only</button>
@@ -52,9 +53,9 @@
 <nav class="nav">
   <a href="index.html" class="nav-logo">AlbionMarketCalc</a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="market.html">Market</a></li>
-    <li><a href="flipfinder.html">Flip Finder</a></li>
+    <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+    <li><a href="market.html" data-i18n="nav.market">Market</a></li>
+    <li><a href="flipfinder.html" data-i18n="nav.flip">Flip Finder</a></li>
   </ul>
   
 </nav>
@@ -65,13 +66,13 @@
     <span>›</span>
     <a href="market.html">Market</a>
     <span>›</span>
-    <span id="bc-name">Loading...</span>
+    <span id="bc-name" data-i18n="item.loading">Loading...</span>
   </div>
 
   <div id="main-content">
     <div class="loading-state">
       <div class="spinner"></div>
-      <p style="color:var(--td);font-family:var(--FM);font-size:12px">Loading item data...</p>
+      <p style="color:var(--td);font-family:var(--FM);font-size:12px" data-i18n="item.loading">Loading item data...</p>
     </div>
   </div>
 </div>
@@ -79,9 +80,9 @@
 <footer>
   <p>© 2026 AlbionMarketCalc.online · Not affiliated with Sandbox Interactive GmbH</p>
   <div style="display:flex;gap:16px;flex-wrap:wrap">
-    <a href="about.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">About</a>
+    <a href="about.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'" data-i18n="footer.about">About</a>
     <a href="privacy.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Privacy Policy</a>
-    <a href="contact.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Contact</a>
+    <a href="contact.html" style="font-family:var(--FM);font-size:10px;color:var(--gold);text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'" data-i18n="footer.contact">Contact</a>
   </div>
 </footer>
 
@@ -180,7 +181,7 @@ async function loadItem(){
             <div class="best-card">
               <div class="best-label">Best Sell</div>
               <div class="best-val" style="color:var(--gold)">${bestSell?fmtS(bestSell[1].sell):'—'}</div>
-              <div class="best-city">${bestSell?bestSell[0]:'No data'}</div>
+              <div class="best-city">${bestSell?bestSell[0]:AMC.t('item.no_data')}</div>
             </div>
             <div class="best-card">
               <div class="best-label">Cheapest Buy</div>
@@ -221,14 +222,14 @@ async function loadItem(){
         </div>`:''}
       </div>`:''}
 
-      <div class="sec-label"><span>Prices by City</span></div>
+      <div class="sec-label"><span data-i18n="item.prices_by_city">Prices by City</span></div>
       <div class="city-grid">
         <div class="city-row header">
-          <div class="city-cell"><span class="hdr-label">City</span></div>
-          <div class="city-cell"><span class="hdr-label">Sell Price (Min)</span></div>
-          <div class="city-cell"><span class="hdr-label">Buy Order (Max)</span></div>
-          <div class="city-cell"><span class="hdr-label">Flip Profit</span></div>
-          <div class="city-cell"><span class="hdr-label">Last Updated</span></div>
+          <div class="city-cell"><span class="hdr-label" data-i18n="item.city">City</span></div>
+          <div class="city-cell"><span class="hdr-label" data-i18n="item.sell_price">Sell Price (Min)</span></div>
+          <div class="city-cell"><span class="hdr-label" data-i18n="item.buy_order">Buy Order (Max)</span></div>
+          <div class="city-cell"><span class="hdr-label" data-i18n="item.flip_profit">Flip Profit</span></div>
+          <div class="city-cell"><span class="hdr-label" data-i18n="item.last_updated">Last Updated</span></div>
         </div>
         ${CITIES.map(city=>{
           const v=cityMap[city];
@@ -246,7 +247,7 @@ async function loadItem(){
               ${isBest?'<span class="badge badge-gold" style="margin-left:4px">Best</span>':''}
               ${isCheap?'<span class="badge badge-blue" style="margin-left:4px">Cheapest</span>':''}
             </div>
-            <div class="city-cell"><span class="price-sell${isBest?' price-best':v.sell>0?'':' price-na'}">${v.sell>0?fmtFull(v.sell):'No listing'}</span></div>
+            <div class="city-cell"><span class="price-sell${isBest?' price-best':v.sell>0?'':' price-na'}">${v.sell>0?fmtFull(v.sell):AMC.t('item.no_listing')}</span></div>
             <div class="city-cell"><span class="price-buy">${v.buy>0?fmtFull(v.buy):'—'}</span></div>
             <div class="city-cell profit-cell">${localFlip||'<span class="price-na">—</span>'}</div>
             <div class="city-cell updated-cell">${timeAgo(v.date)}</div>
@@ -256,7 +257,7 @@ async function loadItem(){
 
       <div style="display:flex;gap:12px;justify-content:flex-start;margin-top:8px;flex-wrap:wrap">
         <a href="market.html" class="btn btn-outline">← Back to Market</a>
-        <button class="btn btn-ghost" onclick="location.reload()">⟳ Refresh Prices</button>
+        <button class="btn btn-ghost" onclick="location.reload()" data-i18n="item.refresh">⟳ Refresh Prices</button>
       </div>
     `;
 
@@ -267,7 +268,7 @@ async function loadItem(){
     console.error('loadItem error:',e);
     document.getElementById('main-content').innerHTML=`<div class="loading-state">
       <div style="font-size:48px;margin-bottom:16px;opacity:.4">⚠</div>
-      <p style="color:var(--td);font-family:var(--FM);margin-bottom:8px">Failed to load item data</p>
+      <p style="color:var(--td);font-family:var(--FM);margin-bottom:8px" data-i18n="item.failed">Failed to load item data</p>
       <p style="color:var(--tm);font-family:var(--FM);font-size:10px;margin-bottom:16px;max-width:400px">${e.message}</p>
       <button onclick="loadItem()" style="padding:8px 20px;background:var(--s2);border:1px solid var(--bg-gold);border-radius:var(--r);color:var(--gold);cursor:pointer;font-family:var(--FM);font-size:12px">⟳ Retry</button>
     </div>`;

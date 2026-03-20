@@ -57,6 +57,7 @@
 .api-box code{font-family:var(--FM);font-size:11px;color:var(--gold);background:var(--s3);padding:2px 7px;border-radius:4px}
 @media(max-width:600px){.tool-grid{grid-template-columns:1fr}.cl-entry{grid-template-columns:1fr;gap:4px}}
 </style>
+<script src="i18n.js"></script>
 </head>
 <body>
 
@@ -64,7 +65,7 @@
   <div class="ck-icon">&#127850;</div>
   <div class="ck-body">
     <div class="ck-title">We use cookies</div>
-    <div class="ck-text">We and our partners (including <strong style="color:#EFEFEF">Google AdSense</strong>) use cookies to personalise ads. See our <a href="privacy.html">Privacy Policy</a>.</div>
+    <div class="ck-text">We and our partners (including <strong style="color:#EFEFEF">Google AdSense</strong>) use cookies to personalise ads. See our <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>.</div>
     <div class="ck-btns" style="margin-top:10px">
       <button class="ck-accept" onclick="acceptCookies()">&#10003; Accept All</button>
       <button class="ck-decline" onclick="declineCookies()">Essential Only</button>
@@ -87,18 +88,18 @@
 <nav>
   <a href="index.html" class="logo">AlbionMarketCalc</a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="market.html">Market</a></li>
-    <li><a href="flipfinder.html">Flip Finder</a></li>
-    <li><a href="calculator.html" class="nav-calc">&#9878; Calculator</a></li>
-    <li><a href="craft.html" class="nav-calc">&#128293; Best Craft</a></li>
+    <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+    <li><a href="market.html" data-i18n="nav.market">Market</a></li>
+    <li><a href="flipfinder.html" data-i18n="nav.flip">Flip Finder</a></li>
+    <li><a href="calculator.html" class="nav-calc" data-i18n="nav.calc">&#9878; Calculator</a></li>
+    <li><a href="craft.html" class="nav-calc" data-i18n="nav.craft">&#128293; Best Craft</a></li>
   </ul>
 </nav>
 
 <div class="wrap">
   <div class="about-hero">
-    <h1>About <em>AlbionMarketCalc</em></h1>
-    <p>A free, community-built trading toolkit for Albion Online players. No login required. No pay-walls. Just live market data and tools that help you make smarter silver.</p>
+    <h1><span data-i18n="about.title">About</span> <em>AlbionMarketCalc</em></h1>
+    <p data-i18n="about.subtitle">A free, community-built trading toolkit for Albion Online players. No login required. No pay-walls. Just live market data and tools that help you make smarter silver.</p>
   </div>
 
   <div class="ad-banner" style="margin-bottom:32px">
@@ -109,29 +110,29 @@
   </div>
 
   <div class="about-section">
-    <h2>&#128295; Tools</h2>
+    <h2 data-i18n="about.tools_h2">🔧 Tools</h2>
     <div class="tool-grid">
       <a href="market.html" class="tool-card">
         <div class="tc-ico">&#128202;</div>
-        <div class="tc-name">Market Browser</div>
+        <div class="tc-name" data-i18n="about.tc_market">Market Browser</div>
         <div class="tc-date">Available since launch</div>
         <div class="tc-desc">Browse 200+ items with live prices and item icons. Filter by category, tier and city. Click any item to open its full price page.</div>
       </a>
       <a href="flipfinder.html" class="tool-card">
         <div class="tc-ico">&#128269;</div>
-        <div class="tc-name">Flip Finder</div>
+        <div class="tc-name" data-i18n="about.tc_flip">Flip Finder</div>
         <div class="tc-date">Available since launch</div>
         <div class="tc-desc">Scans all city pairs in real time and ranks buy-low / sell-high opportunities by profit margin. Includes outlier filtering to remove stale listings.</div>
       </a>
       <a href="calculator.html" class="tool-card">
         <div class="tc-ico">&#9878;&#65039;</div>
-        <div class="tc-name">Market Calculator</div>
+        <div class="tc-name" data-i18n="about.tc_calc">Market Calculator</div>
         <div class="tc-date">Added &middot; March 2026</div>
         <div class="tc-desc">Enter buy price, sell price, quantity and market tax for exact net profit and ROI. Tax presets: 3% Premium / 6% Standard / 8.5% City. Results scroll into view on Calculate.</div>
       </a>
       <a href="craft.html" class="tool-card">
         <div class="tc-ico">&#128293;</div>
-        <div class="tc-name">Most Profitable Craft Today</div>
+        <div class="tc-name" data-i18n="about.tc_craft">Most Profitable Craft Today</div>
         <div class="tc-date">Added &middot; March 2026</div>
         <div class="tc-desc">Fetches live material costs vs sell prices for 60+ recipes and ranks by profit margin. Filter by city, tier and category. Live mini card also shown on the home page.</div>
       </a>
@@ -140,7 +141,7 @@
 
 	
   <div class="about-section">
-    <h2>&#128225; Data Source</h2>
+    <h2 data-i18n="about.data_h2">📡 Data Source</h2>
     <div class="api-box">
       <p style="font-size:14px;color:var(--td);line-height:1.75;margin-bottom:12px">All market data comes from the <a href="https://www.albion-online-data.com" target="_blank" rel="noopener"><strong style="color:var(--tx)">Albion Online Data Project</strong></a> &mdash; a community-run open API that collects real-time market data from players running the data client.</p>
       <p style="font-size:12px;color:var(--tm);margin-bottom:8px;font-family:var(--FM);letter-spacing:.1em;text-transform:uppercase">API endpoints used</p>
@@ -151,31 +152,31 @@
   </div>
 
   <div class="about-section">
-    <h2>&#9888;&#65039; Disclaimer</h2>
-    <p>AlbionMarketCalc is an independent community project and is <strong style="color:var(--tx)">not affiliated with Albion Online or Sandbox Interactive GmbH</strong>. All game assets, names and trademarks belong to their respective owners.</p>
+    <h2 data-i18n="about.disclaimer_h2">⚠️ Disclaimer</h2>
+    <p data-i18n="about.not_affiliated">AlbionMarketCalc is an independent community project and is not affiliated with Albion Online or Sandbox Interactive GmbH. All game assets, names and trademarks belong to their respective owners.</p>
     <p>Market data is for informational purposes only. Always verify prices in-game before committing to large trades.</p>
   </div>
 
   <div class="about-section">
-    <h2>&#9993;&#65039; Contact</h2>
-    <p>Questions, bug reports or suggestions? Email us at <a href="mailto:hexticarcalc@gmail.com"><strong>hexticarcalc@gmail.com</strong></a></p>
+    <h2 data-i18n="about.contact_h2">✉️ Contact</h2>
+    <p>Questions, bug reports or suggestions? Email us at <a href="/cdn-cgi/l/email-protection#ed85889599848e8c9f8e8c818ead8a808c8481c38e8280"><strong><span class="__cf_email__" data-cfemail="a9c1ccd1ddc0cac8dbcac8c5cae9cec4c8c0c587cac6c4">[email&#160;protected]</span></strong></a></p>
     <p>We read every message. Response time is typically 1&ndash;3 days.</p>
   </div>
 
   <div class="ad-banner" style="margin-bottom:32px">
     <div class="ad-inner">
       <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="4444444444"></ins>
-      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+      <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
     </div>
   </div>
 </div>
 
 <footer>
-  <p>&copy; 2026 AlbionMarketCalc.online &middot; Not affiliated with Sandbox Interactive GmbH</p>
+  <p>&copy; 2026 AlbionMarketCalc.online &middot; <span data-i18n="footer.disclaimer">Not affiliated with Sandbox Interactive GmbH</span></p>
   <div class="footer-links">
-    <a href="about.html">About</a>
+    <a href="about.html" data-i18n="footer.about">About</a>
     <a href="privacy.html">Privacy Policy</a>
-    <a href="contact.html">Contact</a>
+    <a href="contact.html" data-i18n="footer.contact">Contact</a>
   </div>
 </footer>
 
@@ -184,4 +185,4 @@
 function acceptCookies(){localStorage.setItem("ck_consent_v1",JSON.stringify({essential:true,analytics:true,ads:true,functional:true}));document.getElementById("cookie-banner").classList.add("hidden");document.getElementById("ck-modal").classList.remove("show");}
 function declineCookies(){localStorage.setItem("ck_consent_v1",JSON.stringify({essential:true,analytics:false,ads:false,functional:false}));document.getElementById("cookie-banner").classList.add("hidden");}
 function openCkModal(){document.getElementById("ck-modal").classList.add("show");}
-function saveCkSettings(){localStorage.setItem("ck_consent_v1",JSON.stringify({essential:true,analytics:document.getElementById("ck-analytics").checked,ads:document.getElementById("ck-ads").checked,functional:document.getElementById("ck-func").checked}));document.getElementById("cooki
+function saveCkSettings(){localStora

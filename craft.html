@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<script>(function(s){s.dataset.zone='10714158',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-<script>(function(s){s.dataset.zone='10714206',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-  
-	
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Most Profitable Craft Today — AlbionMarketCalc</title>
@@ -155,18 +150,29 @@
   transform:translateY(-1px);
 }
 
+
+/* ── Mobile Fixes ── */
+@media(max-width:700px){
+  .ctbl th:nth-child(3),.ctbl td:nth-child(3){display:none} /* hide materials col on small screens */
+  .craft-table-wrap{overflow-x:auto}
+  .ctrl-row{flex-wrap:wrap;gap:6px}
+  .mat-mini{font-size:9px}
+  .winner-card{padding:16px}
+  .winner-mats{flex-wrap:wrap}
+}
 </style>
+<script src="i18n.js"></script>
 </head>
 <body>
 
 <nav>
   <a href="index.html" class="logo">AlbionMarketCalc</a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="market.html">Market</a></li>
-    <li><a href="flipfinder.html">Flip Finder</a></li>
-    <li><a href="calculator.html" class="nav-calc">⚖ Calculator</a></li>
-    <li><a href="craft.html" class="active nav-calc">🔥 Best Craft</a></li>
+    <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+    <li><a href="market.html" data-i18n="nav.market">Market</a></li>
+    <li><a href="flipfinder.html" data-i18n="nav.flip">Flip Finder</a></li>
+    <li><a href="calculator.html" class="nav-calc" data-i18n="nav.calc">⚖ Calculator</a></li>
+    <li><a href="craft.html" class="active nav-calc" data-i18n="nav.craft">🔥 Best Craft</a></li>
   </ul>
 </nav>
 
@@ -198,7 +204,7 @@
 <div class="wrap">
   <div class="craft-header">
     <h1>🔥 Most Profitable <em>Craft Today</em></h1>
-    <p>Live material cost vs. sell price. Ranked by profit margin. Data from Albion Online Data Project.</p>
+    <p><span data-i18n="craft.desc">Live material cost vs. sell price. Ranked by profit margin.</span></p>
   </div>
 
   <!-- Ad top -->
@@ -235,7 +241,13 @@
       <option value="8">T8</option>
     </select>
     <div class="filter-div"></div>
-    <button class="scan-btn" id="scanBtn" onclick="runCraftScan()">🔥 Scan Crafts</button>
+    <select id="selReturn" class="sel">
+        <option value="1.0">No Focus (0% return)</option>
+        <option value="0.85" selected>City Station (~15% return)</option>
+        <option value="0.75">With Focus (~25% return)</option>
+        <option value="0.64">Full Focus (~36% return)</option>
+      </select>
+      <button class="scan-btn" id="scanBtn" onclick="runCraftScan()">🔥 Scan Crafts</button>
   </div>
 
   <!-- Winner card -->
@@ -267,7 +279,7 @@
   <!-- Results table -->
   <div class="craft-table-wrap" id="craftTable">
     <div class="craft-table-head">
-      <span class="craft-table-title">Crafting Profit Rankings</span>
+      <span class="craft-table-title" data-i18n="craft.rankings">Crafting Profit Rankings</span>
       <span class="craft-count" id="craftCount">—</span>
     </div>
     <div id="craftResults">
@@ -283,8 +295,7 @@
 
   <div class="note-box">
     <strong>Note:</strong> Prices are from the Albion Online Data Project community API and may be slightly delayed.
-    Material costs assume buying from the market (sell price). Craft does not include <strong>focus cost</strong> or <strong>return rate</strong>.
-    For a more accurate estimate, multiply material cost by <strong>0.8 with 100% focus</strong>.
+    Profit = sell price × (1−tax) − material cost × (1−return rate). <strong>Return rate</strong> = materials you get back when crafting (city station ~15%, full focus ~36%). <strong>Market tax</strong> applies on the sell side. Does not include journal XP or nutrition.
   </div>
 
   <!-- Ad bottom -->
@@ -297,14 +308,14 @@
 <footer>
   <p>© 2026 AlbionMarketCalc.online · Not affiliated with Sandbox Interactive GmbH</p>
   <div class="footer-links">
-    <a href="about.html">About</a>
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="contact.html">Contact</a>
+    <a href="about.html" data-i18n="footer.about">About</a>
+    <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
+    <a href="contact.html" data-i18n="footer.contact">Contact</a>
   </div>
 </footer>
 
 <script>
-const HOSTS=['https://west.albion-online-data.com','https://europe.albion-online-data.com'];
+const HOSTS = AMC?.getApiHosts() || ['https://west.albion-online-data.com','https://europe.albion-online-data.com'];
 const ICON='https://render.albiononline.com/v1/item';
 
 // ── Craft Recipe Database ─────────────────────────────────────────────────
@@ -314,78 +325,78 @@ const ICON='https://render.albiononline.com/v1/item';
 const RECIPES = [
   // ── WEAPONS ──────────────────────────────────────────────────────────────
   // Swords
-  {id:'T4_MAIN_SWORD',    name:'Broadsword T4',    cat:'weapons',tier:4, mats:[{id:'T4_METALBAR',qty:8,  l:'Steel Bar T4'}]},
-  {id:'T5_MAIN_SWORD',    name:'Broadsword T5',    cat:'weapons',tier:5, mats:[{id:'T5_METALBAR',qty:12, l:'Steel Bar T5'},{id:'T4_METALBAR',qty:4,l:'Steel Bar T4'}]},
-  {id:'T6_MAIN_SWORD',    name:'Broadsword T6',    cat:'weapons',tier:6, mats:[{id:'T6_METALBAR',qty:16, l:'Titanium Bar'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
-  {id:'T7_MAIN_SWORD',    name:'Broadsword T7',    cat:'weapons',tier:7, mats:[{id:'T7_METALBAR',qty:20, l:'Runite Bar'},{id:'T6_METALBAR',qty:4,l:'Titanium Bar'}]},
-  {id:'T8_MAIN_SWORD',    name:'Broadsword T8',    cat:'weapons',tier:8, mats:[{id:'T8_METALBAR',qty:24, l:'Meteor Bar'},{id:'T7_METALBAR',qty:4,l:'Runite Bar'}]},
+  {id:'T4_MAIN_SWORD',    name:'Broadsword T4',    cat:'weapons',tier:4, mats:[{id:'T4_METALBAR',qty:16, l:'Steel Bar T4'}]},
+  {id:'T5_MAIN_SWORD',    name:'Broadsword T5',    cat:'weapons',tier:5, mats:[{id:'T5_METALBAR',qty:20, l:'Steel Bar T5'},{id:'T4_METALBAR',qty:4,l:'Steel Bar T4'}]},
+  {id:'T6_MAIN_SWORD',    name:'Broadsword T6',    cat:'weapons',tier:6, mats:[{id:'T6_METALBAR',qty:24, l:'Titanium Bar T6'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
+  {id:'T7_MAIN_SWORD',    name:'Broadsword T7',    cat:'weapons',tier:7, mats:[{id:'T7_METALBAR',qty:28, l:'Runite Bar T7'},{id:'T6_METALBAR',qty:4,l:'Titanium Bar T6'}]},
+  {id:'T8_MAIN_SWORD',    name:'Broadsword T8',    cat:'weapons',tier:8, mats:[{id:'T8_METALBAR',qty:32, l:'Meteor Bar T8'},{id:'T7_METALBAR',qty:4,l:'Runite Bar T7'}]},
   // Claymores
-  {id:'T6_2H_CLAYMORE',   name:'Claymore T6',      cat:'weapons',tier:6, mats:[{id:'T6_METALBAR',qty:20, l:'Titanium Bar'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
-  {id:'T7_2H_CLAYMORE',   name:'Claymore T7',      cat:'weapons',tier:7, mats:[{id:'T7_METALBAR',qty:24, l:'Runite Bar'},{id:'T6_METALBAR',qty:4,l:'Titanium Bar'}]},
-  {id:'T8_2H_CLAYMORE',   name:'Claymore T8',      cat:'weapons',tier:8, mats:[{id:'T8_METALBAR',qty:28, l:'Meteor Bar'},{id:'T7_METALBAR',qty:4,l:'Runite Bar'}]},
+  {id:'T6_2H_CLAYMORE',   name:'Claymore T6',      cat:'weapons',tier:6, mats:[{id:'T6_METALBAR',qty:48, l:'Titanium Bar T6'},{id:'T5_METALBAR',qty:8,l:'Steel Bar T5'}]},
+  {id:'T7_2H_CLAYMORE',   name:'Claymore T7',      cat:'weapons',tier:7, mats:[{id:'T7_METALBAR',qty:56, l:'Runite Bar T7'},{id:'T6_METALBAR',qty:8,l:'Titanium Bar T6'}]},
+  {id:'T8_2H_CLAYMORE',   name:'Claymore T8',      cat:'weapons',tier:8, mats:[{id:'T8_METALBAR',qty:64, l:'Meteor Bar T8'},{id:'T7_METALBAR',qty:8,l:'Runite Bar T7'}]},
   // Bows
-  {id:'T5_2H_BOW',        name:'Bow T5',           cat:'weapons',tier:5, mats:[{id:'T5_PLANKS',qty:12,  l:'Ashenbark Planks'},{id:'T4_PLANKS',qty:4,l:'Cedar Planks'}]},
-  {id:'T6_2H_BOW',        name:'Bow T6',           cat:'weapons',tier:6, mats:[{id:'T6_PLANKS',qty:16,  l:'Whitewood Planks'},{id:'T5_PLANKS',qty:4,l:'Ashenbark Planks'}]},
-  {id:'T7_2H_BOW',        name:'Bow T7',           cat:'weapons',tier:7, mats:[{id:'T7_PLANKS',qty:20,  l:'Gravite Planks'},{id:'T6_PLANKS',qty:4,l:'Whitewood Planks'}]},
-  {id:'T8_2H_BOW',        name:'Bow T8',           cat:'weapons',tier:8, mats:[{id:'T8_PLANKS',qty:24,  l:'Bloodoak Planks'},{id:'T7_PLANKS',qty:4,l:'Gravite Planks'}]},
+  {id:'T5_2H_BOW',        name:'Bow T5',           cat:'weapons',tier:5, mats:[{id:'T5_PLANKS',qty:40,  l:'Bloodoak Planks T5'},{id:'T4_PLANKS',qty:8,l:'Cedar Planks T4'}]},
+  {id:'T6_2H_BOW',        name:'Bow T6',           cat:'weapons',tier:6, mats:[{id:'T6_PLANKS',qty:48,  l:'Ashenbark Planks T6'},{id:'T5_PLANKS',qty:8,l:'Bloodoak Planks T5'}]},
+  {id:'T7_2H_BOW',        name:'Bow T7',           cat:'weapons',tier:7, mats:[{id:'T7_PLANKS',qty:56,  l:'Whitewood Planks T7'},{id:'T6_PLANKS',qty:8,l:'Ashenbark Planks T6'}]},
+  {id:'T8_2H_BOW',        name:'Bow T8',           cat:'weapons',tier:8, mats:[{id:'T8_PLANKS',qty:64,  l:'Gravite Planks T8'},{id:'T7_PLANKS',qty:8,l:'Whitewood Planks T7'}]},
   // Staffs
-  {id:'T6_MAIN_FIRE',     name:'Fire Staff T6',    cat:'weapons',tier:6, mats:[{id:'T6_PLANKS',qty:16,  l:'Whitewood Planks'},{id:'T5_PLANKS',qty:4,l:'Ashenbark Planks'}]},
-  {id:'T7_MAIN_FIRE',     name:'Fire Staff T7',    cat:'weapons',tier:7, mats:[{id:'T7_PLANKS',qty:20,  l:'Gravite Planks'},{id:'T6_PLANKS',qty:4,l:'Whitewood Planks'}]},
-  {id:'T8_MAIN_FIRE',     name:'Fire Staff T8',    cat:'weapons',tier:8, mats:[{id:'T8_PLANKS',qty:24,  l:'Bloodoak Planks'},{id:'T7_PLANKS',qty:4,l:'Gravite Planks'}]},
-  {id:'T6_MAIN_NATURE',   name:'Nature Staff T6',  cat:'weapons',tier:6, mats:[{id:'T6_PLANKS',qty:16,  l:'Whitewood Planks'},{id:'T5_PLANKS',qty:4,l:'Ashenbark Planks'}]},
-  {id:'T7_MAIN_NATURE',   name:'Nature Staff T7',  cat:'weapons',tier:7, mats:[{id:'T7_PLANKS',qty:20,  l:'Gravite Planks'},{id:'T6_PLANKS',qty:4,l:'Whitewood Planks'}]},
+  {id:'T6_MAIN_FIRE',     name:'Fire Staff T6',    cat:'weapons',tier:6, mats:[{id:'T6_PLANKS',qty:24,  l:'Ashenbark Planks T6'},{id:'T5_PLANKS',qty:4,l:'Bloodoak Planks T5'}]},
+  {id:'T7_MAIN_FIRE',     name:'Fire Staff T7',    cat:'weapons',tier:7, mats:[{id:'T7_PLANKS',qty:28,  l:'Whitewood Planks T7'},{id:'T6_PLANKS',qty:4,l:'Ashenbark Planks T6'}]},
+  {id:'T8_MAIN_FIRE',     name:'Fire Staff T8',    cat:'weapons',tier:8, mats:[{id:'T8_PLANKS',qty:32,  l:'Gravite Planks T8'},{id:'T7_PLANKS',qty:4,l:'Whitewood Planks T7'}]},
+  {id:'T6_MAIN_NATURE',   name:'Nature Staff T6',  cat:'weapons',tier:6, mats:[{id:'T6_PLANKS',qty:24,  l:'Ashenbark Planks T6'},{id:'T5_PLANKS',qty:4,l:'Bloodoak Planks T5'}]},
+  {id:'T7_MAIN_NATURE',   name:'Nature Staff T7',  cat:'weapons',tier:7, mats:[{id:'T7_PLANKS',qty:28,  l:'Whitewood Planks T7'},{id:'T6_PLANKS',qty:4,l:'Ashenbark Planks T6'}]},
   // Axes
-  {id:'T6_MAIN_AXE',      name:'Axe T6',           cat:'weapons',tier:6, mats:[{id:'T6_METALBAR',qty:16, l:'Titanium Bar'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
-  {id:'T7_MAIN_AXE',      name:'Axe T7',           cat:'weapons',tier:7, mats:[{id:'T7_METALBAR',qty:20, l:'Runite Bar'},{id:'T6_METALBAR',qty:4,l:'Titanium Bar'}]},
-  {id:'T8_MAIN_AXE',      name:'Axe T8',           cat:'weapons',tier:8, mats:[{id:'T8_METALBAR',qty:24, l:'Meteor Bar'},{id:'T7_METALBAR',qty:4,l:'Runite Bar'}]},
+  {id:'T6_MAIN_AXE',      name:'Axe T6',           cat:'weapons',tier:6, mats:[{id:'T6_METALBAR',qty:24, l:'Titanium Bar T6'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
+  {id:'T7_MAIN_AXE',      name:'Axe T7',           cat:'weapons',tier:7, mats:[{id:'T7_METALBAR',qty:28, l:'Runite Bar T7'},{id:'T6_METALBAR',qty:4,l:'Titanium Bar T6'}]},
+  {id:'T8_MAIN_AXE',      name:'Axe T8',           cat:'weapons',tier:8, mats:[{id:'T8_METALBAR',qty:32, l:'Meteor Bar T8'},{id:'T7_METALBAR',qty:4,l:'Runite Bar T7'}]},
   // ── ARMOR ─────────────────────────────────────────────────────────────────
   // Plate (Knight)
-  {id:'T5_ARMOR_PLATE_SET1', name:'Knight Armor T5', cat:'armor',tier:5, mats:[{id:'T5_METALBAR',qty:12, l:'Steel Bar T5'},{id:'T4_METALBAR',qty:4,l:'Steel Bar T4'}]},
-  {id:'T6_ARMOR_PLATE_SET1', name:'Knight Armor T6', cat:'armor',tier:6, mats:[{id:'T6_METALBAR',qty:16, l:'Titanium Bar'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
-  {id:'T7_ARMOR_PLATE_SET1', name:'Knight Armor T7', cat:'armor',tier:7, mats:[{id:'T7_METALBAR',qty:20, l:'Runite Bar'},{id:'T6_METALBAR',qty:4,l:'Titanium Bar'}]},
-  {id:'T8_ARMOR_PLATE_SET1', name:'Knight Armor T8', cat:'armor',tier:8, mats:[{id:'T8_METALBAR',qty:24, l:'Meteor Bar'},{id:'T7_METALBAR',qty:4,l:'Runite Bar'}]},
-  {id:'T6_HEAD_PLATE_SET1',  name:'Knight Helm T6',  cat:'armor',tier:6, mats:[{id:'T6_METALBAR',qty:12, l:'Titanium Bar'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
-  {id:'T7_HEAD_PLATE_SET1',  name:'Knight Helm T7',  cat:'armor',tier:7, mats:[{id:'T7_METALBAR',qty:16, l:'Runite Bar'},{id:'T6_METALBAR',qty:4,l:'Titanium Bar'}]},
-  {id:'T6_SHOES_PLATE_SET1', name:'Knight Boots T6', cat:'armor',tier:6, mats:[{id:'T6_METALBAR',qty:12, l:'Titanium Bar'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
+  {id:'T5_ARMOR_PLATE_SET1', name:'Knight Armor T5', cat:'armor',tier:5, mats:[{id:'T5_METALBAR',qty:20, l:'Steel Bar T5'},{id:'T4_METALBAR',qty:4,l:'Steel Bar T4'}]},
+  {id:'T6_ARMOR_PLATE_SET1', name:'Knight Armor T6', cat:'armor',tier:6, mats:[{id:'T6_METALBAR',qty:24, l:'Titanium Bar T6'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
+  {id:'T7_ARMOR_PLATE_SET1', name:'Knight Armor T7', cat:'armor',tier:7, mats:[{id:'T7_METALBAR',qty:28, l:'Runite Bar T7'},{id:'T6_METALBAR',qty:4,l:'Titanium Bar T6'}]},
+  {id:'T8_ARMOR_PLATE_SET1', name:'Knight Armor T8', cat:'armor',tier:8, mats:[{id:'T8_METALBAR',qty:32, l:'Meteor Bar T8'},{id:'T7_METALBAR',qty:4,l:'Runite Bar T7'}]},
+  {id:'T6_HEAD_PLATE_SET1',  name:'Knight Helm T6',  cat:'armor',tier:6, mats:[{id:'T6_METALBAR',qty:16, l:'Titanium Bar T6'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
+  {id:'T7_HEAD_PLATE_SET1',  name:'Knight Helm T7',  cat:'armor',tier:7, mats:[{id:'T7_METALBAR',qty:20, l:'Runite Bar T7'},{id:'T6_METALBAR',qty:4,l:'Titanium Bar T6'}]},
+  {id:'T6_SHOES_PLATE_SET1', name:'Knight Boots T6', cat:'armor',tier:6, mats:[{id:'T6_METALBAR',qty:16, l:'Titanium Bar T6'},{id:'T5_METALBAR',qty:4,l:'Steel Bar T5'}]},
   // Leather (Hunter)
-  {id:'T5_ARMOR_LEATHER_SET1', name:'Hunter Jacket T5', cat:'armor',tier:5, mats:[{id:'T5_LEATHER',qty:12, l:'Thick Hide T5'},{id:'T4_LEATHER',qty:4,l:'Thin Hide T4'}]},
-  {id:'T6_ARMOR_LEATHER_SET1', name:'Hunter Jacket T6', cat:'armor',tier:6, mats:[{id:'T6_LEATHER',qty:16, l:'Robust Hide T6'},{id:'T5_LEATHER',qty:4,l:'Thick Hide T5'}]},
-  {id:'T7_ARMOR_LEATHER_SET1', name:'Hunter Jacket T7', cat:'armor',tier:7, mats:[{id:'T7_LEATHER',qty:20, l:'Infernal Hide T7'},{id:'T6_LEATHER',qty:4,l:'Robust Hide T6'}]},
-  {id:'T8_ARMOR_LEATHER_SET1', name:'Hunter Jacket T8', cat:'armor',tier:8, mats:[{id:'T8_LEATHER',qty:24, l:'Morgana Hide T8'},{id:'T7_LEATHER',qty:4,l:'Infernal Hide T7'}]},
-  {id:'T6_HEAD_LEATHER_SET1',  name:'Hunter Hood T6',   cat:'armor',tier:6, mats:[{id:'T6_LEATHER',qty:12, l:'Robust Hide T6'},{id:'T5_LEATHER',qty:4,l:'Thick Hide T5'}]},
-  {id:'T7_HEAD_LEATHER_SET1',  name:'Hunter Hood T7',   cat:'armor',tier:7, mats:[{id:'T7_LEATHER',qty:16, l:'Infernal Hide T7'},{id:'T6_LEATHER',qty:4,l:'Robust Hide T6'}]},
+  {id:'T5_ARMOR_LEATHER_SET1', name:'Hunter Jacket T5', cat:'armor',tier:5, mats:[{id:'T5_LEATHER',qty:20, l:'Thick Leather T5'},{id:'T4_LEATHER',qty:4,l:'Leather T4'}]},
+  {id:'T6_ARMOR_LEATHER_SET1', name:'Hunter Jacket T6', cat:'armor',tier:6, mats:[{id:'T6_LEATHER',qty:24, l:'Robust Leather T6'},{id:'T5_LEATHER',qty:4,l:'Thick Leather T5'}]},
+  {id:'T7_ARMOR_LEATHER_SET1', name:'Hunter Jacket T7', cat:'armor',tier:7, mats:[{id:'T7_LEATHER',qty:28, l:'Infernal Leather T7'},{id:'T6_LEATHER',qty:4,l:'Robust Leather T6'}]},
+  {id:'T8_ARMOR_LEATHER_SET1', name:'Hunter Jacket T8', cat:'armor',tier:8, mats:[{id:'T8_LEATHER',qty:32, l:'Fortified Leather T8'},{id:'T7_LEATHER',qty:4,l:'Infernal Leather T7'}]},
+  {id:'T6_HEAD_LEATHER_SET1',  name:'Hunter Hood T6',   cat:'armor',tier:6, mats:[{id:'T6_LEATHER',qty:16, l:'Robust Leather T6'},{id:'T5_LEATHER',qty:4,l:'Thick Leather T5'}]},
+  {id:'T7_HEAD_LEATHER_SET1',  name:'Hunter Hood T7',   cat:'armor',tier:7, mats:[{id:'T7_LEATHER',qty:20, l:'Infernal Leather T7'},{id:'T6_LEATHER',qty:4,l:'Robust Leather T6'}]},
   // Cloth (Scholar)
-  {id:'T5_ARMOR_CLOTH_SET1', name:'Scholar Robe T5', cat:'armor',tier:5, mats:[{id:'T5_CLOTH',qty:12, l:'Skyflower Cloth'},{id:'T4_CLOTH',qty:4,l:'Hemp Cloth'}]},
-  {id:'T6_ARMOR_CLOTH_SET1', name:'Scholar Robe T6', cat:'armor',tier:6, mats:[{id:'T6_CLOTH',qty:16, l:'Redleaf Cloth'},{id:'T5_CLOTH',qty:4,l:'Skyflower Cloth'}]},
-  {id:'T7_ARMOR_CLOTH_SET1', name:'Scholar Robe T7', cat:'armor',tier:7, mats:[{id:'T7_CLOTH',qty:20, l:'Sunflax Cloth'},{id:'T6_CLOTH',qty:4,l:'Redleaf Cloth'}]},
-  {id:'T8_ARMOR_CLOTH_SET1', name:'Scholar Robe T8', cat:'armor',tier:8, mats:[{id:'T8_CLOTH',qty:24, l:'Ghostweb Silk'},{id:'T7_CLOTH',qty:4,l:'Sunflax Cloth'}]},
-  {id:'T6_HEAD_CLOTH_SET1',  name:'Scholar Cowl T6', cat:'armor',tier:6, mats:[{id:'T6_CLOTH',qty:12, l:'Redleaf Cloth'},{id:'T5_CLOTH',qty:4,l:'Skyflower Cloth'}]},
-  {id:'T7_HEAD_CLOTH_SET1',  name:'Scholar Cowl T7', cat:'armor',tier:7, mats:[{id:'T7_CLOTH',qty:16, l:'Sunflax Cloth'},{id:'T6_CLOTH',qty:4,l:'Redleaf Cloth'}]},
+  {id:'T5_ARMOR_CLOTH_SET1', name:'Scholar Robe T5', cat:'armor',tier:5, mats:[{id:'T5_CLOTH',qty:20, l:'Skyflower Cloth T5'},{id:'T4_CLOTH',qty:4,l:'Hemp Cloth T4'}]},
+  {id:'T6_ARMOR_CLOTH_SET1', name:'Scholar Robe T6', cat:'armor',tier:6, mats:[{id:'T6_CLOTH',qty:24, l:'Redleaf Cloth T6'},{id:'T5_CLOTH',qty:4,l:'Skyflower Cloth T5'}]},
+  {id:'T7_ARMOR_CLOTH_SET1', name:'Scholar Robe T7', cat:'armor',tier:7, mats:[{id:'T7_CLOTH',qty:28, l:'Sunflax Cloth T7'},{id:'T6_CLOTH',qty:4,l:'Redleaf Cloth T6'}]},
+  {id:'T8_ARMOR_CLOTH_SET1', name:'Scholar Robe T8', cat:'armor',tier:8, mats:[{id:'T8_CLOTH',qty:32, l:'Ghost Cloth T8'},{id:'T7_CLOTH',qty:4,l:'Sunflax Cloth T7'}]},
+  {id:'T6_HEAD_CLOTH_SET1',  name:'Scholar Cowl T6', cat:'armor',tier:6, mats:[{id:'T6_CLOTH',qty:16, l:'Redleaf Cloth T6'},{id:'T5_CLOTH',qty:4,l:'Skyflower Cloth T5'}]},
+  {id:'T7_HEAD_CLOTH_SET1',  name:'Scholar Cowl T7', cat:'armor',tier:7, mats:[{id:'T7_CLOTH',qty:20, l:'Sunflax Cloth T7'},{id:'T6_CLOTH',qty:4,l:'Redleaf Cloth T6'}]},
   // ── REFINED RESOURCES ─────────────────────────────────────────────────────
   // Metal Bars (1 bar = 2 ore)
-  {id:'T4_METALBAR', name:'Steel Bar T4',    cat:'resources',tier:4, mats:[{id:'T4_ORE',qty:2, l:'Tungsten Ore'}]},
-  {id:'T5_METALBAR', name:'Steel Bar T5',    cat:'resources',tier:5, mats:[{id:'T5_ORE',qty:2, l:'Steel Ore'},{id:'T4_ORE',qty:1,l:'Tungsten Ore'}]},
-  {id:'T6_METALBAR', name:'Titanium Bar T6', cat:'resources',tier:6, mats:[{id:'T6_ORE',qty:2, l:'Titanium Ore'},{id:'T5_ORE',qty:1,l:'Steel Ore'}]},
-  {id:'T7_METALBAR', name:'Runite Bar T7',   cat:'resources',tier:7, mats:[{id:'T7_ORE',qty:2, l:'Runite Ore'},{id:'T6_ORE',qty:1,l:'Titanium Ore'}]},
-  {id:'T8_METALBAR', name:'Meteor Bar T8',   cat:'resources',tier:8, mats:[{id:'T8_ORE',qty:2, l:'Meteorite Ore'},{id:'T7_ORE',qty:1,l:'Runite Ore'}]},
+  {id:'T4_METALBAR', name:'Steel Bar T4',    cat:'resources',tier:4, mats:[{id:'T4_ORE',qty:2, l:'Tungsten Ore'}]},  // 2:1 ratio
+  {id:'T5_METALBAR', name:'Steel Bar T5',    cat:'resources',tier:5, mats:[{id:'T5_ORE',qty:3, l:'Titanium Ore'},{id:'T4_METALBAR',qty:1,l:'Steel Bar T4'}]},  // 3:1+1ref
+  {id:'T6_METALBAR', name:'Titanium Bar T6', cat:'resources',tier:6, mats:[{id:'T6_ORE',qty:4, l:'Runite Ore'},{id:'T5_METALBAR',qty:1,l:'Steel Bar T5'}]},  // 4:1+1ref
+  {id:'T7_METALBAR', name:'Runite Bar T7',   cat:'resources',tier:7, mats:[{id:'T7_ORE',qty:5, l:'Meteorite Ore'},{id:'T6_METALBAR',qty:1,l:'Titanium Bar T6'}]},  // 5:1+1ref
+  {id:'T8_METALBAR', name:'Meteor Bar T8',   cat:'resources',tier:8, mats:[{id:'T8_ORE',qty:5, l:'Meteorite Ore'},{id:'T7_METALBAR',qty:1,l:'Runite Bar T7'}]},  // 5:1+1ref
   // Planks (1 plank = 2 wood)
-  {id:'T4_PLANKS',   name:'Cedar Planks T4', cat:'resources',tier:4, mats:[{id:'T4_WOOD',qty:2, l:'Cedar Wood'}]},
-  {id:'T5_PLANKS',   name:'Ashenbark T5',    cat:'resources',tier:5, mats:[{id:'T5_WOOD',qty:2, l:'Bloodoak Wood'},{id:'T4_WOOD',qty:1,l:'Cedar Wood'}]},
-  {id:'T6_PLANKS',   name:'Whitewood T6',    cat:'resources',tier:6, mats:[{id:'T6_WOOD',qty:2, l:'Ashenbark Wood'},{id:'T5_WOOD',qty:1,l:'Bloodoak Wood'}]},
-  {id:'T7_PLANKS',   name:'Gravite T7',      cat:'resources',tier:7, mats:[{id:'T7_WOOD',qty:2, l:'Whitewood'},{id:'T6_WOOD',qty:1,l:'Ashenbark Wood'}]},
-  {id:'T8_PLANKS',   name:'Bloodoak T8',     cat:'resources',tier:8, mats:[{id:'T8_WOOD',qty:2, l:'Gravite Wood'},{id:'T7_WOOD',qty:1,l:'Whitewood'}]},
+  {id:'T4_PLANKS',   name:'Cedar Planks T4', cat:'resources',tier:4, mats:[{id:'T4_WOOD',qty:2, l:'Cedar Wood'}]},  // 2:1
+  {id:'T5_PLANKS',   name:'Bloodoak Planks T5', cat:'resources',tier:5, mats:[{id:'T5_WOOD',qty:3, l:'Bloodoak Wood'},{id:'T4_PLANKS',qty:1,l:'Cedar Planks T4'}]},  // 3:1+1ref
+  {id:'T6_PLANKS',   name:'Ashenbark Planks T6', cat:'resources',tier:6, mats:[{id:'T6_WOOD',qty:4, l:'Ashenbark Wood'},{id:'T5_PLANKS',qty:1,l:'Bloodoak Planks T5'}]},  // 4:1+1ref
+  {id:'T7_PLANKS',   name:'Whitewood Planks T7', cat:'resources',tier:7, mats:[{id:'T7_WOOD',qty:5, l:'Whitewood'},{id:'T6_PLANKS',qty:1,l:'Ashenbark Planks T6'}]},  // 5:1+1ref
+  {id:'T8_PLANKS',   name:'Gravite Planks T8', cat:'resources',tier:8, mats:[{id:'T8_WOOD',qty:5, l:'Gravite Wood'},{id:'T7_PLANKS',qty:1,l:'Whitewood Planks T7'}]},  // 5:1+1ref
   // Cloth
-  {id:'T4_CLOTH',    name:'Hemp Cloth T4',   cat:'resources',tier:4, mats:[{id:'T4_FIBER',qty:2, l:'Hemp Fiber'}]},
-  {id:'T5_CLOTH',    name:'Skyflower T5',    cat:'resources',tier:5, mats:[{id:'T5_FIBER',qty:2, l:'Skyflower Fiber'},{id:'T4_FIBER',qty:1,l:'Hemp Fiber'}]},
-  {id:'T6_CLOTH',    name:'Redleaf T6',      cat:'resources',tier:6, mats:[{id:'T6_FIBER',qty:2, l:'Redleaf Fiber'},{id:'T5_FIBER',qty:1,l:'Skyflower Fiber'}]},
-  {id:'T7_CLOTH',    name:'Sunflax T7',      cat:'resources',tier:7, mats:[{id:'T7_FIBER',qty:2, l:'Sunflax Fiber'},{id:'T6_FIBER',qty:1,l:'Redleaf Fiber'}]},
-  {id:'T8_CLOTH',    name:'Ghostweb T8',     cat:'resources',tier:8, mats:[{id:'T8_FIBER',qty:2, l:'Ghost Hemp'},{id:'T7_FIBER',qty:1,l:'Sunflax Fiber'}]},
+  {id:'T4_CLOTH',    name:'Hemp Cloth T4',   cat:'resources',tier:4, mats:[{id:'T4_FIBER',qty:2, l:'Hemp Fiber'}]},  // 2:1
+  {id:'T5_CLOTH',    name:'Skyflower Cloth T5', cat:'resources',tier:5, mats:[{id:'T5_FIBER',qty:3, l:'Skyflower Fiber'},{id:'T4_CLOTH',qty:1,l:'Hemp Cloth T4'}]},  // 3:1+1ref
+  {id:'T6_CLOTH',    name:'Redleaf Cloth T6', cat:'resources',tier:6, mats:[{id:'T6_FIBER',qty:4, l:'Redleaf Cotton'},{id:'T5_CLOTH',qty:1,l:'Skyflower Cloth T5'}]},  // 4:1+1ref
+  {id:'T7_CLOTH',    name:'Sunflax Cloth T7', cat:'resources',tier:7, mats:[{id:'T7_FIBER',qty:5, l:'Sunflax Fiber'},{id:'T6_CLOTH',qty:1,l:'Redleaf Cloth T6'}]},  // 5:1+1ref
+  {id:'T8_CLOTH',    name:'Ghost Cloth T8',  cat:'resources',tier:8, mats:[{id:'T8_FIBER',qty:5, l:'Ghost Hemp'},{id:'T7_CLOTH',qty:1,l:'Sunflax Cloth T7'}]},  // 5:1+1ref
   // Leather
-  {id:'T4_LEATHER',  name:'Thin Hide T4',    cat:'resources',tier:4, mats:[{id:'T4_HIDE',qty:2, l:'Medium Hide'}]},
-  {id:'T5_LEATHER',  name:'Thick Hide T5',   cat:'resources',tier:5, mats:[{id:'T5_HIDE',qty:2, l:'Heavy Hide'},{id:'T4_HIDE',qty:1,l:'Medium Hide'}]},
-  {id:'T6_LEATHER',  name:'Robust Hide T6',  cat:'resources',tier:6, mats:[{id:'T6_HIDE',qty:2, l:'Robust Hide'},{id:'T5_HIDE',qty:1,l:'Heavy Hide'}]},
-  {id:'T7_LEATHER',  name:'Infernal T7',     cat:'resources',tier:7, mats:[{id:'T7_HIDE',qty:2, l:'Thick Hide'},{id:'T6_HIDE',qty:1,l:'Robust Hide'}]},
-  {id:'T8_LEATHER',  name:'Morgana Hide T8', cat:'resources',tier:8, mats:[{id:'T8_HIDE',qty:2, l:'Infernal Hide'},{id:'T7_HIDE',qty:1,l:'Thick Hide'}]},
+  {id:'T4_LEATHER',  name:'Leather T4',      cat:'resources',tier:4, mats:[{id:'T4_HIDE',qty:2, l:'Medium Hide'}]},  // 2:1
+  {id:'T5_LEATHER',  name:'Thick Leather T5', cat:'resources',tier:5, mats:[{id:'T5_HIDE',qty:3, l:'Heavy Hide'},{id:'T4_LEATHER',qty:1,l:'Leather T4'}]},  // 3:1+1ref
+  {id:'T6_LEATHER',  name:'Robust Leather T6', cat:'resources',tier:6, mats:[{id:'T6_HIDE',qty:4, l:'Robust Hide'},{id:'T5_LEATHER',qty:1,l:'Thick Leather T5'}]},  // 4:1+1ref
+  {id:'T7_LEATHER',  name:'Infernal Leather T7', cat:'resources',tier:7, mats:[{id:'T7_HIDE',qty:5, l:'Infernal Hide'},{id:'T6_LEATHER',qty:1,l:'Robust Leather T6'}]},  // 5:1+1ref
+  {id:'T8_LEATHER',  name:'Fortified Leather T8', cat:'resources',tier:8, mats:[{id:'T8_HIDE',qty:5, l:'Fortified Hide'},{id:'T7_LEATHER',qty:1,l:'Infernal Leather T7'}]},  // 5:1+1ref
 ];
 
 function fmtS(n){if(!n&&n!==0)return'—';const a=Math.abs(n);let s;if(a>=1e6)s=(n/1e6).toFixed(2)+'M';else if(a>=1e3)s=(n/1e3).toFixed(1)+'K';else s=Math.round(n).toLocaleString();return(n<0&&a>=1?'-':'')+s;}
@@ -404,7 +415,7 @@ async function runCraftScan(){
   const catFilter = document.getElementById('selCat').value;
   const tierFilter = document.getElementById('selTier').value;
   const btn = document.getElementById('scanBtn');
-  btn.disabled=true; btn.textContent='Scanning...';
+  btn.disabled=true; btn.textContent=AMC.t('craft.scanning_btn');
 
   document.getElementById('winnerCard').style.display='none';
   document.getElementById('craftResults').innerHTML=`<div class="loading-row"><div class="spin-s"></div><span style="font-family:var(--FM);font-size:11px;color:var(--td)">Fetching prices for ${city}...</span></div>`;
@@ -450,20 +461,27 @@ async function runCraftScan(){
     });
     if(missingMats||matCost<=0) return;
 
-    const profit=sellPrice-matCost;
-    const margin=(profit/matCost)*100;
+    // Return rate: city station / focus reduces materials used
+    const RETURN = parseFloat(document.getElementById('selReturn')?.value || '0.85');
+    const effectiveMatCost = Math.round(matCost * RETURN);
+
+    // Market tax on sell side
+    const TAX = parseFloat(document.getElementById('selTax')?.value || '0.065');
+    const netSell = Math.round(sellPrice * (1 - TAX));
+    const profit = netSell - effectiveMatCost;
+    const margin = (profit / effectiveMatCost) * 100;
 
     // Sanity check: margin > 500% = bad data
-    if(margin>500) return;
+    if(margin > 500) return;
 
-    results.push({recipe, sellPrice, matCost, profit, margin});
+    results.push({recipe, sellPrice, netSell, matCost: effectiveMatCost, rawMatCost: matCost, profit, margin, tax: TAX, returnRate: RETURN});
   });
 
   // Sort by margin desc
   results.sort((a,b)=>b.margin-a.margin);
 
-  btn.disabled=false; btn.textContent='🔥 Scan Crafts';
-  document.getElementById('craftCount').textContent=`${results.length} crafts analyzed`;
+  btn.disabled=false; btn.textContent=AMC.t('btn.scan_crafts');
+  document.getElementById('craftCount').textContent=AMC.ts('craft.crafts_analyzed',{n:results.length});
 
   if(results.length===0){
     document.getElementById('craftResults').innerHTML=`<div class="state-box"><span class="state-icon">📭</span><p class="state-msg">No craft data found for ${city}. Try a different city or check back later.</p></div>`;
@@ -482,7 +500,7 @@ async function runCraftScan(){
   document.getElementById('wId').textContent=best.recipe.id+' · '+city;
   document.getElementById('wMats').innerHTML=best.recipe.mats.map(m=>`<span class="mat-chip">${m.qty}× ${m.l}</span>`).join('');
   document.getElementById('wPct').textContent=(best.margin>=0?'+':'')+best.margin.toFixed(1)+'%';
-  document.getElementById('wProfit').textContent=(best.profit>=0?'+':'')+fmtS(best.profit)+' silver';
+  document.getElementById('wProfit').textContent=(best.profit>=0?'+'+fmtS(best.profit):fmtS(best.profit))+' silver (after tax, '+Math.round((1-best.returnRate)*100)+'% return)';
 
   // ── Table ────────────────────────────────────────────────────────────────
   const rows=results.slice(0,30).map((r,i)=>{
@@ -500,11 +518,11 @@ async function runCraftScan(){
         <div><div class="ci-name">${r.recipe.name}</div><div class="ci-id">${r.recipe.id}</div></div>
       </div></td>
       <td><div class="mat-mini">${matHtml}</div></td>
-      <td class="price-cell">${fmtS(r.matCost)}<br/><span style="font-family:var(--FM);font-size:9px;color:var(--tm)">mat cost</span></td>
-      <td class="price-cell">${fmtS(r.sellPrice)}<br/><span style="font-family:var(--FM);font-size:9px;color:var(--tm)">sell price</span></td>
+      <td class="price-cell">${fmtS(r.matCost)}<br/><span style="font-family:var(--FM);font-size:9px;color:var(--tm)">mat cost (${Math.round((1-r.returnRate)*100)}% ret.)</span></td>
+      <td class="price-cell">${fmtS(r.sellPrice)}<br/><span style="font-family:var(--FM);font-size:9px;color:var(--tm)">net: ${fmtS(r.netSell)}</span></td>
       <td class="profit-cell">
-        <div class="profit-silver ${r.profit>=0?'pos':'neg'}">${r.profit>=0?'+':''}${fmtS(r.profit)}</div>
-        <span class="profit-pct-badge ${pctCls}">${r.margin>=0?'+':''}${r.margin.toFixed(1)}%</span>
+        <div class="profit-silver ${r.profit>=0?'pos':'neg'}">${r.profit>=0?'+'+fmtS(r.profit):fmtS(r.profit)}</div>
+        <span class="profit-pct-badge ${pctCls}">${r.margin>=0?'+'+r.margin.toFixed(1)+'%':r.margin.toFixed(1)+'%'}</span>
       </td>
     </tr>`;
   }).join('');
@@ -514,11 +532,11 @@ async function runCraftScan(){
       <table class="ctbl">
         <thead><tr>
           <th style="width:44px">#</th>
-          <th>Item</th>
-          <th>Materials</th>
-          <th class="r">Mat Cost</th>
-          <th class="r">Sell Price</th>
-          <th class="r">Profit</th>
+          <th data-i18n="ui.item">Item</th>
+          <th data-i18n="craft.materials">Materials</th>
+          <th class="r" data-i18n="craft.mat_cost">Mat Cost</th>
+          <th class="r" data-i18n="craft.sell_net">Sell (Net)</th>
+          <th class="r" data-i18n="craft.profit">Profit</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>
@@ -554,6 +572,16 @@ document.getElementById('ck-modal').addEventListener('click',function(e){if(e.ta
 
 // Auto-scan on load with default settings
 window.addEventListener('load',()=>runCraftScan());
+</script>
+
+<script>
+window.addEventListener('amc:langchange', () => {
+  // Re-fetch with new regional API when language changes
+  const rescan = document.getElementById('scanBtn');
+  if(rescan) {
+    setTimeout(() => rescan.click(), 100);
+  }
+});
 </script>
 </body>
 </html>
