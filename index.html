@@ -321,7 +321,7 @@ footer p{font-family:var(--FM);font-size:10px;color:#666}
   <div class="wrap">
     <div class="craft-header">
       <div>
-        <div class="craft-label">Live · Caerleon</div>
+        <div class="craft-label" id="craftCityLabel">Live · Caerleon</div>
         <div class="craft-title"><span data-i18n="index.most_profitable">🔥 Most Profitable Craft Today</span></div>
       </div>
       <a href="craft.html" class="craft-link" data-i18n="index.view_full">View Full Rankings →</a>
@@ -378,7 +378,7 @@ footer p{font-family:var(--FM);font-size:10px;color:#666}
 const CITIES = ['Caerleon','Bridgewatch','Martlock','Thetford','Fort Sterling','Lymhurst'];
 const CITY_COL = {'Caerleon':'#E05252','Bridgewatch':'#E08840','Martlock':'#5B9CF6','Thetford':'#4CAF82','Fort Sterling':'#B0B0B0','Lymhurst':'#8BC34A'};
 const ICON = 'https://render.albiononline.com/v1/item';
-const HOSTS = AMC?.getApiHosts() || ['https://west.albion-online-data.com','https://europe.albion-online-data.com'];
+const getHosts = () => window.AMC?.getApiHosts() || ['https://west.albion-online-data.com','https://europe.albion-online-data.com'];
 const ARTS = [{id:'RUNE',name:'Rune'},{id:'SOUL',name:'Soul'},{id:'RELIC',name:'Relic'}];
 let curTier = 4;
 
@@ -386,7 +386,7 @@ let curTier = 4;
 function fmtS(n){ if(!n||n<=0) return null; if(n>=1e6) return (n/1e6).toFixed(2)+'M'; if(n>=1e3) return (n/1e3).toFixed(1)+'K'; return n.toLocaleString(); }
 
 async function apiFetch(path){
-  for(const h of HOSTS){
+  for(const h of getHosts()){
     for(const url of [h+path, 'https://corsproxy.io/?'+encodeURIComponent(h+path)]){
       try{
         const ctrl = new AbortController();
@@ -498,30 +498,32 @@ async function loadTicker(){
 
 // ── Craft Mini ────────────────────────────────────────────────
 const CRAFT_RECIPES = [
-  {id:'T6_MAIN_SWORD',   name:'Broadsword T6',    mats:[{id:'T6_METALBAR',qty:16},{id:'T5_METALBAR',qty:4}]},
-  {id:'T7_MAIN_SWORD',   name:'Broadsword T7',    mats:[{id:'T7_METALBAR',qty:20},{id:'T6_METALBAR',qty:4}]},
-  {id:'T8_MAIN_SWORD',   name:'Broadsword T8',    mats:[{id:'T8_METALBAR',qty:24},{id:'T7_METALBAR',qty:4}]},
-  {id:'T6_2H_BOW',       name:'Bow T6',           mats:[{id:'T6_PLANKS',qty:16},{id:'T5_PLANKS',qty:4}]},
-  {id:'T7_2H_BOW',       name:'Bow T7',           mats:[{id:'T7_PLANKS',qty:20},{id:'T6_PLANKS',qty:4}]},
-  {id:'T8_2H_BOW',       name:'Bow T8',           mats:[{id:'T8_PLANKS',qty:24},{id:'T7_PLANKS',qty:4}]},
-  {id:'T6_MAIN_FIRE',    name:'Fire Staff T6',    mats:[{id:'T6_PLANKS',qty:16},{id:'T5_PLANKS',qty:4}]},
-  {id:'T7_MAIN_FIRE',    name:'Fire Staff T7',    mats:[{id:'T7_PLANKS',qty:20},{id:'T6_PLANKS',qty:4}]},
-  {id:'T8_MAIN_FIRE',    name:'Fire Staff T8',    mats:[{id:'T8_PLANKS',qty:24},{id:'T7_PLANKS',qty:4}]},
-  {id:'T6_ARMOR_PLATE_SET1',  name:'Knight Armor T6', mats:[{id:'T6_METALBAR',qty:16},{id:'T5_METALBAR',qty:4}]},
-  {id:'T7_ARMOR_PLATE_SET1',  name:'Knight Armor T7', mats:[{id:'T7_METALBAR',qty:20},{id:'T6_METALBAR',qty:4}]},
-  {id:'T8_ARMOR_PLATE_SET1',  name:'Knight Armor T8', mats:[{id:'T8_METALBAR',qty:24},{id:'T7_METALBAR',qty:4}]},
-  {id:'T6_ARMOR_LEATHER_SET1',name:'Hunter Jacket T6',mats:[{id:'T6_LEATHER',qty:16},{id:'T5_LEATHER',qty:4}]},
-  {id:'T7_ARMOR_LEATHER_SET1',name:'Hunter Jacket T7',mats:[{id:'T7_LEATHER',qty:20},{id:'T6_LEATHER',qty:4}]},
-  {id:'T6_METALBAR',     name:'Titanium Bar T6',  mats:[{id:'T6_ORE',qty:2},{id:'T5_ORE',qty:1}]},
-  {id:'T7_METALBAR',     name:'Runite Bar T7',    mats:[{id:'T7_ORE',qty:2},{id:'T6_ORE',qty:1}]},
-  {id:'T8_METALBAR',     name:'Meteor Bar T8',    mats:[{id:'T8_ORE',qty:2},{id:'T7_ORE',qty:1}]},
-  {id:'T6_PLANKS',       name:'Whitewood T6',     mats:[{id:'T6_WOOD',qty:2},{id:'T5_WOOD',qty:1}]},
-  {id:'T7_PLANKS',       name:'Gravite T7',       mats:[{id:'T7_WOOD',qty:2},{id:'T6_WOOD',qty:1}]},
-  {id:'T6_CLOTH',        name:'Redleaf Cloth T6', mats:[{id:'T6_FIBER',qty:2},{id:'T5_FIBER',qty:1}]},
-  {id:'T7_CLOTH',        name:'Sunflax Cloth T7', mats:[{id:'T7_FIBER',qty:2},{id:'T6_FIBER',qty:1}]},
+  {id:'T6_MAIN_SWORD',   name:'Broadsword T6',    mats:[{id:'T6_METALBAR',qty:24},{id:'T5_METALBAR',qty:4}]},
+  {id:'T7_MAIN_SWORD',   name:'Broadsword T7',    mats:[{id:'T7_METALBAR',qty:28},{id:'T6_METALBAR',qty:4}]},
+  {id:'T8_MAIN_SWORD',   name:'Broadsword T8',    mats:[{id:'T8_METALBAR',qty:32},{id:'T7_METALBAR',qty:4}]},
+  {id:'T6_2H_BOW',       name:'Bow T6',           mats:[{id:'T6_PLANKS',qty:48},{id:'T5_PLANKS',qty:8}]},
+  {id:'T7_2H_BOW',       name:'Bow T7',           mats:[{id:'T7_PLANKS',qty:56},{id:'T6_PLANKS',qty:8}]},
+  {id:'T8_2H_BOW',       name:'Bow T8',           mats:[{id:'T8_PLANKS',qty:64},{id:'T7_PLANKS',qty:8}]},
+  {id:'T6_MAIN_FIRE',    name:'Fire Staff T6',    mats:[{id:'T6_PLANKS',qty:48},{id:'T5_PLANKS',qty:8}]},
+  {id:'T7_MAIN_FIRE',    name:'Fire Staff T7',    mats:[{id:'T7_PLANKS',qty:56},{id:'T6_PLANKS',qty:8}]},
+  {id:'T8_MAIN_FIRE',    name:'Fire Staff T8',    mats:[{id:'T8_PLANKS',qty:64},{id:'T7_PLANKS',qty:8}]},
+  {id:'T6_ARMOR_PLATE_SET1',  name:'Knight Armor T6', mats:[{id:'T6_METALBAR',qty:24},{id:'T5_METALBAR',qty:4}]},
+  {id:'T7_ARMOR_PLATE_SET1',  name:'Knight Armor T7', mats:[{id:'T7_METALBAR',qty:28},{id:'T6_METALBAR',qty:4}]},
+  {id:'T8_ARMOR_PLATE_SET1',  name:'Knight Armor T8', mats:[{id:'T8_METALBAR',qty:32},{id:'T7_METALBAR',qty:4}]},
+  {id:'T6_ARMOR_LEATHER_SET1',name:'Hunter Jacket T6',mats:[{id:'T6_LEATHER',qty:24},{id:'T5_LEATHER',qty:4}]},
+  {id:'T7_ARMOR_LEATHER_SET1',name:'Hunter Jacket T7',mats:[{id:'T7_LEATHER',qty:28},{id:'T6_LEATHER',qty:4}]},
+  {id:'T6_METALBAR',     name:'Titanium Bar T6',  mats:[{id:'T6_ORE',qty:4},{id:'T5_METALBAR',qty:1}]},
+  {id:'T7_METALBAR',     name:'Runite Bar T7',    mats:[{id:'T7_ORE',qty:5},{id:'T6_METALBAR',qty:1}]},
+  {id:'T8_METALBAR',     name:'Meteor Bar T8',    mats:[{id:'T8_ORE',qty:5},{id:'T7_METALBAR',qty:1}]},
+  {id:'T6_PLANKS',       name:'Whitewood T6',     mats:[{id:'T6_WOOD',qty:4},{id:'T5_PLANKS',qty:1}]},
+  {id:'T7_PLANKS',       name:'Gravite T7',       mats:[{id:'T7_WOOD',qty:5},{id:'T6_PLANKS',qty:1}]},
+  {id:'T6_CLOTH',        name:'Redleaf Cloth T6', mats:[{id:'T6_FIBER',qty:4},{id:'T5_CLOTH',qty:1}]},
+  {id:'T7_CLOTH',        name:'Sunflax Cloth T7', mats:[{id:'T7_FIBER',qty:5},{id:'T6_CLOTH',qty:1}]},
 ];
 
 async function loadCraftMini(){
+  const cityLabel = document.getElementById('craftCityLabel');
+  if(cityLabel) cityLabel.textContent = 'Live · Caerleon';
   const allIds = new Set();
   CRAFT_RECIPES.forEach(r=>{ allIds.add(r.id); r.mats.forEach(m=>allIds.add(m.id)); });
   const ids = [...allIds];
@@ -620,11 +622,12 @@ document.addEventListener('click',function(e){
 
 <script>
 window.addEventListener('amc:langchange', () => {
-  // Re-fetch with new regional API when language changes
-  const rescan = document.getElementById('scanBtn');
-  if(rescan) {
-    setTimeout(() => rescan.click(), 100);
-  }
+  // Re-fetch ALL data with new regional API when language/region changes
+  setTimeout(() => {
+    if(typeof loadTicker === 'function') loadTicker();
+    if(typeof loadPrices === 'function') loadPrices();   // artifact price grid
+    if(typeof loadCraftMini === 'function') loadCraftMini(); // craft mini cards
+  }, 150);
 });
 </script>
 </body>
